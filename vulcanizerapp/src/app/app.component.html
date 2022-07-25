@@ -7,6 +7,12 @@
   <title>Wulkanizator</title>
 </head>
 <body>
-  HALOOOOO  
+  <div *ngFor="let user of users">
+    <div>
+      {{user.firstName}}
+      {{user.lastName}}
+      {{user.email}}
+    </div>
+  </div>
 </body>
 </html>
