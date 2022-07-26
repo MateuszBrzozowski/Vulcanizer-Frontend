@@ -68,6 +68,29 @@ export class AppComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  registerTab(){
+    let tabLogin = document.getElementById("tab-login");
+    let tabRegister = document.getElementById("tab-register");
+    tabLogin?.classList.remove("active");
+    tabRegister?.classList.add("active");
+
+  }
+
+  loginTab(){
+    let tabLogin = document.getElementById("tab-login");
+    let tabRegister = document.getElementById("tab-register");
+    tabLogin?.classList.add("active");
+    tabRegister?.classList.remove("active");
+  }
+
+  login(closeFunction: any){
+    console.log("Logowanie - Brak polaczenia z backendem")
+    
+    closeFunction();
+  }
+
+
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';

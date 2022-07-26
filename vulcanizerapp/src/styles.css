@@ -3,6 +3,7 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.css");
 
+
 :root {
   --color-text-white: #fdfdfd;
   --color-background-dark: #1f1f1f;
@@ -12,6 +13,8 @@
   --color-search-engine: RGBA(255, 255, 255, 0.2);
   --text-white-shadow: 2px 2px 10px RGBA(0, 0, 0, 0.5);
   --element-shadow-dark: 0px 0px 16px RGBA(0, 0, 0, 0.5);
+  --color-form-focus:  #0d6efd;
+  --color-form-gray: #4f4f4f;
 }
 
 * {
@@ -69,7 +72,100 @@ footer {
 }
 .modal-popup{
   color: black;
+  display: block;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control:focus ~ .form-label,
+.form-control:valid ~ .form-label
+{
+  transform: translateX(-1em) translateY(-33px);
+  color: var(--color-form-focus);
+  background-color: white;
+  font-size: 95%;
+  transition: ease-in-out 0.2s;
+}
+
+.form-outline{
+  position: relative;
+  padding: 16px 0px;
+}
+
+.form-label{
+  position: absolute;
+  padding: 0 5px;
+  color: var(--color-form-gray);
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1.5em;
+}
+
+.form-label:hover {
+  cursor: text;
+}
+
+.form-control{
+  box-shadow: none;
+  height: 44px;
+}
+
+.form-control:focus{
+  box-shadow: none;
+  border: 2px solid var(--color-form-focus);
+}
+
+.form-control:active{
+  box-shadow: none;
+}
+
+
+
+
+.form-login-options{
+  margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.form-check{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.form-check-input{
+  aspect-ratio: 1/1;
+  height: 40px;
+  width: 40px;
+  transform: scale(0.5)
+}
+
+.form-check-label{
+  position: absolute;
+  min-width: 93px;
+  top: 50%;
+  transform: translateX(10%) translateY(-50%);
+}
+
+.form-login-options__cell{
+  justify-self: center;
+  align-self: center;
+  position: relative;
+}
+
+.sign-in{
+  margin-top: 24px;
+}
+
 h1 span {
   display: block;
 }
@@ -98,7 +194,7 @@ h1 span {
   border-width: 0;
 }
 
-.login button:hover {
+.login-button:hover {
   cursor: pointer;
   border: none;
 }
@@ -149,12 +245,14 @@ input {
   box-shadow: var(--element-shadow-dark);
 }
 
-label {
+.serarch-icon {
   position: absolute;
   color: var(--color-text-white);
   top: 50%;
   transform: translateY(-50%) translateX(+50%);
 }
+
+
 
 .search-word {
   position: absolute;
