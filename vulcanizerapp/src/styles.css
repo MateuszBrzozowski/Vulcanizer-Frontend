@@ -78,7 +78,7 @@ footer {
   padding: 0;
 }
 
-.form-login {
+.form-login_flex {
   display: flex;
   flex-direction: column;
 }
@@ -105,6 +105,10 @@ footer {
   top: 50%;
   transform: translateY(-50%);
   left: 1.5em;
+}
+
+.form-check-label-read{
+  position: relative;
 }
 
 .form-label:hover {
@@ -137,12 +141,24 @@ footer {
   flex-wrap: wrap;
 }
 
+#form-register .form-check{
+  align-items: center;
+  justify-content: center;
+}
+
+#form-register .form-check-input{
+  margin: 0
+}
+
 .form-check{
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .form-check-input{
+  margin: 0;
   aspect-ratio: 1/1;
   height: 40px;
   width: 40px;
@@ -150,10 +166,8 @@ footer {
 }
 
 .form-check-label{
-  position: absolute;
-  min-width: 93px;
-  top: 50%;
-  transform: translateX(10%) translateY(-50%);
+  position: relative;
+
 }
 
 .form-login-options__cell{
@@ -164,6 +178,11 @@ footer {
 
 .sign-in{
   margin-top: 24px;
+  width: 100%;
+}
+
+.hidden{
+  display: none;
 }
 
 h1 span {

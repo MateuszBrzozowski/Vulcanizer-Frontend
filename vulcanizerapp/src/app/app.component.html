@@ -66,13 +66,16 @@
               </li>
             </ul>
 
-            <div class="form-login">
+            <div id="form-login" class="form-login_flex">
               <!-- Email input -->
               <div class="form-outline">
-                <input type="email, text" id="loginName" required="required" class="form-control" />
-                <label class="form-label" for="loginName"
-                  >Email</label
-                >
+                <input
+                  type="email, text"
+                  id="loginName"
+                  required="required"
+                  class="form-control"
+                />
+                <label class="form-label" for="loginName">Email</label>
               </div>
 
               <!-- Password input -->
@@ -110,16 +113,101 @@
               </div>
 
               <!-- Submit button -->
-  
-              <button type="submit" class="btn btn-primary btn-block mb-4 sign-in"  (click)="login(c)">
+
+              <button
+                type="submit"
+                class="btn btn-primary sign-in"
+                (click)="login(c)"
+              >
                 Sign in
               </button>
-        
 
               <!-- Register buttons -->
               <div class="text-center">
                 <p>Not a member? <a href="#!">Register</a></p>
               </div>
+            </div>
+
+            <div class="hidden" id="form-register">
+              <!-- Name input -->
+              <div class="form-outline">
+                <input
+                  type="text"
+                  id="registerName"
+                  required="required"
+                  class="form-control"
+                />
+                <label class="form-label" for="registerName">Name</label>
+              </div>
+
+              <!-- Username input -->
+              <div class="form-outline">
+                <input
+                  type="text"
+                  id="registerUsername"
+                  required="required"
+                  class="form-control"
+                />
+                <label class="form-label" for="registerUsername"
+                  >Username</label
+                >
+              </div>
+
+              <!-- Email input -->
+              <div class="form-outline">
+                <input
+                  type="email, text"
+                  id="registerEmail"
+                  required="required"
+                  class="form-control"
+                />
+                <label class="form-label" for="registerEmail">Email</label>
+              </div>
+
+              <!-- Password input -->
+              <div class="form-outline">
+                <input
+                  type="password"
+                  id="registerPassword"
+                  class="form-control"
+                  required="required"
+                />
+                <label class="form-label" for="registerPassword"
+                  >Password</label
+                >
+              </div>
+
+              <!-- Repeat Password input -->
+              <div class="form-outline">
+                <input
+                  type="password"
+                  id="registerRepeatPassword"
+                  class="form-control"
+                  required="required"
+                />
+                <label class="form-label" for="registerRepeatPassword"
+                  >Repeat password</label
+                >
+              </div>
+
+              <!-- Checkbox -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="registerCheck"
+                  aria-describedby="registerCheckHelpText"
+                />
+                <label class="form-check-label-read" for="registerCheck">
+                  I have read and agree to the terms
+                </label>
+              </div>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary sign-in">
+                Sign in
+              </button>
             </div>
           </div>
           <div class="modal-footer">
@@ -140,7 +228,10 @@
         <span>Wyszukaj usługę</span>
         <div class="search__input-container">
           <label for="search"
-            ><img src="assets/images/search-thin.svg" alt="Ikona wyszukiwania" class="serarch-icon"
+            ><img
+              src="assets/images/search-thin.svg"
+              alt="Ikona wyszukiwania"
+              class="serarch-icon"
           /></label>
           <input type="text" id="search" />
           <label for="search" class="search-word">Szukaj</label>

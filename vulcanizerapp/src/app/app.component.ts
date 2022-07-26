@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     private userService: UserService,
     private businessService: BusinessService,
     config: NgbModalConfig,
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -68,28 +68,37 @@ export class AppComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  registerTab(){
-    let tabLogin = document.getElementById("tab-login");
-    let tabRegister = document.getElementById("tab-register");
-    tabLogin?.classList.remove("active");
-    tabRegister?.classList.add("active");
+  registerTab() {
+    let tabLogin = document.getElementById('tab-login');
+    let tabRegister = document.getElementById('tab-register');
+    let formLogin = document.getElementById('form-login');
+    let formRegister = document.getElementById('form-register');
 
+    tabLogin?.classList.remove('active');
+    tabRegister?.classList.add('active');
+
+    formLogin?.classList.add('hidden');
+    formRegister?.classList.remove('hidden');
   }
 
-  loginTab(){
-    let tabLogin = document.getElementById("tab-login");
-    let tabRegister = document.getElementById("tab-register");
-    tabLogin?.classList.add("active");
-    tabRegister?.classList.remove("active");
+  loginTab() {
+    let tabLogin = document.getElementById('tab-login');
+    let tabRegister = document.getElementById('tab-register');
+    let formLogin = document.getElementById('form-login');
+    let formRegister = document.getElementById('form-register');
+
+    tabLogin?.classList.add('active');
+    tabRegister?.classList.remove('active');
+
+    formLogin?.classList.remove('hidden');
+    formRegister?.classList.add('hidden');
   }
 
-  login(closeFunction: any){
-    console.log("Logowanie - Brak polaczenia z backendem")
-    
+  login(closeFunction: any) {
+    console.log('Logowanie - Brak polaczenia z backendem');
+
     closeFunction();
   }
-
-
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
