@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, NgModule, OnInit } from '@angular/core';
+import { NgModel, FormControl, Validators } from '@angular/forms';
 import {
   ModalDismissReasons,
   NgbModal,
@@ -14,13 +15,14 @@ import { User } from './users';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [NgbModalConfig, NgbModal],
+  providers: [NgbModalConfig, NgbModal, NgModel],
 })
 export class AppComponent implements OnInit {
   title = 'vulcanizerapp';
   public users: User[] = [];
   public businesses: Business[] = [];
   closeResult = '';
+  emailForm = new FormControl('',[Validators.email,Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]);
 
   constructor(
     private userService: UserService,
@@ -96,6 +98,27 @@ export class AppComponent implements OnInit {
 
   login(closeFunction: any) {
     console.log('Logowanie - Brak polaczenia z backendem');
+    this.emailForm.valueChanges.subscribe(value =>{this.validEmail(value)})
+
+    if(this.emailForm.value?.length===0){
+      closeFunction();
+    }else{
+      if(this.emailForm.invalid){
+        console.log("nie moge zamknacc okna bo dane są nie poprawne")
+      }else{
+        /// TODO - połączyc sie z backendem i niech sie dzieje magia
+        closeFunction();
+      }
+    }
+
+  }
+
+  validEmail(value:any){    
+    let test = document.getElementById("loginName");
+  }
+
+  register(closeFunction: any) {
+    console.log('Rejestrowanie użytkownika - brak połączenia z backendem');
 
     closeFunction();
   }

@@ -74,9 +74,11 @@
                   id="loginName"
                   required="required"
                   class="form-control"
+                  [formControl]="emailForm"
                 />
                 <label class="form-label" for="loginName">Email</label>
               </div>
+              <div *ngIf="emailForm.invalid">Value: {{emailForm.value}}</div>
 
               <!-- Password input -->
               <div class="form-outline">
@@ -205,7 +207,11 @@
               </div>
 
               <!-- Submit button -->
-              <button type="submit" class="btn btn-primary sign-in">
+              <button
+                type="submit"
+                class="btn btn-primary sign-in"
+                (click)="register(c)"
+              >
                 Sign in
               </button>
             </div>
