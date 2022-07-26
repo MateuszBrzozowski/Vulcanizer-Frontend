@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { UserService } from './user.service';
 import { User } from './users';
 
@@ -8,7 +8,6 @@ import { User } from './users';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-
 export class AppComponent implements OnInit {
   title = 'vulcanizerapp';
   public users: User[] = [];
@@ -16,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.getUsers();
+    // this.getUsers();
   }
 
   /**

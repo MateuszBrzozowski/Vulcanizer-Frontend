@@ -1,18 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wulkanizator</title>
-</head>
-<body>
-  <div *ngFor="let user of users">
-    <div>
-      {{user.firstName}}
-      {{user.lastName}}
-      {{user.email}}
-    </div>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wulkanizator</title>
+  </head>
+  <body>
+    <header>
+      <h1>
+        <span>Wulkanizator</span>
+      </h1>
+      <section class="login">
+        <img
+          src="assets/images/user-circle-thin-32.png"
+          alt="Ikonka użytkownika" height="24px"
+        />
+        <button>Login</button>
+        <span>/</span>
+        <button>Rejestracja</button>
+      </section>
+    </header>
+    <main>
+      <section class="search-engine">
+        <span>Wyszukaj usługę</span>
+        <div class="search__input-container">
+          <label for="search"
+            ><img src="assets/images/search-thin.svg" alt="Ikona wyszukiwania"
+          /></label>
+          <input type="text" id="search" />
+          <label for="search" class="search-word">Szukaj</label>
+        </div>
+      </section>
+      <section class="recommend">
+        <span> Polecamy </span>
+        <div class="business-list">
+          <div class="popular-business-container">
+            <div class="business-head">
+              
+              Nazwa Opinie</div>
+            <div class="business-address">ul. Słoneczna 5, <br> 87-125 Silno.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>© 2022 Wulkanizator. All rights reserved</footer>
+  </body>
 </html>
