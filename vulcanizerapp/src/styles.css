@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@100;300;400;600;700&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.css");
 
 :root {
   --color-text-white: #fdfdfd;
@@ -8,6 +10,8 @@
   --color-footer-light: RGBA(0, 0, 0, 0.2);
   --color-footer-dark: RGBA(0, 0, 0, 0.3);
   --color-search-engine: RGBA(255, 255, 255, 0.2);
+  --text-white-shadow: 2px 2px 10px RGBA(0, 0, 0, 0.5);
+  --element-shadow-dark: 0px 0px 16px RGBA(0, 0, 0, 0.5);
 }
 
 * {
@@ -20,7 +24,7 @@ body {
   color: var(--color-text-white);
   display: flex;
   flex-direction: column;
-    justify-content: space-between;
+  justify-content: space-between;
   background-image: linear-gradient(
     to right top,
     var(--color-background-dark),
@@ -47,8 +51,9 @@ main {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 40px 0 0 0;
-  min-width: 80%;
+  margin-top: 40px;
+  min-width: 70%;
+  max-width: 800px;
   min-height: 100%;
   justify-content: flex-start;
 }
@@ -62,7 +67,9 @@ footer {
   );
   padding: 30px 0 30px 30px;
 }
-
+.modal-popup{
+  color: black;
+}
 h1 span {
   display: block;
 }
@@ -79,7 +86,8 @@ h1 span {
   font-weight: 100;
 }
 
-.login button {
+.login-button {
+  font-size: 1em;
   color: var(--color-text-white);
   font-weight: 100;
   padding: 10px;
@@ -92,7 +100,17 @@ h1 span {
 
 .login button:hover {
   cursor: pointer;
+  border: none;
 }
+
+/* .modal {
+  display: none;
+  display: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  overflow: auto;
+} */
 
 .search-engine {
   display: flex;
@@ -106,7 +124,6 @@ h1 span {
   margin: 0 auto;
   justify-content: center;
   width: 100%;
-
 }
 
 .search__input-container {
@@ -129,6 +146,7 @@ input {
   border-radius: 44px;
   margin: 0 auto;
   padding-left: 40px;
+  box-shadow: var(--element-shadow-dark);
 }
 
 label {
@@ -147,30 +165,74 @@ label {
 .recommend {
   display: flex;
   margin-top: 100px;
-  padding: 0 36px 0 36px;;
-  width: 100vw;
+  max-width: 80vw;
   flex-direction: column;
 }
 
 .business-list {
   margin-top: 40px;
   min-width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .popular-business-container {
-    border: white solid 1px;
-    display: grid;
-    grid-template-rows: 80% 20%;
-    min-width: 240px;
-    max-width: 280px;
-    min-height: 240px;
-    border-radius: 22px;
-    overflow: hidden;
-    top: 0;
+  aspect-ratio: 1.28/1;
+  border: white solid 1px;
+  display: grid;
+  margin-right: 10px;
+  grid-template-rows: 80% 20%;
+  position: relative;
+  max-width: 320px;
+  min-width: 160px;
+  min-height: 250px;
+  border-radius: 22px;
+  overflow: hidden;
+  top: 0;
+  box-shadow: var(--element-shadow-dark);
+}
+
+.popular-business-container:hover {
+  cursor: pointer;
 }
 
 .business-head {
   min-height: 80%;
   background-image: url(assets/images/basic-image.png);
   background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.business-name {
+  padding: 1em 1em 0 1em;
+  text-shadow: var(--text-white-shadow);
+  font-size: 100%;
+}
+
+.business-name span {
+  font-size: 20px;
+}
+
+.business-rating {
+  position: absolute;
+  background: RGBA(255, 255, 255, 0.5);
+  padding: 2% 4% 4% 8%;
+  right: 0%;
+  text-shadow: var(--text-white-shadow);
+}
+
+.business-rating span {
+  font-size: 36px;
+}
+
+.business-address {
+  display: flex;
+  align-self: center;
+  padding-left: 1em;
 }
