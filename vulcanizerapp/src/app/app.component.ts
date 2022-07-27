@@ -1,12 +1,13 @@
-import {  HttpErrorResponse, HttpResponse, } from '@angular/common/http';
-import { Component, NgModule, OnInit } from '@angular/core';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Component, HostListener, NgModule, OnInit } from '@angular/core';
 import { NgModel, FormControl, Validators, FormGroup } from '@angular/forms';
 import {
   ModalDismissReasons,
   NgbModal,
   NgbModalConfig,
 } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+import { Observable, zipAll } from 'rxjs';
 import { Business } from './business';
 import { BusinessService } from './business.service';
 import { UserService } from './user.service';
@@ -24,11 +25,7 @@ export class AppComponent implements OnInit {
   public businesses: Business[] = [];
   closeResult = '';
   emailPattern: string = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
-  emailForm = new FormControl('', [
-    Validators.email,
-    Validators.required,
-    Validators.pattern(this.emailPattern),
-  ]);
+
   userRegisterForm: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -40,11 +37,21 @@ export class AppComponent implements OnInit {
     passwordRepeat: new FormControl('', Validators.required),
   });
 
+  userLoginForm: FormGroup = new FormGroup({
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.pattern(this.emailPattern),
+    ]),
+    password: new FormControl('', Validators.required),
+  });
+
   constructor(
     private userService: UserService,
     private businessService: BusinessService,
     config: NgbModalConfig,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private cookieService: CookieService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -52,6 +59,20 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRecommendBusiness();
+    const name = sessionStorage.getItem('first-name');
+    console.log(name);
+    if (name !== null) {
+      const login = document.getElementById("login-details");
+      login?.classList.remove('hidden');
+      const loginRegister = document.getElementById('login-button');
+      loginRegister?.classList.add('hidden');
+      
+    }
+  }
+
+  onKeypress(event: any) {
+    console.log(event);
+    //(keypress)="onKeypress($event)"
   }
 
   /**
@@ -113,41 +134,58 @@ export class AppComponent implements OnInit {
   }
 
   login(closeFunction: any) {
-    console.log('Logowanie - Brak polaczenia z backendem');
-    this.emailForm.valueChanges.subscribe((value) => {
-      this.validEmail(value);
-    });
-
-    if (this.emailForm.value?.length === 0) {
-      closeFunction();
-    } else {
-      if (this.emailForm.invalid) {
-        console.log('nie moge zamknacc okna bo dane są nie poprawne');
-      } else {
-        /// TODO - połączyc sie z backendem i niech sie dzieje magia
-        closeFunction();
-      }
+    if (
+      this.userLoginForm.value.email.length !== 0 &&
+      this.userLoginForm.value.password.length !== 0
+    ) {
+      this.userService.userLogin(this.userLoginForm.value).subscribe(
+        (complete) => {
+          closeFunction();
+          // this.cookieService.set('first-name',complete.firstName);
+          sessionStorage.setItem('first-name',complete.firstName);
+          alert('Zalogowano!!!');
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            alert('Email albo hasło jest nieprawidłowe');
+          }else if (error.status === 400) {
+            alert(error.error.message)
+          }
+        }
+      );
     }
-  }
 
-  validEmail(value: any) {
-    let test = document.getElementById('loginName');
+    // this.emailForm.valueChanges.subscribe((value) => {
+    //   this.validEmail(value);
+    // });
+
+    // if (this.emailForm.value?.length === 0
+    //   || this.) {
+    //   closeFunction();
+    // } else {
+    //   if (this.emailForm.invalid) {
+    //     console.log('nie moge zamknacc okna bo dane są nie poprawne');
+    //   } else {
+    //     /// TODO - połączyc sie z backendem i niech sie dzieje magia
+    //     closeFunction();
+    //   }
+    // }
   }
 
   register(closeFunction: any) {
     response: this.userService
       .registerNewUser(this.userRegisterForm.value)
       .subscribe(
-        (complete : any) => {
+        (complete: any) => {
           closeFunction();
         },
         (error: HttpErrorResponse) => {
-          if(error.status === 400){
+          if (error.status === 400) {
             alert(error.error.message);
-          }else{
-            alert("Something went wrong!")
+          } else {
+            alert('Something went wrong!');
           }
-        },
+        }
       );
   }
 

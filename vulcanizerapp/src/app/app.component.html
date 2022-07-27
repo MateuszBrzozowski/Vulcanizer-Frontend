@@ -18,9 +18,13 @@
           height="24px"
         />
 
-        <button class="login-button" (click)="open(content)">
+        <button id="login-button" class="login-button" (click)="open(content)">
           Login / Register
         </button>
+        <div id="login-details" class="login-details hidden">
+          <span>Username</span>
+          <button class="login-button">Wyloguj</button>
+        </div>
       </section>
 
       <ng-template #content let-c="close" let-d="dismiss">
@@ -66,7 +70,7 @@
               </li>
             </ul>
 
-            <div id="form-login" class="form-login_flex">
+            <div id="form-login" class="form-login_flex" [formGroup]="userLoginForm">
               <!-- Email input -->
               <div class="form-outline">
                 <input
@@ -74,7 +78,7 @@
                   id="loginName"
                   required="required"
                   class="form-control"
-                  [formControl]="emailForm"
+                  formControlName="email"
                 />
                 <label class="form-label" for="loginName">Email</label>
               </div>
@@ -86,6 +90,7 @@
                   id="loginPassword"
                   class="form-control"
                   required="required"
+                  formControlName="password"
                 />
                 <label class="form-label" for="loginPassword">Password</label>
               </div>
@@ -117,6 +122,7 @@
 
               <button
                 type="submit"
+                id="login-sign-in"
                 class="btn btn-primary sign-in"
                 (click)="login(c)"
               >
@@ -214,7 +220,9 @@
               <!-- Submit button -->
               <button
                 type="submit"
+                id="register-sign-in"
                 class="btn btn-primary sign-in"
+            
                 (click)="register(c)"
               >
                 Sign in

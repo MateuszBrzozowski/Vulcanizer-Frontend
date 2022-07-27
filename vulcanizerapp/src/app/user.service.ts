@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { catchError, Observable } from 'rxjs';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpResponse,
+} from '@angular/common/http';
+import { catchError, observable, Observable } from 'rxjs';
 import { User } from './users';
 import { environment } from 'src/environments/environment';
 
@@ -26,6 +30,18 @@ export class UserService {
     //   email: emailForm.email,
     //   password: emailForm.password
     // });
-    return this.http.post<User>("http://localhost:8080/api/v1/users", emailForm, { observe: 'response' });
+    return this.http.post<User>(
+      `${this.apiServerUrl}/api/v1/users`,
+      emailForm,
+      { observe: 'response' }
+    );
+  }
+
+  /**
+   * userLogin
+   */
+  public userLogin(loginForm: User): Observable<User> {
+    
+    return this.http.post<User>(`${this.apiServerUrl}/api/v1/users/login`,loginForm);
   }
 }
