@@ -78,8 +78,7 @@
                 />
                 <label class="form-label" for="loginName">Email</label>
               </div>
-              <div *ngIf="emailForm.invalid">Value: {{emailForm.value}}</div>
-
+            
               <!-- Password input -->
               <div class="form-outline">
                 <input
@@ -130,7 +129,7 @@
               </div>
             </div>
 
-            <div class="hidden" id="form-register">
+            <div class="hidden" id="form-register" [formGroup]="userRegisterForm">
               <!-- Name input -->
               <div class="form-outline">
                 <input
@@ -138,20 +137,22 @@
                   id="registerName"
                   required="required"
                   class="form-control"
+                  formControlName="firstName"
                 />
                 <label class="form-label" for="registerName">Name</label>
               </div>
 
-              <!-- Username input -->
+              <!-- last Name input -->
               <div class="form-outline">
                 <input
                   type="text"
-                  id="registerUsername"
+                  id="registerLastName"
                   required="required"
                   class="form-control"
+                  formControlName="lastName"
                 />
-                <label class="form-label" for="registerUsername"
-                  >Username</label
+                <label class="form-label" for="registerLastName"
+                  >Last Name</label
                 >
               </div>
 
@@ -162,6 +163,7 @@
                   id="registerEmail"
                   required="required"
                   class="form-control"
+                  formControlName="email"
                 />
                 <label class="form-label" for="registerEmail">Email</label>
               </div>
@@ -173,6 +175,7 @@
                   id="registerPassword"
                   class="form-control"
                   required="required"
+                  formControlName="password"
                 />
                 <label class="form-label" for="registerPassword"
                   >Password</label
@@ -186,11 +189,13 @@
                   id="registerRepeatPassword"
                   class="form-control"
                   required="required"
+                  formControlName="passwordRepeat"
                 />
                 <label class="form-label" for="registerRepeatPassword"
                   >Repeat password</label
                 >
               </div>
+
 
               <!-- Checkbox -->
               <div class="form-check">
