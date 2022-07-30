@@ -23,6 +23,18 @@ export class AuthInterceptor implements HttpInterceptor {
     ) {
       return httpHandler.handle(httpRequest);
     }
-    return EMPTY;
+    if (
+      httpRequest.url.includes(
+        `${this.authenticationService.apiServerUrl}/users/register`
+      )
+    ) {
+      return httpHandler.handle(httpRequest);
+    }
+    this.authenticationService.loadToken();
+    const token = this.authenticationService.getToken();
+    const request = httpRequest.clone({
+      setHeaders: { Authorization: `Bearer ${token}` },
+    });
+    return httpHandler.handle(request);
   }
 }
