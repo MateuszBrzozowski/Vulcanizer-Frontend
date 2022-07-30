@@ -1,0 +1,212 @@
+<button id="login-button" class="login-button" (click)="open(content)">
+    Login / Register
+  </button>
+  
+  <div id="login-details" class="login-details hidden">
+    <span>Username</span>
+    <button class="login-button">Wyloguj</button>
+  </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-popup">
+    <div class="modal-header">
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <!-- Pills navs -->
+      <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+        <li class="nav-item" role="presentation" (click)="loginTab()">
+          <a
+            class="nav-link active"
+            id="tab-login"
+            data-mdb-toggle="pill"
+            href="#pills-login"
+            role="tab"
+            aria-controls="pills-login"
+            aria-selected="true"
+            >Login</a
+          >
+        </li>
+        <li class="nav-item" role="presentation" (click)="registerTab()">
+          <a
+            class="nav-link"
+            id="tab-register"
+            data-mdb-toggle="pill"
+            href="#pills-register"
+            role="tab"
+            aria-controls="pills-register"
+            aria-selected="false"
+            >Register</a
+          >
+        </li>
+      </ul>
+
+      <div id="form-login" class="form-login_flex" [formGroup]="userLoginForm">
+        <!-- Email input -->
+        <div class="form-outline">
+          <input
+            type="email, text"
+            id="loginName"
+            required="required"
+            class="form-control"
+            formControlName="email"
+          />
+          <label class="form-label" for="loginName">Email</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline">
+          <input
+            type="password"
+            id="loginPassword"
+            class="form-control"
+            required="required"
+            formControlName="password"
+          />
+          <label class="form-label" for="loginPassword">Password</label>
+        </div>
+
+        <div class="form-login-options">
+          <div class="form-login-options__cell">
+            <!-- Checkbox -->
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="loginCheck"
+                checked
+              />
+              <label class="form-check-label" for="loginCheck">
+                Remember me
+              </label>
+            </div>
+          </div>
+
+          <div class="form-login-options__cell">
+            <!-- Simple link -->
+            <a href="#!">Forgot password?</a>
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <!-- (click)="login(c)" -->
+
+        <button
+          type="submit"
+          id="login-sign-in"
+          class="btn btn-primary sign-in"
+        >
+          Sign in
+        </button>
+
+        <!-- Register buttons -->
+        <div class="text-center">
+          <p>Not a member? <a href="#!">Register</a></p>
+        </div>
+      </div>
+
+      <div class="hidden" id="form-register" [formGroup]="userRegisterForm">
+        <!-- Name input -->
+        <div class="form-outline">
+          <input
+            type="text"
+            id="registerName"
+            required="required"
+            class="form-control"
+            formControlName="firstName"
+          />
+          <label class="form-label" for="registerName">Name</label>
+        </div>
+
+        <!-- last Name input -->
+        <div class="form-outline">
+          <input
+            type="text"
+            id="registerLastName"
+            required="required"
+            class="form-control"
+            formControlName="lastName"
+          />
+          <label class="form-label" for="registerLastName">Last Name</label>
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline">
+          <input
+            type="email, text"
+            id="registerEmail"
+            required="required"
+            class="form-control"
+            formControlName="email"
+          />
+          <label class="form-label" for="registerEmail">Email</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline">
+          <input
+            type="password"
+            id="registerPassword"
+            class="form-control"
+            required="required"
+            formControlName="password"
+          />
+          <label class="form-label" for="registerPassword">Password</label>
+        </div>
+
+        <!-- Repeat Password input -->
+        <div class="form-outline">
+          <input
+            type="password"
+            id="registerRepeatPassword"
+            class="form-control"
+            required="required"
+            formControlName="passwordRepeat"
+          />
+          <label class="form-label" for="registerRepeatPassword"
+            >Repeat password</label
+          >
+        </div>
+
+        <!-- Checkbox -->
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="registerCheck"
+            aria-describedby="registerCheckHelpText"
+          />
+          <label class="form-check-label-read" for="registerCheck">
+            I have read and agree to the terms
+          </label>
+        </div>
+
+        <!-- Submit button -->
+        <!-- (click)="register(c)" -->
+        <button
+          type="submit"
+          id="register-sign-in"
+          class="btn btn-primary sign-in"
+        >
+          Sign in
+        </button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <!-- <button
+          type="button"
+          class="btn btn-outline-dark"
+          (click)="c('Save click')"
+        >
+          Save
+        </button> -->
+    </div>
+  </div>
+</ng-template>

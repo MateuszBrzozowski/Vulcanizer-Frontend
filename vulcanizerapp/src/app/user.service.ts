@@ -42,6 +42,6 @@ export class UserService {
    */
   public userLogin(loginForm: User): Observable<User> {
     
-    return this.http.post<User>(`${this.apiServerUrl}/api/v1/users/login`,loginForm);
+    return this.http.post<User>(`${this.apiServerUrl}/users/login`,loginForm);
   }
 }

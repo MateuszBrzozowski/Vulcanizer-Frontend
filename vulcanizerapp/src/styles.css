@@ -203,6 +203,7 @@ footer {
 
 h1 span {
   display: block;
+  font-weight: 400;
 }
 
 .login {
