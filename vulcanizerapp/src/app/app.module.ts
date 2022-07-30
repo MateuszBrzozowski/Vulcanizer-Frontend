@@ -10,6 +10,7 @@ import { UserService } from './user.service';
 import { LoginComponent } from './login/login.component';
 import { AuthenticationService } from './service/authentication.service';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { AuthenticationGuard } from './guard/authentication.guard';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -25,6 +26,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     CookieService,
     AuthenticationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthenticationGuard
   ],
   bootstrap: [AppComponent, LoginComponent],
 })
