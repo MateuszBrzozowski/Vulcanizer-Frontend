@@ -13,7 +13,7 @@ import { Business } from "./business";
     constructor(private http: HttpClient) { }
 
     public getRecommendBusiness() : Observable<Business[]> {
-        return this.http.get<Business[]>(`${this.apiServerUrl}/api/v1/business/recommend`)
+        return this.http.get<Business[]>(`${this.apiServerUrl}/api/v1/public-data/business/recommend`)
     }
   
     // public getUsers(): Observable<Business[]> {

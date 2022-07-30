@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
 import {
   HttpClient,
   HttpErrorResponse,
   HttpResponse,
 } from '@angular/common/http';
-import { catchError, observable, Observable } from 'rxjs';
-import { User } from './users';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from './users';
 
 @Injectable({
   providedIn: 'root',
@@ -16,32 +17,25 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  public getUsers(): Observable<User[]> {
+  /**
+   * getUsers
+   */
+  public getUsers(): Observable<User[] | HttpErrorResponse> {
     return this.http.get<User[]>(`${this.apiServerUrl}/users`);
   }
 
-  /**
-   * registerNewUser
-   */
-  public registerNewUser(emailForm: User): Observable<unknown> {
-    // const registerBody = JSON.stringify({
-    //   firstName: emailForm.firstName,
-    //   lastName: emailForm.lastName,
-    //   email: emailForm.email,
-    //   password: emailForm.password
-    // });
-    return this.http.post<User>(
-      `${this.apiServerUrl}/api/v1/users`,
-      emailForm,
-      { observe: 'response' }
-    );
+  public addUsersToLocalCache(users: User[]): void {
+    localStorage.setItem('users', JSON.stringify(users));
+  
   }
 
   /**
-   * userLogin
+   * getUsersFromLocalCache
    */
-  public userLogin(loginForm: User): Observable<User> {
-    
-    return this.http.post<User>(`${this.apiServerUrl}/users/login`,loginForm);
+  public getUsersFromLocalCache(): User[] {
+    if (localStorage.getItem('users')) {
+      return JSON.parse(localStorage.getItem('users')!);
+    }
+    return JSON.parse('[]');
   }
 }

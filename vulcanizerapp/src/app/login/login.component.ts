@@ -93,39 +93,39 @@ export class LoginComponent implements OnInit {
       this.userLoginForm.value.email.length !== 0 &&
       this.userLoginForm.value.password.length !== 0
     ) {
-      this.userService.userLogin(this.userLoginForm.value).subscribe(
-        (complete) => {
-          closeFunction();
-          // this.cookieService.set('first-name',complete.firstName);
-          // sessionStorage.setItem('first-name',complete.firstName);
+      // this.userService.userLogin(this.userLoginForm.value).subscribe(
+      //   (complete) => {
+      //     closeFunction();
+      //     // this.cookieService.set('first-name',complete.firstName);
+      //     // sessionStorage.setItem('first-name',complete.firstName);
 
-          alert('Zalogowano!!!');
-        },
-        (error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            alert('Email albo hasło jest nieprawidłowe');
-          } else if (error.status === 400) {
-            alert(error.error.message);
-          }
-        }
-      );
+      //     alert('Zalogowano!!!');
+      //   },
+      //   (error: HttpErrorResponse) => {
+      //     if (error.status === 401) {
+      //       alert('Email albo hasło jest nieprawidłowe');
+      //     } else if (error.status === 400) {
+      //       alert(error.error.message);
+      //     }
+      //   }
+      // );
     }
   }
 
   register(closeFunction: any) {
-    response: this.userService
-      .registerNewUser(this.userRegisterForm.value)
-      .subscribe(
-        (complete: any) => {
-          closeFunction();
-        },
-        (error: HttpErrorResponse) => {
-          if (error.status === 400) {
-            alert(error.error.message);
-          } else {
-            alert('Something went wrong!');
-          }
-        }
-      );
+    // response: this.userService
+    //   .registerNewUser(this.userRegisterForm.value)
+    //   .subscribe(
+    //     (complete: any) => {
+    //       closeFunction();
+    //     },
+    //     (error: HttpErrorResponse) => {
+    //       if (error.status === 400) {
+    //         alert(error.error.message);
+    //       } else {
+    //         alert('Something went wrong!');
+    //       }
+    //     }
+    //   );
   }
 }
