@@ -22,11 +22,11 @@ export class AuthenticationService {
 
   public login(
     user: UserLogin
-  ): Observable<HttpResponse<any> | HttpErrorResponse> {
-    return this.http.post<HttpResponse<any> | HttpErrorResponse>(
+  ): Observable<HttpResponse<User>> {
+    return this.http.post<User>(
       `${this.apiServerUrl}/users/login`,
       user,
-      { observe: 'response' }
+      {observe: 'response'}
     );
   }
 
@@ -67,7 +67,7 @@ export class AuthenticationService {
   }
 
   public isLoggedIn(): boolean {
-    this.loadToken;
+    this.loadToken();
     if (this.token != null && this.token !== '') {
       if (this.jwtHelper.decodeToken(this.token).sub != null || '') {
         if (!this.jwtHelper.isTokenExpired(this.token)) {

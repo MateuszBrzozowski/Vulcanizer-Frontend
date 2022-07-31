@@ -1,11 +1,15 @@
-<button id="login-button" class="login-button" (click)="open(content)">
-    Login / Register
-  </button>
-  
-  <div id="login-details" class="login-details hidden">
-    <span>Username</span>
-    <button class="login-button">Wyloguj</button>
-  </div>
+<button
+  *ngIf="!isUserLogin"
+  id="login-button"
+  class="login-button"
+  (click)="open(content)"
+>
+  Login / Register
+</button>
+
+<div *ngIf="isUserLogin" id="login-details" class="login-details">
+  <button class="login-button">Username</button>
+</div>
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-popup">
@@ -14,18 +18,22 @@
         type="button"
         class="btn-close"
         aria-label="Close"
-        (click)="d('Cross click')"
+        (click)="c()"
       ></button>
     </div>
     <div class="modal-body">
       <!-- Pills navs -->
-      <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+      <ul
+        *ngIf="loginHeaderVisable"
+        class="nav nav-pills nav-justified mb-3"
+        id="ex1"
+        role="tablist"
+      >
         <li class="nav-item" role="presentation" (click)="loginTab()">
           <a
             class="nav-link active"
             id="tab-login"
             data-mdb-toggle="pill"
-            href="#pills-login"
             role="tab"
             aria-controls="pills-login"
             aria-selected="true"
@@ -37,7 +45,6 @@
             class="nav-link"
             id="tab-register"
             data-mdb-toggle="pill"
-            href="#pills-register"
             role="tab"
             aria-controls="pills-register"
             aria-selected="false"
@@ -46,7 +53,84 @@
         </li>
       </ul>
 
-      <div id="form-login" class="form-login_flex" [formGroup]="userLoginForm">
+      <div *ngIf="isResetPassTab" id="form-reset-password">
+        <!-- Email input -->
+        <div class="form-outline">
+          <input
+            type="email, text"
+            id="loginName"
+            required="required"
+            class="form-control"
+            [formControl]="userResetPasswordEmail"
+          />
+          <label class="form-label" for="loginName">Email</label>
+        </div>
+        <button
+          type="submit"
+          id="btn-next"
+          class="btn btn-primary"
+          [disabled]="!isPassValid()"
+          (click)="resetPassFormStepTwo()"
+        >
+          Next
+        </button>
+        <button
+        type="submit"
+        id="btn-cancel"
+        class="btn btn-primary"
+        (click)="closeResetPassTab(c)"
+      >
+        Cancel
+      </button>
+      </div>
+      <div
+        *ngIf="isResetPassTabPart2"
+        id="form-reset-password-name"
+        [formGroup]="userResetPassForm"
+      >
+        <!-- Name input -->
+        <div class="form-outline">
+          <input
+            type="text"
+            id="registerName"
+            required="required"
+            class="form-control"
+            formControlName="firstName"
+          />
+          <label class="form-label" for="registerName">Name</label>
+        </div>
+        <!-- last Name input -->
+        <div class="form-outline">
+          <input
+            type="text"
+            id="registerLastName"
+            required="required"
+            class="form-control"
+            formControlName="lastName"
+          />
+          <label class="form-label" for="registerLastName">Last Name</label>
+        </div>
+
+        <button
+          type="submit"
+          id="btn-reset"
+          class="btn btn-primary"
+          [disabled]="isNamesEmpty()"
+          (click)="resetPassword(c)"
+        >
+          Reset password
+        </button>
+        <button
+          type="submit"
+          id="btn-cancel"
+          class="btn btn-primary"
+          (click)="closeResetPassTab(c)"
+        >
+          Cancel
+        </button>
+      </div>
+
+      <div *ngIf="isLoginTab" id="form-login" [formGroup]="userLoginForm">
         <!-- Email input -->
         <div class="form-outline">
           <input
@@ -90,28 +174,41 @@
 
           <div class="form-login-options__cell">
             <!-- Simple link -->
-            <a href="#!">Forgot password?</a>
+            <button class="btn hypertext" (click)="resetPassForm()">
+              Forgot password?
+            </button>
           </div>
         </div>
 
         <!-- Submit button -->
-        <!-- (click)="login(c)" -->
 
         <button
           type="submit"
           id="login-sign-in"
           class="btn btn-primary sign-in"
+          (click)="login(c)"
+          [disabled]="
+            this.userLoginForm.value.email.length === 0 ||
+            this.userLoginForm.value.password.length === 0
+          "
         >
           Sign in
         </button>
 
         <!-- Register buttons -->
         <div class="text-center">
-          <p>Not a member? <a href="#!">Register</a></p>
+          <span>Not a member?</span>
+          <button class="btn hypertext" (click)="registerTab()">
+            Register
+          </button>
         </div>
       </div>
 
-      <div class="hidden" id="form-register" [formGroup]="userRegisterForm">
+      <div
+        *ngIf="isRegisterTab"
+        id="form-register"
+        [formGroup]="userRegisterForm"
+      >
         <!-- Name input -->
         <div class="form-outline">
           <input
@@ -182,6 +279,7 @@
             value=""
             id="registerCheck"
             aria-describedby="registerCheckHelpText"
+            formControlName="terms"
           />
           <label class="form-check-label-read" for="registerCheck">
             I have read and agree to the terms
@@ -189,11 +287,13 @@
         </div>
 
         <!-- Submit button -->
-        <!-- (click)="register(c)" -->
+
         <button
           type="submit"
           id="register-sign-in"
           class="btn btn-primary sign-in"
+          [disabled]="isAllRegisterFieldNotEmpty()"
+          (click)="register(c)"
         >
           Sign in
         </button>

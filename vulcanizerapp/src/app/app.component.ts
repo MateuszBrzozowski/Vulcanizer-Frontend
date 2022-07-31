@@ -39,15 +39,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRecommendBusiness();
-    const name = sessionStorage.getItem('first-name');
-    console.log(name);
-    if (name !== null) {
-      const login = document.getElementById("login-details");
-      login?.classList.remove('hidden');
-      const loginRegister = document.getElementById('login-button');
-      loginRegister?.classList.add('hidden');
-      
-    }
   }
 
   onKeypress(event: any) {

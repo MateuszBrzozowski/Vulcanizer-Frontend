@@ -7,6 +7,7 @@
     <title>Wulkanizator</title>
   </head>
   <body>
+    
     <header>
       <h1>
         <span>WULKANIZATOR</span>
@@ -20,8 +21,8 @@
         <app-login></app-login>
       </section>
     </header>
-
     <main>
+      <router-outlet></router-outlet>
       <section class="search-engine">
         <span>Wyszukaj usługę</span>
         <div class="search__input-container">
@@ -29,7 +30,7 @@
             ><img
               src="assets/images/search-thin.svg"
               alt="Ikona wyszukiwania"
-              class="serarch-icon"
+              class="search-icon"
           /></label>
           <input type="text" id="search" />
           <label for="search" class="search-word">Szukaj</label>

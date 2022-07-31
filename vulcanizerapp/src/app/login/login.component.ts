@@ -1,8 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { ReturnStatement } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from '../app.component';
+import { HeaderType } from '../enum/header-type.enum';
+import { AuthenticationService } from '../service/authentication.service';
 import { UserService } from '../user.service';
 import { User } from '../users';
 
@@ -14,6 +18,12 @@ import { User } from '../users';
 export class LoginComponent implements OnInit {
   emailPattern: string = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
   public users: User[] = [];
+  public loginHeaderVisable: boolean = true;
+  public isLoginTab: boolean = true;
+  public isRegisterTab: boolean = false;
+  public isUserLogin: boolean = false;
+  public isResetPassTab: boolean = false;
+  public isResetPassTabPart2: boolean = false;
 
   userRegisterForm: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -24,6 +34,7 @@ export class LoginComponent implements OnInit {
     ]),
     password: new FormControl('', Validators.required),
     passwordRepeat: new FormControl('', Validators.required),
+    terms: new FormControl(),
   });
 
   userLoginForm: FormGroup = new FormGroup({
@@ -35,21 +46,48 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
+  userResetPassForm: FormGroup = new FormGroup({
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+  });
+
+  userResetPasswordEmail = new FormControl('', [
+    Validators.required,
+    Validators.email,
+    Validators.pattern(this.emailPattern),
+  ]);
+
   constructor(
     private userService: UserService,
     private modalService: NgbModal,
-
+    private authenticationService: AuthenticationService,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {}
-
-  open(content: any) {
-    this.modalService.open(content);
+  ngOnInit(): void {
+    this.checkIsUserLogin();
   }
 
-  d(test : any){
-    console.log("Nie wiem co dalej");
-    
+  checkIsUserLogin(): void {
+    this.isUserLogin = this.authenticationService.isLoggedIn();
+  }
+
+  open(content: any) {
+    this.checkIsUserLogin();
+    this.modalService.open(content);
+    let tabLogin = document.getElementById('tab-login');
+    let tabRegister = document.getElementById('tab-register');
+    if (this.isLoginTab) {
+      tabLogin?.classList.add('active');
+      tabRegister?.classList.remove('active');
+    } else {
+      tabLogin?.classList.remove('active');
+      tabRegister?.classList.add('active');
+    }
+  }
+
+  d() {
+    console.log('Nie wiem co dalej');
   }
 
   private getDismissReason(reason: any): string {
@@ -65,27 +103,20 @@ export class LoginComponent implements OnInit {
   registerTab() {
     let tabLogin = document.getElementById('tab-login');
     let tabRegister = document.getElementById('tab-register');
-    let formLogin = document.getElementById('form-login');
-    let formRegister = document.getElementById('form-register');
-
     tabLogin?.classList.remove('active');
     tabRegister?.classList.add('active');
 
-    formLogin?.classList.add('hidden');
-    formRegister?.classList.remove('hidden');
+    this.isLoginTab = false;
+    this.isRegisterTab = true;
   }
 
   loginTab() {
     let tabLogin = document.getElementById('tab-login');
     let tabRegister = document.getElementById('tab-register');
-    let formLogin = document.getElementById('form-login');
-    let formRegister = document.getElementById('form-register');
-
     tabLogin?.classList.add('active');
     tabRegister?.classList.remove('active');
-
-    formLogin?.classList.remove('hidden');
-    formRegister?.classList.add('hidden');
+    this.isLoginTab = true;
+    this.isRegisterTab = false;
   }
 
   login(closeFunction: any) {
@@ -93,23 +124,84 @@ export class LoginComponent implements OnInit {
       this.userLoginForm.value.email.length !== 0 &&
       this.userLoginForm.value.password.length !== 0
     ) {
-      // this.userService.userLogin(this.userLoginForm.value).subscribe(
-      //   (complete) => {
-      //     closeFunction();
-      //     // this.cookieService.set('first-name',complete.firstName);
-      //     // sessionStorage.setItem('first-name',complete.firstName);
-
-      //     alert('Zalogowano!!!');
-      //   },
-      //   (error: HttpErrorResponse) => {
-      //     if (error.status === 401) {
-      //       alert('Email albo hasło jest nieprawidłowe');
-      //     } else if (error.status === 400) {
-      //       alert(error.error.message);
-      //     }
-      //   }
-      // );
+      this.authenticationService.login(this.userLoginForm.value).subscribe(
+        (response: HttpResponse<User>) => {
+          const token = response.headers.get('Jwt-Token');
+          this.authenticationService.saveToken(token!);
+          this.authenticationService.addUserToLocalCache(response.body!);
+          this.isUserLogin = true;
+          closeFunction();
+        },
+        (errorResponse: HttpErrorResponse) => {
+          if (errorResponse.status === 401) {
+            alert('Email albo hasło jest nieprawidłowe');
+          } else {
+            alert(errorResponse.error.message);
+          }
+          // TODO nie zalogoowano, błędne dane, wyświelić komunikat.
+        }
+      );
     }
+  }
+
+  isAllRegisterFieldNotEmpty(): boolean {
+    //TODO ogarnac tego ifa, ide spac
+    if (
+      this.userRegisterForm.value.firstName ||
+      this.userRegisterForm.value.lastName||
+      this.userRegisterForm.value.email ||
+      this.userRegisterForm.value.password ||
+      this.userRegisterForm.value.passwordRepeat ||
+      !this.userRegisterForm.value.terms
+    ) {
+      console.log(true);
+      
+      return true;
+    }
+    console.log(false);
+    
+    return false;
+  }
+
+  isPassValid(): boolean {
+    if (this.userResetPasswordEmail.valid) {
+      return true;
+    }
+    return false;
+  }
+
+  isNamesEmpty(): boolean {
+    if (
+      this.userResetPassForm.value.firstName.length === 0 ||
+      this.userResetPassForm.value.lastName.length === 0
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  resetPassForm(): void {
+    this.loginHeaderVisable = false;
+    this.isLoginTab = false;
+    this.isResetPassTab = true;
+  }
+
+  resetPassFormStepTwo(): void {
+    this.isResetPassTab = false;
+    this.isResetPassTabPart2 = true;
+  }
+
+  closeResetPassTab(closeFunction: any) {
+    closeFunction();
+    this.loginHeaderVisable = true;
+    this.isLoginTab = true;
+    this.isResetPassTab = false;
+    this.isResetPassTabPart2 = false;
+  }
+
+  resetPassword(closeFunction: any) {
+    //TODO - wyslac link do resetu hasla.
+    this.closeResetPassTab(closeFunction);
   }
 
   register(closeFunction: any) {
