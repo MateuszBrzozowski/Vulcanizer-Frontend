@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     ]),
     password: new FormControl('', Validators.required),
     passwordRepeat: new FormControl('', Validators.required),
-    terms: new FormControl(),
+    terms: new FormControl(false, Validators.requiredTrue),
   });
 
   userLoginForm: FormGroup = new FormGroup({
@@ -87,7 +87,6 @@ export class LoginComponent implements OnInit {
   }
 
   d() {
-    console.log('Nie wiem co dalej');
   }
 
   private getDismissReason(reason: any): string {
@@ -144,23 +143,12 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  isAllRegisterFieldNotEmpty(): boolean {
-    //TODO ogarnac tego ifa, ide spac
-    if (
-      this.userRegisterForm.value.firstName ||
-      this.userRegisterForm.value.lastName||
-      this.userRegisterForm.value.email ||
-      this.userRegisterForm.value.password ||
-      this.userRegisterForm.value.passwordRepeat ||
-      !this.userRegisterForm.value.terms
-    ) {
-      console.log(true);
-      
-      return true;
-    }
-    console.log(false);
+  register(closeFunction: any) {
     
-    return false;
+  }
+
+  isAllRegisterFielsValid(): boolean {
+    return this.isFiledsValid(this.userRegisterForm);
   }
 
   isPassValid(): boolean {
@@ -170,11 +158,16 @@ export class LoginComponent implements OnInit {
     return false;
   }
 
-  isNamesEmpty(): boolean {
-    if (
-      this.userResetPassForm.value.firstName.length === 0 ||
-      this.userResetPassForm.value.lastName.length === 0
-    ) {
+  isResetFieldsValid(): boolean {   
+    return this.isFiledsValid(this.userResetPassForm);
+  }
+
+  isLoginFieldValid() : boolean{
+    return this.isFiledsValid(this.userLoginForm);
+  }
+
+  isFiledsValid(formGroup : FormGroup) :boolean {
+    if(formGroup.valid){
       return true;
     }
     return false;
@@ -197,6 +190,8 @@ export class LoginComponent implements OnInit {
     this.isLoginTab = true;
     this.isResetPassTab = false;
     this.isResetPassTabPart2 = false;
+    this.userResetPasswordEmail.setValue('');
+    this.userResetPassForm.setValue({firstName : '', lastName : ''})
   }
 
   resetPassword(closeFunction: any) {
@@ -204,20 +199,5 @@ export class LoginComponent implements OnInit {
     this.closeResetPassTab(closeFunction);
   }
 
-  register(closeFunction: any) {
-    // response: this.userService
-    //   .registerNewUser(this.userRegisterForm.value)
-    //   .subscribe(
-    //     (complete: any) => {
-    //       closeFunction();
-    //     },
-    //     (error: HttpErrorResponse) => {
-    //       if (error.status === 400) {
-    //         alert(error.error.message);
-    //       } else {
-    //         alert('Something went wrong!');
-    //       }
-    //     }
-    //   );
-  }
+
 }

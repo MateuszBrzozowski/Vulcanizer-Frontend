@@ -75,13 +75,13 @@
           Next
         </button>
         <button
-        type="submit"
-        id="btn-cancel"
-        class="btn btn-primary"
-        (click)="closeResetPassTab(c)"
-      >
-        Cancel
-      </button>
+          type="submit"
+          id="btn-cancel"
+          class="btn btn-primary"
+          (click)="closeResetPassTab(c)"
+        >
+          Cancel
+        </button>
       </div>
       <div
         *ngIf="isResetPassTabPart2"
@@ -92,30 +92,30 @@
         <div class="form-outline">
           <input
             type="text"
-            id="registerName"
+            id="resetName"
             required="required"
             class="form-control"
             formControlName="firstName"
           />
-          <label class="form-label" for="registerName">Name</label>
+          <label class="form-label" for="resetName">Name</label>
         </div>
         <!-- last Name input -->
         <div class="form-outline">
           <input
             type="text"
-            id="registerLastName"
+            id="resetLastName"
             required="required"
             class="form-control"
             formControlName="lastName"
           />
-          <label class="form-label" for="registerLastName">Last Name</label>
+          <label class="form-label" for="resetLastName">Last Name</label>
         </div>
 
         <button
           type="submit"
           id="btn-reset"
           class="btn btn-primary"
-          [disabled]="isNamesEmpty()"
+          [disabled]="!isResetFieldsValid()"
           (click)="resetPassword(c)"
         >
           Reset password
@@ -187,10 +187,7 @@
           id="login-sign-in"
           class="btn btn-primary sign-in"
           (click)="login(c)"
-          [disabled]="
-            this.userLoginForm.value.email.length === 0 ||
-            this.userLoginForm.value.password.length === 0
-          "
+          [disabled]="!isLoginFieldValid()"
         >
           Sign in
         </button>
@@ -292,7 +289,7 @@
           type="submit"
           id="register-sign-in"
           class="btn btn-primary sign-in"
-          [disabled]="isAllRegisterFieldNotEmpty()"
+          [disabled]="!isAllRegisterFielsValid()"
           (click)="register(c)"
         >
           Sign in
