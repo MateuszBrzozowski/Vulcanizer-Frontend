@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserLogin, User, UserRegister } from '../users';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { LoginComponent } from '../login/login.component';
 
 @Injectable({
   providedIn: 'root',
@@ -18,23 +19,18 @@ export class AuthenticationService {
   private loggedInUsername: string = '';
   private jwtHelper = new JwtHelperService();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) {}
 
-  public login(
-    user: UserLogin
-  ): Observable<HttpResponse<User>> {
-    return this.http.post<User>(
-      `${this.apiServerUrl}/users/login`,
-      user,
-      {observe: 'response'}
-    );
+  public login(user: UserLogin): Observable<HttpResponse<User>> {
+    return this.http.post<User>(`${this.apiServerUrl}/users/login`, user, {
+      observe: 'response',
+    });
   }
 
   public register(user: UserRegister): Observable<User> {
-    return this.http.post<User>(
-      `${this.apiServerUrl}/users/register`,
-      user
-    );
+    return this.http.post<User>(`${this.apiServerUrl}/users/register`, user);
   }
 
   public logOut(): void {
@@ -82,5 +78,4 @@ export class AuthenticationService {
     this.logOut();
     return false;
   }
-
 }

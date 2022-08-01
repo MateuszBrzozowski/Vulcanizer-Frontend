@@ -20,7 +20,13 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { MainComponent } from './main/main.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NotFoundComponent, MainComponent, ResetPasswordComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    NotFoundComponent,
+    MainComponent,
+    ResetPasswordComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -39,7 +45,7 @@ import { MainComponent } from './main/main.component';
     AuthenticationGuard,
     NotFoundComponent,
     ConfirmComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

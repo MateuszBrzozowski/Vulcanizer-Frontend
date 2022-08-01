@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   public isResetPassTab: boolean = false;
   public isResetPassTabPart2: boolean = false;
   private subscriptions: Subscription[] = [];
+  public username: string = 'Username';
 
   userRegisterForm: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -78,6 +79,12 @@ export class LoginComponent implements OnInit {
 
   checkIsUserLogin(): void {
     this.isUserLogin = this.authenticationService.isLoggedIn();
+    let user = this.authenticationService.getUserFromLocalCahce();
+    if(user !=null){
+      if(user.firstName !=null){
+        this.username = user.firstName;
+      }
+    }
   }
 
   open(content: any) {
@@ -132,6 +139,7 @@ export class LoginComponent implements OnInit {
         this.authenticationService.saveToken(token!);
         this.authenticationService.addUserToLocalCache(response.body!);
         this.isUserLogin = true;
+        this.username = response.body?.firstName!;
         closeFunction();
       },
       (errorResponse: HttpErrorResponse) => {
@@ -246,19 +254,21 @@ export class LoginComponent implements OnInit {
     console.log(firstName);
     console.log(lastName);
 
-
     if (email != null && firstName != null && lastName != null) {
-      this.resetPasswordService.resetStart(email, firstName, lastName).subscribe(
-        (response) =>{
-          this.notificationService.notify(NotificationType.WARNING, "Sprawdź wiadomości w twojej skrzynce pocztowej email.")
-        },
-        (error: HttpErrorResponse) => {
-            alert("error")
-        }
-      );
+      this.resetPasswordService
+        .resetStart(email, firstName, lastName)
+        .subscribe(
+          (response) => {
+            this.notificationService.notify(
+              NotificationType.WARNING,
+              'Sprawdź wiadomości w twojej skrzynce pocztowej email.'
+            );
+          },
+          (error: HttpErrorResponse) => {
+            alert('error');
+          }
+        );
     }
-
-    //TODO - wyslac link do resetu hasla.
     this.closeResetPassTab(closeFunction);
   }
 }
