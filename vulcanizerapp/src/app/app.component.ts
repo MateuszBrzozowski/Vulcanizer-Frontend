@@ -22,13 +22,11 @@ import { User } from './users';
 export class AppComponent implements OnInit {
   title = 'vulcanizerapp';
   public users: User[] = [];
-  public businesses: Business[] = [];
   closeResult = '';
 
 
   constructor(
     private userService: UserService,
-    private businessService: BusinessService,
     config: NgbModalConfig,
     private modalService: NgbModal,
     private cookieService: CookieService
@@ -38,26 +36,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getRecommendBusiness();
   }
 
   onKeypress(event: any) {
     console.log(event);
     //(keypress)="onKeypress($event)"
-  }
-
-  /**
-   * getRecommendBusiness
-   */
-  public getRecommendBusiness(): void {
-    this.businessService.getRecommendBusiness().subscribe(
-      (response: Business[]) => {
-        this.businesses = response;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
   }
 
     // this.emailForm.valueChanges.subscribe((value) => {

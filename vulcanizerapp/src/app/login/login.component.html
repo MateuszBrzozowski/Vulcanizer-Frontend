@@ -56,155 +56,154 @@
       <!-- Rest tab -->
 
       <div *ngIf="isResetPassTab" id="form-reset-password">
-        <!-- Email input -->
-        <div class="form-outline">
-          <input
-            type="email, text"
-            id="loginName"
-            required="required"
-            class="form-control"
-            [formControl]="userResetPasswordEmail"
-          />
-          <label class="form-label" for="loginName">Email</label>
-        </div>
-        <button
-          type="submit"
-          id="btn-next"
-          class="btn btn-primary"
-          [disabled]="!isPassValid()"
-          (click)="resetPassFormStepTwo()"
-        >
-          Next
-        </button>
-        <button
-          type="submit"
-          id="btn-cancel"
-          class="btn btn-primary"
-          (click)="closeResetPassTab(c)"
-        >
-          Cancel
-        </button>
+          <!-- Email input -->
+          <div class="form-outline">
+            <input
+              type="email, text"
+              id="loginName"
+              required="required"
+              class="form-control"
+              [formControl]="userResetPasswordEmail"
+            />
+            <label class="form-label" for="loginName">Email</label>
+          </div>
+          <button
+            type="submit"
+            id="btn-next"
+            class="btn btn-primary"
+            [disabled]="!isPassValid()"
+            (click)="resetPassFormStepTwo()"
+          >
+            Next
+          </button>
+          <button
+            type="submit"
+            id="btn-cancel"
+            class="btn btn-primary"
+            (click)="closeResetPassTab(c)"
+          >
+            Cancel
+          </button>
       </div>
       <div
         *ngIf="isResetPassTabPart2"
         id="form-reset-password-name"
         [formGroup]="userResetPassForm"
       >
-        <!-- Name input -->
-        <div class="form-outline">
-          <input
-            type="text"
-            id="resetName"
-            required="required"
-            class="form-control"
-            formControlName="firstName"
-          />
-          <label class="form-label" for="resetName">Name</label>
-        </div>
-        <!-- last Name input -->
-        <div class="form-outline">
-          <input
-            type="text"
-            id="resetLastName"
-            required="required"
-            class="form-control"
-            formControlName="lastName"
-          />
-          <label class="form-label" for="resetLastName">Last Name</label>
-        </div>
+          <!-- Name input -->
+          <div class="form-outline">
+            <input
+              type="text"
+              id="resetName"
+              required="required"
+              class="form-control"
+              formControlName="firstName"
+            />
+            <label class="form-label" for="resetName">Name</label>
+          </div>
+          <!-- last Name input -->
+          <div class="form-outline">
+            <input
+              type="text"
+              id="resetLastName"
+              required="required"
+              class="form-control"
+              formControlName="lastName"
+            />
+            <label class="form-label" for="resetLastName">Last Name</label>
+          </div>
 
-        <button
-          type="submit"
-          id="btn-reset"
-          class="btn btn-primary"
-          [disabled]="!isResetFieldsValid()"
-          (click)="resetPassword(c)"
-        >
-          Reset password
-        </button>
-        <button
-          type="submit"
-          id="btn-cancel"
-          class="btn btn-primary"
-          (click)="closeResetPassTab(c)"
-        >
-          Cancel
-        </button>
+          <button
+            type="submit"
+            id="btn-reset"
+            class="btn btn-primary"
+            [disabled]="!isResetFieldsValid()"
+            (click)="resetPassword(c)"
+          >
+            Reset password
+          </button>
+          <button
+            type="submit"
+            id="btn-cancel"
+            class="btn btn-primary"
+            (click)="closeResetPassTab(c)"
+          >
+            Cancel
+          </button>
       </div>
 
       <!-- Login Tab -->
 
-      <div *ngIf="isLoginTab" id="form-login" [formGroup]="userLoginForm">
-        <!-- Email input -->
-        <div class="form-outline">
-          <input
-            type="email, text"
-            id="loginName"
-            required="required"
-            class="form-control"
-            formControlName="email"
-          />
-          <label class="form-label" for="loginName">Email</label>
-        </div>
+        <div *ngIf="isLoginTab" id="form-login" [formGroup]="userLoginForm">
+          <!-- Email input -->
+          <div class="form-outline">
+            <input
+              type="email, text"
+              id="loginName"
+              required="required"
+              class="form-control"
+              formControlName="email"
+            />
+            <label class="form-label" for="loginName">Email</label>
+          </div>
 
-        <!-- Password input -->
-        <div class="form-outline">
-          <input
-            type="password"
-            id="loginPassword"
-            class="form-control"
-            required="required"
-            formControlName="password"
-          />
-          <label class="form-label" for="loginPassword">Password</label>
-        </div>
+          <!-- Password input -->
+          <div class="form-outline">
+            <input
+              type="password"
+              id="loginPassword"
+              class="form-control"
+              required="required"
+              formControlName="password"
+            />
+            <label class="form-label" for="loginPassword">Password</label>
+          </div>
 
-        <div class="form-login-options">
-          <div class="form-login-options__cell">
-            <!-- Checkbox -->
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="loginCheck"
-                checked
-              />
-              <label class="form-check-label" for="loginCheck">
-                Remember me
-              </label>
+          <div class="form-login-options">
+            <div class="form-login-options__cell">
+              <!-- Checkbox -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="loginCheck"
+                  checked
+                />
+                <label class="form-check-label" for="loginCheck">
+                  Remember me
+                </label>
+              </div>
+            </div>
+
+            <div class="form-login-options__cell">
+              <!-- Simple link -->
+              <button class="btn hypertext" (click)="resetPassForm()">
+                Forgot password?
+              </button>
             </div>
           </div>
 
-          <div class="form-login-options__cell">
-            <!-- Simple link -->
-            <button class="btn hypertext" (click)="resetPassForm()">
-              Forgot password?
+          <!-- Submit button -->
+
+          <button
+            type="submit"
+            id="login-sign-in"
+            class="btn btn-primary sign-in"
+            (click)="login(c)"
+            [disabled]="!isLoginFieldValid()"
+          >
+            Sign in
+          </button>
+
+          <!-- Register buttons -->
+          <div class="text-center">
+            <span>Not a member?</span>
+            <button class="btn hypertext" (click)="registerTab()">
+              Register
             </button>
           </div>
         </div>
-
-        <!-- Submit button -->
-
-        <button
-          type="submit"
-          id="login-sign-in"
-          class="btn btn-primary sign-in"
-          (click)="login(c)"
-          [disabled]="!isLoginFieldValid()"
-        >
-          Sign in
-        </button>
-
-        <!-- Register buttons -->
-        <div class="text-center">
-          <span>Not a member?</span>
-          <button class="btn hypertext" (click)="registerTab()">
-            Register
-          </button>
-        </div>
-      </div>
-
       <div
         *ngIf="isRegisterTab"
         id="form-register"

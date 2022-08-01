@@ -288,18 +288,26 @@ h1 span {
   border: none;
 }
 
+#form-reset-password-component{
+  border: none;
+   max-width: 400px;
+}
+
 
 .search-engine {
+  
+  margin-top: calc(6vw + 1em);
+}
+
+.box-center {
+  margin: 0 auto;
+  min-width: 70%;
+  max-width: 800px;
   display: flex;
   flex-wrap: wrap;
   justify-self: center;
   justify-content: center;
   align-items: center;
-  min-width: 70%;
-  max-width: 800px;
-  margin: 0 auto;
-  margin-top: calc(6vw + 1em);
-
 }
 
 .search-engine span {
@@ -420,16 +428,28 @@ input {
   padding-left: 1em;
 }
 
+.message-form{
+  background-color: white;
+  color: red;
+}
+
 @media (min-width: 320px) {
   /* smartphones, iPhone, portrait 480x320 phones */
 }
 @media (min-width: 481px) {
+  #form-reset-password-component{
+    min-width: 400px;
+  }
   /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
 }
 @media (min-width: 641px) {
+  #form-reset-password-component{
+    min-width: 500px;
+  }
   /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
 }
 @media (min-width: 961px) {
+  
   /* tablet, landscape iPad, lo-res laptops ands desktops */
 }
 @media (min-width: 1025px) {

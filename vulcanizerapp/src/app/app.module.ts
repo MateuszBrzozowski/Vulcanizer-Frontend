@@ -16,9 +16,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { NotificationModule } from './notification.module';
 import { NotificationService } from './service/notification.service';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NotFoundComponent],
+  declarations: [AppComponent, LoginComponent, NotFoundComponent, MainComponent, ResetPasswordComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -26,7 +28,7 @@ import { ConfirmComponent } from './confirm/confirm.component';
     NgbModalModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    NotificationModule
+    NotificationModule,
   ],
   providers: [
     UserService,
@@ -36,7 +38,8 @@ import { ConfirmComponent } from './confirm/confirm.component';
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthenticationGuard,
     NotFoundComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    ResetPasswordComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

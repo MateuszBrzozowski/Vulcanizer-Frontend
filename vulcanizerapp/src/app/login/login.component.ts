@@ -4,10 +4,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { last } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AppComponent } from '../app.component';
 import { HeaderType } from '../enum/header-type.enum';
 import { NotificationType } from '../enum/notification-type.enum';
+import { ResetPasswordService } from '../reset-password.service';
 import { AuthenticationService } from '../service/authentication.service';
 import { NotificationService } from '../service/notification.service';
 import { UserService } from '../user.service';
@@ -66,7 +68,8 @@ export class LoginComponent implements OnInit {
     private modalService: NgbModal,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private resetPasswordService: ResetPasswordService
   ) {}
 
   ngOnInit(): void {
@@ -183,6 +186,11 @@ export class LoginComponent implements OnInit {
   }
 
   isPassValid(): boolean {
+    if (this.userResetPasswordEmail.value != null) {
+      this.userResetPasswordEmail.setValue(
+        this.userResetPasswordEmail.value.toLowerCase()
+      );
+    }
     if (this.userResetPasswordEmail.valid) {
       return true;
     }
@@ -230,6 +238,26 @@ export class LoginComponent implements OnInit {
   }
 
   resetPassword(closeFunction: any) {
+    const email = this.userResetPasswordEmail.value;
+    const firstName = this.userResetPassForm.value.firstName;
+    const lastName = this.userResetPassForm.value.lastName;
+
+    console.log(email);
+    console.log(firstName);
+    console.log(lastName);
+
+
+    if (email != null && firstName != null && lastName != null) {
+      this.resetPasswordService.resetStart(email, firstName, lastName).subscribe(
+        (response) =>{
+          this.notificationService.notify(NotificationType.WARNING, "Sprawdź wiadomości w twojej skrzynce pocztowej email.")
+        },
+        (error: HttpErrorResponse) => {
+            alert("error")
+        }
+      );
+    }
+
     //TODO - wyslac link do resetu hasla.
     this.closeResetPassTab(closeFunction);
   }

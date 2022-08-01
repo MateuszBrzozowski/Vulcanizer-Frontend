@@ -13,7 +13,7 @@ import { NotificationService } from '../service/notification.service';
 })
 export class ConfirmComponent implements OnInit {
   private CONFIRM_LINK = '/users/confirm';
-  private TOKEN_PARAM = '?token=';
+  private TOKEN_PARAM = '?id=';
   apiServerUrl = environment.apiBaseUrl;
   url: string = '';
 

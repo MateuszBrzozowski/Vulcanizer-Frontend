@@ -7,67 +7,24 @@
     <title>Wulkanizator</title>
   </head>
   <body>
-    <router-outlet></router-outlet>
-    <notifier-container></notifier-container>
     <header>
       <div class="header">
-      <h1>
-        <span>WULKANIZATOR</span>
-      </h1>
-      <section class="login">
-        <img
-          src="assets/images/user-circle-thin-32.png"
-          alt="Ikonka użytkownika"
-          height="24px"
-        />
-        <app-login></app-login>
-      </section>
-    </div>
-    
+        <h1>
+          <span>WULKANIZATOR</span>
+        </h1>
+        <section class="login">
+          <img
+            src="assets/images/user-circle-thin-32.png"
+            alt="Ikonka użytkownika"
+            height="24px"
+          />
+          <app-login></app-login>
+        </section>
+      </div>
     </header>
     <main>
-      
-      <div class="main"> 
-      <section class="search-engine">
-        <span>Wyszukaj usługę</span>
-        <div class="search__input-container">
-          <label for="search"
-            ><img
-              src="assets/images/search-thin.svg"
-              alt="Ikona wyszukiwania"
-              class="search-icon"
-          /></label>
-          <input type="text" id="search" />
-          <label for="search" class="search-word">Szukaj</label>
-        </div>
-      </section>
-      <section class="recommend">
-        <span> Polecamy </span>
-
-        <div class="business-list">
-          <div
-            *ngFor="let business of businesses"
-            class="popular-business-container"
-          >
-            <div class="business-head">
-              <div class="business-name">
-                <span>{{ business.name }}</span>
-              </div>
-              <div class="business-rating">
-                <span>5,0</span>
-              </div>
-            </div>
-            <div class="business-address">
-              <span>
-                {{ business.address.addressLineOne }},
-                {{ business.address.code }}, {{ business.address.city }},
-                {{ business.address.state }}</span
-              >
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+      <router-outlet></router-outlet>
+      <notifier-container></notifier-container>
     </main>
     <footer>© 2022 Wulkanizator. All rights reserved</footer>
   </body>
