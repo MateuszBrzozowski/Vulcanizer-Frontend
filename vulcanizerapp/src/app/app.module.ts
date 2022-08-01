@@ -13,6 +13,8 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { AuthenticationGuard } from './guard/authentication.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppRoutingModule } from './app-routing.module';
+import { NotificationModule } from './notification.module';
+import { NotificationService } from './service/notification.service';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, NotFoundComponent],
@@ -23,11 +25,13 @@ import { AppRoutingModule } from './app-routing.module';
     NgbModalModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    NotificationModule
   ],
   providers: [
     UserService,
     CookieService,
     AuthenticationService,
+    NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthenticationGuard,
     NotFoundComponent

@@ -30,8 +30,8 @@ export class AuthenticationService {
     );
   }
 
-  public register(user: UserRegister): Observable<User | HttpErrorResponse> {
-    return this.http.post<User | HttpErrorResponse>(
+  public register(user: UserRegister): Observable<User> {
+    return this.http.post<User>(
       `${this.apiServerUrl}/users/register`,
       user
     );

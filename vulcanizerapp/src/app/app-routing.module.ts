@@ -4,15 +4,14 @@ import { LoginComponent } from './login/login.component';
 import { AuthenticationGuard } from './guard/authentication.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
 
-
 const routes: Routes = [
-//     { path: '', redirectTo: '', pathMatch: 'full' },
-//   { path: '**', redirectTo: '/404-not-found', pathMatch: 'full' },
-//   { path: '404-not-found', component: NotFoundComponent }
+  //     { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: 'confirm', component: NotFoundComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -10,8 +10,10 @@ export class NotFoundComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("dsadadad");
     
+  }
+
+  open(content: any){
   }
 
 }

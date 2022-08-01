@@ -1,12 +1,15 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ReturnStatement } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs/internal/Subscription';
 import { AppComponent } from '../app.component';
 import { HeaderType } from '../enum/header-type.enum';
+import { NotificationType } from '../enum/notification-type.enum';
 import { AuthenticationService } from '../service/authentication.service';
+import { NotificationService } from '../service/notification.service';
 import { UserService } from '../user.service';
 import { User } from '../users';
 
@@ -24,6 +27,7 @@ export class LoginComponent implements OnInit {
   public isUserLogin: boolean = false;
   public isResetPassTab: boolean = false;
   public isResetPassTabPart2: boolean = false;
+  private subscriptions: Subscription[] = [];
 
   userRegisterForm: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -61,7 +65,8 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private modalService: NgbModal,
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private notificationService : NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -86,8 +91,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  d() {
-  }
+  d() {}
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -133,9 +137,11 @@ export class LoginComponent implements OnInit {
         },
         (errorResponse: HttpErrorResponse) => {
           if (errorResponse.status === 401) {
-            alert('Email albo hasło jest nieprawidłowe');
+            this.notificationService.notify(NotificationType.ERROR,"Email/haso nieprawidłowe");
+          } else if (errorResponse.status === 403) {
+            alert('Nie aktywowane konto!');
           } else {
-            alert(errorResponse.error.message);
+            this.notificationService.notify(NotificationType.ERROR,"Somethig went wrong");
           }
           // TODO nie zalogoowano, błędne dane, wyświelić komunikat.
         }
@@ -144,7 +150,28 @@ export class LoginComponent implements OnInit {
   }
 
   register(closeFunction: any) {
-    
+    this.authenticationService.register(this.userRegisterForm.value).subscribe(
+      (response: User) => {
+        alert('Zarejestrowano');
+      },
+      (errorResponse: HttpErrorResponse) => {
+        alert(errorResponse.error.message);
+      }
+    );
+    this.clearRegisterForm();
+    this.loginTab();
+    closeFunction();
+  }
+
+  clearRegisterForm() {
+    this.userRegisterForm.setValue({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      passwordRepeat: '',
+      terms: false,
+    });
   }
 
   isAllRegisterFielsValid(): boolean {
@@ -158,16 +185,16 @@ export class LoginComponent implements OnInit {
     return false;
   }
 
-  isResetFieldsValid(): boolean {   
+  isResetFieldsValid(): boolean {
     return this.isFiledsValid(this.userResetPassForm);
   }
 
-  isLoginFieldValid() : boolean{
+  isLoginFieldValid(): boolean {
     return this.isFiledsValid(this.userLoginForm);
   }
 
-  isFiledsValid(formGroup : FormGroup) :boolean {
-    if(formGroup.valid){
+  isFiledsValid(formGroup: FormGroup): boolean {
+    if (formGroup.valid) {
       return true;
     }
     return false;
@@ -191,13 +218,11 @@ export class LoginComponent implements OnInit {
     this.isResetPassTab = false;
     this.isResetPassTabPart2 = false;
     this.userResetPasswordEmail.setValue('');
-    this.userResetPassForm.setValue({firstName : '', lastName : ''})
+    this.userResetPassForm.setValue({ firstName: '', lastName: '' });
   }
 
   resetPassword(closeFunction: any) {
     //TODO - wyslac link do resetu hasla.
     this.closeResetPassTab(closeFunction);
   }
-
-
 }
