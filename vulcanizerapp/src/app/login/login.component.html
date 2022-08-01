@@ -4,7 +4,7 @@
   class="login-button"
   (click)="open(content)"
 >
-  Login / Register
+  Login / Rejestracja
 </button>
 
 <div *ngIf="isUserLogin" id="login-details" class="login-details">
@@ -48,7 +48,7 @@
             role="tab"
             aria-controls="pills-register"
             aria-selected="false"
-            >Register</a
+            >Rejestracja</a
           >
         </li>
       </ul>
@@ -74,7 +74,7 @@
             [disabled]="!isPassValid()"
             (click)="resetPassFormStepTwo()"
           >
-            Next
+            Dalej
           </button>
           <button
             type="submit"
@@ -82,7 +82,7 @@
             class="btn btn-primary"
             (click)="closeResetPassTab(c)"
           >
-            Cancel
+            Anuluj
           </button>
       </div>
       <div
@@ -99,7 +99,7 @@
               class="form-control"
               formControlName="firstName"
             />
-            <label class="form-label" for="resetName">Name</label>
+            <label class="form-label" for="resetName">Imię</label>
           </div>
           <!-- last Name input -->
           <div class="form-outline">
@@ -110,7 +110,7 @@
               class="form-control"
               formControlName="lastName"
             />
-            <label class="form-label" for="resetLastName">Last Name</label>
+            <label class="form-label" for="resetLastName">Nazwisko</label>
           </div>
 
           <button
@@ -120,7 +120,7 @@
             [disabled]="!isResetFieldsValid()"
             (click)="resetPassword(c)"
           >
-            Reset password
+            Resetuj hasło
           </button>
           <button
             type="submit"
@@ -128,7 +128,7 @@
             class="btn btn-primary"
             (click)="closeResetPassTab(c)"
           >
-            Cancel
+            Anuluj
           </button>
       </div>
 
@@ -156,7 +156,7 @@
               required="required"
               formControlName="password"
             />
-            <label class="form-label" for="loginPassword">Password</label>
+            <label class="form-label" for="loginPassword">Hasło</label>
           </div>
 
           <div class="form-login-options">
@@ -171,7 +171,7 @@
                   checked
                 />
                 <label class="form-check-label" for="loginCheck">
-                  Remember me
+                  Pamiętaj mnie
                 </label>
               </div>
             </div>
@@ -179,7 +179,7 @@
             <div class="form-login-options__cell">
               <!-- Simple link -->
               <button class="btn hypertext" (click)="resetPassForm()">
-                Forgot password?
+                Zapomniałeś hasła?
               </button>
             </div>
           </div>
@@ -193,14 +193,14 @@
             (click)="login(c)"
             [disabled]="!isLoginFieldValid()"
           >
-            Sign in
+            Zaloguj
           </button>
 
           <!-- Register buttons -->
           <div class="text-center">
-            <span>Not a member?</span>
+            <span>Nie masz konta?</span>
             <button class="btn hypertext" (click)="registerTab()">
-              Register
+              Rejestracja
             </button>
           </div>
         </div>
@@ -218,7 +218,7 @@
             class="form-control"
             formControlName="firstName"
           />
-          <label class="form-label" for="registerName">Name</label>
+          <label class="form-label" for="registerName">Imię</label>
         </div>
 
         <!-- last Name input -->
@@ -230,7 +230,7 @@
             class="form-control"
             formControlName="lastName"
           />
-          <label class="form-label" for="registerLastName">Last Name</label>
+          <label class="form-label" for="registerLastName">Nazwisko</label>
         </div>
 
         <!-- Email input -->
@@ -254,7 +254,7 @@
             required="required"
             formControlName="password"
           />
-          <label class="form-label" for="registerPassword">Password</label>
+          <label class="form-label" for="registerPassword">Hasło</label>
         </div>
 
         <!-- Repeat Password input -->
@@ -267,7 +267,7 @@
             formControlName="passwordRepeat"
           />
           <label class="form-label" for="registerRepeatPassword"
-            >Repeat password</label
+            >Powtórz hasło</label
           >
         </div>
 
@@ -282,7 +282,7 @@
             formControlName="terms"
           />
           <label class="form-check-label-read" for="registerCheck">
-            I have read and agree to the terms
+            Przeczytałem i zgadzam się na warunki serwisu
           </label>
         </div>
 
@@ -295,7 +295,7 @@
           [disabled]="!isAllRegisterFielsValid()"
           (click)="register(c)"
         >
-          Sign in
+          Załóż konto
         </button>
       </div>
     </div>
