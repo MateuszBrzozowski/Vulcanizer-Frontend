@@ -15,6 +15,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NotificationModule } from './notification.module';
 import { NotificationService } from './service/notification.service';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, NotFoundComponent],
@@ -34,7 +35,8 @@ import { NotificationService } from './service/notification.service';
     NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthenticationGuard,
-    NotFoundComponent
+    NotFoundComponent,
+    ConfirmComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

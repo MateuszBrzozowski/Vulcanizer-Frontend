@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
     private modalService: NgbModal,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private notificationService : NotificationService
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -123,30 +123,34 @@ export class LoginComponent implements OnInit {
   }
 
   login(closeFunction: any) {
-    if (
-      this.userLoginForm.value.email.length !== 0 &&
-      this.userLoginForm.value.password.length !== 0
-    ) {
-      this.authenticationService.login(this.userLoginForm.value).subscribe(
-        (response: HttpResponse<User>) => {
-          const token = response.headers.get('Jwt-Token');
-          this.authenticationService.saveToken(token!);
-          this.authenticationService.addUserToLocalCache(response.body!);
-          this.isUserLogin = true;
-          closeFunction();
-        },
-        (errorResponse: HttpErrorResponse) => {
-          if (errorResponse.status === 401) {
-            this.notificationService.notify(NotificationType.ERROR,"Email/haso nieprawidłowe");
-          } else if (errorResponse.status === 403) {
-            alert('Nie aktywowane konto!');
-          } else {
-            this.notificationService.notify(NotificationType.ERROR,"Somethig went wrong");
-          }
-          // TODO nie zalogoowano, błędne dane, wyświelić komunikat.
+    this.authenticationService.login(this.userLoginForm.value).subscribe(
+      (response: HttpResponse<User>) => {
+        const token = response.headers.get('Jwt-Token');
+        this.authenticationService.saveToken(token!);
+        this.authenticationService.addUserToLocalCache(response.body!);
+        this.isUserLogin = true;
+        closeFunction();
+      },
+      (errorResponse: HttpErrorResponse) => {
+        if (errorResponse.status === 401) {
+          this.notificationService.notify(
+            NotificationType.ERROR,
+            'Email/haso nieprawidłowe'
+          );
+        } else if (errorResponse.status === 403) {
+          this.notificationService.notify(
+            NotificationType.ERROR,
+            'Twoje konto nie jest aktywowane!'
+          );
+        } else {
+          this.notificationService.notify(
+            NotificationType.ERROR,
+            'Somethig went wrong'
+          );
         }
-      );
-    }
+        // TODO nie zalogoowano, błędne dane, wyświelić komunikat.
+      }
+    );
   }
 
   register(closeFunction: any) {
@@ -190,6 +194,10 @@ export class LoginComponent implements OnInit {
   }
 
   isLoginFieldValid(): boolean {
+    this.userLoginForm.setValue({
+      email: this.userLoginForm.value.email.toLowerCase(),
+      password: this.userLoginForm.value.password,
+    });
     return this.isFiledsValid(this.userLoginForm);
   }
 

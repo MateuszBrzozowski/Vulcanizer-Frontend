@@ -37,6 +37,13 @@ export class AuthInterceptor implements HttpInterceptor {
     ) {
       return httpHandler.handle(httpRequest);
     }
+    if (
+      httpRequest.url.includes(
+        `${this.authenticationService.apiServerUrl}/users/confirm`
+      )
+    ) {
+      return httpHandler.handle(httpRequest);
+    }
     this.authenticationService.loadToken();
     const token = this.authenticationService.getToken();
     const request = httpRequest.clone({

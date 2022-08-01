@@ -53,6 +53,8 @@
         </li>
       </ul>
 
+      <!-- Rest tab -->
+
       <div *ngIf="isResetPassTab" id="form-reset-password">
         <!-- Email input -->
         <div class="form-outline">
@@ -129,6 +131,8 @@
           Cancel
         </button>
       </div>
+
+      <!-- Login Tab -->
 
       <div *ngIf="isLoginTab" id="form-login" [formGroup]="userLoginForm">
         <!-- Email input -->
