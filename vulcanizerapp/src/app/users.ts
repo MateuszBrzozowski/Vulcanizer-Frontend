@@ -4,6 +4,9 @@ export class User {
   firstName: string = '';
   lastName: string = '';
   email: string = '' ;
+  phone: string = '' ;
+  birthDate: string = '' ;
+  gender: string = '' ;
 
   constructor(firstName: string, lastName: string, email: string) {
     this.firstName = firstName;

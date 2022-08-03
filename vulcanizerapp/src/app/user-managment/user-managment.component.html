@@ -1,0 +1,279 @@
+<div class="main">
+  <div class="user-managment-container">
+    <div class="managment-body">
+      <div class="menu">
+        <div class="username-details">
+          <h4>{{ username }}</h4>
+        </div>
+        <button id="menu-section__first" (click)="setContentData()">
+          <span>Konto</span>
+        </button>
+        <button (click)="setContentVisits()">
+          <span>Wizyty</span>
+        </button>
+        <button (click)="setContentFavorits()">
+          <span>Ulubione</span>
+        </button>
+        <button (click)="setContentBusiness()">
+          <span>Biznes</span>
+        </button>
+        <button id="logout-button" (click)="logout()">
+          <span>Wyloguj</span>
+        </button>
+      </div>
+      <div class="content">
+        <div *ngIf="isContentData" class="content-section_container">
+          <!-- Account Details -->
+
+          <div class="header">
+            <h2>Ustawienia konta</h2>
+          </div>
+          <div class="content-section">
+            <div class="header">
+              <h4>Szczegóły konta</h4>
+            </div>
+            <div class="managment-form">
+              <form
+                [formGroup]="userAccountDetails"
+                id="form-account-details"
+                class="form"
+              >
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="InputFirstName"
+                    required="required"
+                    formControlName="firstName"
+                  />
+                  <label for="InputFirstName" class="form-label">Imie</label>
+                  <small>Imię jest wymagane.</small>
+                </div>
+
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="InputLastName"
+                    required="required"
+                    formControlName="lastName"
+                  />
+                  <label for="InputLastName" class="form-label">Nazwisko</label>
+                  <small>Nazwisko jest wymagane.</small>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="email, text"
+                    class="form-control"
+                    id="InputEmail"
+                    required="required"
+                    formControlName="email"
+                  />
+                  <label for="InputEmail" class="form-label">Email</label>
+                  <small>Email jest wymagany.</small>
+                  <small>Nieprawidłowy adres email.</small>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="InputPhone"
+                    required=""
+                    formControlName="phone"
+                  />
+                  <label for="InputPhone" class="form-label">Telefon</label>
+                  <small>Nieprawidłowy numer telefonu.</small>
+                </div>
+                <div class="form-group">
+                  <h5>Płeć</h5>
+                  <div class="gender">
+                    <button type="menu" class="btn btn-left btn-selected">
+                      <img src="assets/icon/gender-1.svg" alt="Mężczyzna" />
+                    </button>
+                    <button type="menu" class="btn">
+                      <img src="assets/icon/gender-2.svg" alt="" />
+                    </button>
+                    <button type="menu" class="btn btn-right"></button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <h5>Dzień urodzenia</h5>
+                  <div class="birth-date">
+                    <!-- formControlName="" -->
+
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="InputDay"
+                        required=""
+                        placeholder="DD"
+                      />
+                      <label for="InputDay" class="form-label">Dzień</label>
+                    </div>
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="InputMonth"
+                        required=""
+                        placeholder="MM"
+                      />
+                      <label for="InputMonth" class="form-label">Miesiąc</label>
+                    </div>
+                    <div class="form-group">
+                      <input
+                        type="number"
+                        maxlength="4"
+                        class="form-control"
+                        id="InputYear"
+                        required=""
+                        placeholder="RRRR"
+                      />
+                      <label for="InputYear" class="form-label">Rok</label>
+                    </div>
+                  </div>
+                  <small>Nieprawdidłowy dzień</small>
+                  <small>Nieprawdidłowy miesiąc</small>
+                  <small>Nieprawdidłowy rok</small>
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  (click)="accountDetailsUpdate()"
+                >
+                  Aktualizuj
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Address -->
+
+          <div class="content-section">
+            <div class="header">
+              <h4>Adres</h4>
+            </div>
+            <div class="managment-form">
+              <form>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    maxlength="100"
+                    class="form-control"
+                    id="InputStreet"
+                    required="required"
+                    aria-describedby="emailHelp"
+                  />
+                  <label for="InputStreet" class="form-label"
+                    >Ulica i numer</label
+                  >
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    maxlength="40"
+                    class="form-control"
+                    id="InputCity"
+                    required="required"
+                    aria-describedby="emailHelp"
+                  />
+                  <label for="InputCity" class="form-label">Miasto</label>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    maxlength="6"
+                    class="form-control"
+                    id="InputPostalCode"
+                    required="required"
+                    aria-describedby="emailHelp"
+                  />
+                  <label for="InputPostalCode" class="form-label"
+                    >Kod pocztowy</label
+                  >
+                  <small>Nieprawdidłowy kod pocztowy</small>
+                </div>
+                <div class="form-group">
+                  <label for="state">Województwo</label>
+                  <select class="form-control" id="state">
+                    <option></option>
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  (click)="accounAddressUpdate()"
+                >
+                  Aktualizuj
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Changing password -->
+
+          <div class="content-section">
+            <div class="header">
+              <h4>Zmiana hasła</h4>
+            </div>
+            <div class="managment-form">
+              <form [formGroup]="newPasswordGroup" class="form">
+                <div class="form-group">
+                  <input
+                    type="password"
+                    maxlength="30"
+                    class="form-control"
+                    id="InputNewPass"
+                    required="required"
+                    aria-describedby="emailHelp"
+                    formControlName="password"
+                    (click)="passTouch()"
+                  />
+                  <label for="InputNewPass" class="form-label"
+                    >Nowe hasło</label
+                  >
+                </div>
+                <div class="form-group">
+                  <input
+                    type="password"
+                    maxlength="30"
+                    class="form-control"
+                    id="InputNewPassRepeat"
+                    required="required"
+                    aria-describedby="emailHelp"
+                    formControlName="passwordRepeat"
+                    (click)="passTouch()"
+                  />
+                  <label for="InputNewPassRepeat" class="form-label"
+                    >Powtórz nowe hasło</label
+                  >
+                  <small *ngIf="passNotSameMessage">Podane hasła nie są identyczne</small>
+                  <small *ngIf="passToShortMessage">Minimalna długość hasła: 6 znaków</small>
+                </div>
+                <button
+                  *ngIf="passTouched"
+                  type="submit"
+                  class="btn btn-danger"
+                  (click)="accountUpdatePassword()"
+                  [disabled]="!newPassValid()"
+                >
+                  Zmień hasło
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isContentVisits" class="content-section_container">
+          Wizyty
+        </div>
+        <div *ngIf="isContentFavorits" class="content-section_container">
+          Ulubione
+        </div>
+        <div *ngIf="isContentBusiness" class="content-section_container">
+          Biznes
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

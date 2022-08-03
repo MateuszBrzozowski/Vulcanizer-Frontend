@@ -8,7 +8,7 @@
 </button>
 
 <div *ngIf="isUserLogin" id="login-details" class="login-details">
-  <button class="login-button" id="username">{{username}}</button>
+  <button class="login-button" id="username" (click)="userManagment()">{{username}}</button>
 </div>
 
 <ng-template #content let-c="close" let-d="dismiss">

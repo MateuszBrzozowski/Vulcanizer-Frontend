@@ -32,6 +32,11 @@ export class LoginComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   public username: string = 'Username';
 
+  private ACCOUNT_LOCKED: string =
+    'Your account has been locked. Please contact administration';
+    private ACCOUNT_BANNED: string = 
+    'User has active ban'
+
   userRegisterForm: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -80,10 +85,12 @@ export class LoginComponent implements OnInit {
   checkIsUserLogin(): void {
     this.isUserLogin = this.authenticationService.isLoggedIn();
     let user = this.authenticationService.getUserFromLocalCahce();
-    if(user !=null){
-      if(user.firstName !=null){
+    if (user != null) {
+      if (user.firstName != null) {
         this.username = user.firstName;
       }
+    } else {
+      this.username = 'Username';
     }
   }
 
@@ -111,6 +118,13 @@ export class LoginComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  logout() {
+    this.authenticationService.logOut();
+    this.checkIsUserLogin();
+    console.log(this.isUserLogin);
+    this.ngOnInit();
   }
 
   registerTab() {
@@ -149,10 +163,22 @@ export class LoginComponent implements OnInit {
             'Email/haso nieprawidłowe'
           );
         } else if (errorResponse.status === 403) {
-          this.notificationService.notify(
-            NotificationType.ERROR,
-            'Twoje konto nie jest aktywowane!'
-          );
+          if (errorResponse.error.message === this.ACCOUNT_LOCKED) {
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              'Twoje konto zostało zablokowane! Aby odzyskać dostęp zresetuj hasło!'
+            );
+          } else if (errorResponse.error.message === this.ACCOUNT_BANNED) {
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              'Twoje konto zostało zbanowane! Po więcej szczegółów skontaktuj się z administracją!'
+            );
+          } else {
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              'Twoje konto nie zostało aktywowane!'
+            );
+          }
         } else {
           this.notificationService.notify(
             NotificationType.ERROR,
@@ -270,5 +296,9 @@ export class LoginComponent implements OnInit {
         );
     }
     this.closeResetPassTab(closeFunction);
+  }
+
+  userManagment() {
+    this.router.navigateByUrl('/user/managment');
   }
 }

@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './users';
+import { NotificationService } from './service/notification.service';
+import { NotificationType } from './enum/notification-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,10 @@ import { User } from './users';
 export class UserService {
   private apiServerUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private notificationService: NotificationService
+  ) {}
 
   /**
    * getUsers
@@ -26,7 +31,28 @@ export class UserService {
 
   public addUsersToLocalCache(users: User[]): void {
     localStorage.setItem('users', JSON.stringify(users));
-  
+  }
+
+  /**
+   * saveNewPassword
+   */
+  public saveNewPassword(newPassword: string) {
+    let params = new FormData();
+    params.append('pass', newPassword);
+    this.http.put(`${this.apiServerUrl}/users/newpass`, params).subscribe(
+      (response) => {
+        this.notificationService.notify(
+          NotificationType.SUCCESS,
+          'Hasło zostało zmienione'
+        );
+      },
+      (error: HttpErrorResponse) => {
+        this.notificationService.notify(
+          NotificationType.ERROR,
+          'Coś poszło nie tak! Sprbuj ponownie później'
+        );
+      }
+    );
   }
 
   /**

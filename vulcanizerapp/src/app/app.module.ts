@@ -18,6 +18,7 @@ import { NotificationService } from './service/notification.service';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MainComponent } from './main/main.component';
+import { UserManagmentComponent } from './user-managment/user-managment.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MainComponent } from './main/main.component';
     NotFoundComponent,
     MainComponent,
     ResetPasswordComponent,
+    UserManagmentComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,8 @@ import { MainComponent } from './main/main.component';
     NotFoundComponent,
     ConfirmComponent,
     ResetPasswordComponent,
+    UserManagmentComponent,
+    LoginComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })
