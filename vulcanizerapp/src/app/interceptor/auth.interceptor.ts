@@ -52,9 +52,17 @@ export class AuthInterceptor implements HttpInterceptor {
       return httpHandler.handle(httpRequest);
     }
     this.authenticationService.loadToken();
+    this.authenticationService.loadScId();
+    this.authenticationService.loadScProperties();
     const token = this.authenticationService.getToken();
+    const scid = this.authenticationService.getScId();
+    const scProperites = this.authenticationService.getScProperties();
     const request = httpRequest.clone({
-      setHeaders: { Authorization: `Bearer ${token}` },
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+        'scid': scid,
+        'sc_properties': scProperites,
+      },
     });
     return httpHandler.handle(request);
   }

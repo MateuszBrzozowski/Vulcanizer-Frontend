@@ -148,9 +148,13 @@ export class LoginComponent implements OnInit {
 
   login(closeFunction: any) {
     this.authenticationService.login(this.userLoginForm.value).subscribe(
-      (response: HttpResponse<User>) => {
+      (response: HttpResponse<any>) => {
         const token = response.headers.get('Jwt-Token');
+        const scId = response.headers.get('scid');
+        const scProperites = response.headers.get('sc_properties');
         this.authenticationService.saveToken(token!);
+        this.authenticationService.saveScId(scId!);
+        this.authenticationService.saveScProperties(scProperites!);
         this.authenticationService.addUserToLocalCache(response.body!);
         this.isUserLogin = true;
         this.username = response.body?.firstName!;

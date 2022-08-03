@@ -16,6 +16,8 @@ import { LoginComponent } from '../login/login.component';
 export class AuthenticationService {
   apiServerUrl = environment.apiBaseUrl;
   private token: string = '';
+  private scId: string = '';
+  private scProperties: string = '';
   private loggedInUsername: string = '';
   private jwtHelper = new JwtHelperService();
 
@@ -23,7 +25,7 @@ export class AuthenticationService {
     private http: HttpClient
   ) {}
 
-  public login(user: UserLogin): Observable<HttpResponse<User>> {
+  public login(user: UserLogin): Observable<HttpResponse<any>> {
     return this.http.post<User>(`${this.apiServerUrl}/users/login`, user, {
       observe: 'response',
     });
@@ -35,15 +37,29 @@ export class AuthenticationService {
 
   public logOut(): void {
     this.token = '';
+    this.scId = '';
+    this.scProperties = '';
     this.loggedInUsername = '';
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    localStorage.removeItem('scid');
+    localStorage.removeItem('scproperties');
     localStorage.removeItem('users');
   }
 
   public saveToken(token: string): void {
     this.token = token;
     localStorage.setItem('token', token);
+  }
+
+  public saveScId(scId: string): void {
+    this.scId = scId;
+    localStorage.setItem('scid', scId);
+  }
+
+  public saveScProperties(scProperties: string): void {
+    this.scProperties = scProperties;
+    localStorage.setItem('scproperties', scProperties);
   }
 
   public addUserToLocalCache(user: User): void {
@@ -58,8 +74,25 @@ export class AuthenticationService {
     this.token = localStorage.getItem('token')!;
   }
 
+  public loadScId(): void {
+    this.scId = localStorage.getItem('scid')!;
+  }
+
+  public loadScProperties(): void {
+    this.scProperties = localStorage.getItem('scproperties')!;
+  }
+
+
   public getToken(): string {
     return this.token;
+  }
+
+  public getScId(): string {
+    return this.scId;
+  }
+
+  public getScProperties(): string {
+    return this.scProperties;
   }
 
   public isLoggedIn(): boolean {

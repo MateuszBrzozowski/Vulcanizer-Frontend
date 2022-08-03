@@ -10,6 +10,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './users';
 import { NotificationService } from './service/notification.service';
 import { NotificationType } from './enum/notification-type.enum';
+import { AuthenticationService } from './service/authentication.service';
+import { Router } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +22,7 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private notificationService: NotificationService
+    private authenticationService: AuthenticationService
   ) {}
 
   /**
@@ -36,23 +39,12 @@ export class UserService {
   /**
    * saveNewPassword
    */
-  public saveNewPassword(newPassword: string) {
+  public saveNewPassword(newPassword: string): Observable<HttpResponse<User>> {
     let params = new FormData();
     params.append('pass', newPassword);
-    this.http.put(`${this.apiServerUrl}/users/newpass`, params).subscribe(
-      (response) => {
-        this.notificationService.notify(
-          NotificationType.SUCCESS,
-          'Hasło zostało zmienione'
-        );
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationService.notify(
-          NotificationType.ERROR,
-          'Coś poszło nie tak! Sprbuj ponownie później'
-        );
-      }
-    );
+    return this.http.put<User>(`${this.apiServerUrl}/users/newpass`, params, {
+      observe: 'response',
+    });
   }
 
   /**

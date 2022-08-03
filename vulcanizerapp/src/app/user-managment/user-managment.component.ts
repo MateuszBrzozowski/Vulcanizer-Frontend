@@ -1,10 +1,13 @@
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { STRING_TYPE } from '@angular/compiler';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NotificationType } from '../enum/notification-type.enum';
 import { State } from '../enum/states.enum';
 import { LoginComponent } from '../login/login.component';
 import { AuthenticationService } from '../service/authentication.service';
+import { NotificationService } from '../service/notification.service';
 import { UserService } from '../user.service';
 import { User } from '../users';
 
@@ -46,6 +49,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private router: Router,
     private loginComponent: LoginComponent,
+    private notificationService: NotificationService,
     private userService: UserService
   ) {
     if (!this.authenticationService.isLoggedIn()) {
@@ -76,9 +80,9 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
 
   logout() {
     this.loginComponent.logout();
-    this.loginComponent;
+    this.loginComponent.isLoginTab =true;
     window.location.reload();
-    this.router.navigateByUrl('');
+    // this.router.navigateByUrl('');
     this.setContentData();
   }
 
@@ -133,7 +137,28 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
 
   accountUpdatePassword() {
     if (this.checkNewPassword()) {
-      this.userService.saveNewPassword(this.newPasswordGroup.value.password);
+      this.userService.saveNewPassword(this.newPasswordGroup.value.password).subscribe(
+        (response : HttpResponse<User>) => {
+          const token = response.headers.get('Jwt-Token');
+          const scId = response.headers.get('scid');
+          const scProperites = response.headers.get('sc_properties');
+          this.authenticationService.saveToken(token!);
+          this.authenticationService.saveScId(scId!);
+          this.authenticationService.saveScProperties(scProperites!);
+          this.authenticationService.addUserToLocalCache(response.body!);
+          this.notificationService.notify(
+            NotificationType.SUCCESS,
+            'Hasło zostało zmienione'
+          );
+        },
+        (error: HttpErrorResponse) => {
+          this.logout();
+          this.notificationService.notify(
+            NotificationType.ERROR,
+            'Coś poszło nie tak! Sprbuj ponownie później'
+          );
+        }
+      );;
       this.newPasswordGroup.setValue({
         password : '',
         passwordRepeat: ''
