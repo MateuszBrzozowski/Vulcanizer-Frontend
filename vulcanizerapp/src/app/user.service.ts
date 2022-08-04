@@ -48,6 +48,28 @@ export class UserService {
   }
 
   /**
+   * updateAccountDetails
+   */
+  public updateAccountDetails(
+    firstName: string,
+    lastName: string,
+    email: string,
+    phone: string,
+    gender: string,
+    birthDate: string
+  ): Observable<HttpResponse<User>> {
+    let params = new FormData();
+    params.append('firstName', firstName);
+    params.append('lastName', lastName);
+    params.append('email', email);
+    params.append('phone', phone);
+    params.append('gender', gender);
+    params.append('birthDate', birthDate);
+   return this.http.put<User>(`${this.apiServerUrl}/users/update`,params,{observe : 'response'});
+
+  }
+
+  /**
    * getUsersFromLocalCache
    */
   public getUsersFromLocalCache(): User[] {

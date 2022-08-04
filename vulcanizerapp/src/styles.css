@@ -41,7 +41,7 @@ body {
   min-width: 100vw;
   min-height: 100vh;
   font-family: "Barlow Semi Condensed", sans-serif;
-  overflow-x: hidden
+  overflow-x: hidden;
 }
 header {
   background-image: linear-gradient(
@@ -52,15 +52,13 @@ header {
 }
 
 .header {
-  align-items: center;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  max-width: 800px;
-  min-width: 70%;
+  flex-direction: column-reverse;
+  /* max-width: 800px;
+  min-width: 70%; */
   margin: 0 auto;
-  padding: 50px 0px;
-  border-bottom: var(--color-text-white) solid 1px;
+  padding-top: 4vw;
+  padding-bottom: 4vw;
 }
 
 main {
@@ -115,14 +113,14 @@ hypertext:focus {
 }
 
 .form-control:focus ~ .form-label,
-.form-control:valid ~ .form-label{
-  transform: translateX(-1em) translateY(-33px);
+.form-control:valid ~ .form-label {
+  opacity: 100%;
+  transform: translateX(-1em) translateY(-32px);
   color: var(--color-form-focus);
   background-color: var(--color-backgorund-white);
-  font-size: 95%;
+  font-size: 75%;
   transition: ease-in-out 0.2s, background ease-in-out 0.25s;
 }
-
 
 .birth-date .form-group .form-label {
   transform: translateX(-1em) translateY(-33px);
@@ -141,6 +139,7 @@ hypertext:focus {
 }
 
 .form-label {
+  opacity: 0;
   position: absolute;
   padding: 0 5px;
   color: var(--color-form-gray);
@@ -171,8 +170,6 @@ hypertext:focus {
   box-shadow: none;
 }
 
-
-
 .ng-untouched {
   border: var(--color-form-start-border);
 }
@@ -185,7 +182,7 @@ hypertext:focus {
   border: none;
 }
 
-.form{
+.form {
   border: none;
 }
 
@@ -258,16 +255,17 @@ hypertext:focus {
 }
 
 h1 span {
-  display: block;
+  display: flex;
   font-weight: 400;
   font-size: 1em;
+  justify-content: center;
+  /* align-items: center; */
 }
 
 .login {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-left: 10px;
 }
 
 .login span {
@@ -321,8 +319,6 @@ h1 span {
   flex-direction: column;
   min-width: 70%;
 }
-
-
 
 .managment-body {
   display: flex;
@@ -378,7 +374,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -388,12 +384,11 @@ input[type=number] {
   margin-top: 16px;
   grid-template-columns: 80% 80% 80%;
   justify-content: center;
-
+  border-radius: 1px;
 }
 
-.gender .btn{
-  font-size: 1.2vmax 1.0vmin;
-  height: 40px;
+
+.gender .btn {
   border-radius: 0;
   position: relative;
 }
@@ -421,6 +416,7 @@ input[type=number] {
 
 .gender .btn-selected:hover{
   background-color: var(--color-button-selected);
+  transition: background 0.4s;
 }
 
 .gender .btn-selected:focus{
@@ -428,27 +424,14 @@ input[type=number] {
 }
 
 .gender .btn img {
-    margin: 0 auto;
-    aspect-ratio: 1/1;
-    height: 80%;
+  margin: 0 auto;
+  aspect-ratio: 1/1;
+  height: 80%;
 }
 
-.birth-date{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-self: center;
-  justify-items: center;
-  position: relative;
-}
-
-
-.birth-date #InputDay{
-  
-}
-
-.birth-date .form-group {
-  width: 100px;
+.birth-date {
+  width: 80%;
+  margin: 0 auto;
 }
 
 .form-group small {
@@ -459,7 +442,7 @@ input[type=number] {
   color: red;
 }
 
-.managment-form .form-control{
+.managment-form .form-control {
   background-color: none;
 }
 .content-section_container {
@@ -475,18 +458,18 @@ input[type=number] {
   position: relative;
 }
 
-.content-section .header{
+.content-section .header {
   position: absolute;
   transform: translateY(-1em) translateY(-50%);
   background-color: var(--color-backgorund-white);
   min-width: 0;
-} 
+}
 
 .content-section .header h4 {
   padding: 0 0.5em;
 }
 
-.content .header{
+.content .header {
   padding: 0;
   margin: 0;
   border: none;
@@ -496,7 +479,7 @@ input[type=number] {
   width: 100vw;
 }
 
-.managment-form{
+.managment-form {
   padding: 1em;
 }
 
@@ -650,10 +633,9 @@ input {
     min-width: 400px;
   }
 
-  .menu button{
+  .menu button {
     padding: 0.5em;
   }
-
 }
 @media (min-width: 641px) {
   /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
@@ -665,7 +647,7 @@ input {
     width: 250px;
   }
 
-  .menu button{
+  .menu button {
     padding: 0.8em;
   }
 
@@ -673,27 +655,53 @@ input {
     width: 343px;
     margin: 0 24px;
   }
-  
+
+  .header {
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    justify-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 800px;
+    min-width: 70%;
+    margin: 0 auto;
+    padding-top: 4vw;
+    padding-bottom: 4vw;
+  }
+
+  h1 span {
+    display: block;
+    font-weight: 400;
+    font-size: 1em;
+  }
+
+  .login {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 10px;
+  }
 }
 @media (min-width: 961px) {
   /* tablet, landscape iPad, lo-res laptops ands desktops */
   .content {
     width: 500px;
   }
-  .user-managment-container{
+  .user-managment-container {
     display: flex;
     justify-self: center;
     margin: 0 auto;
-    
   }
 
-  .content-section_container{
+  .content-section_container {
     margin: 20px 0 0 40px;
   }
 
-  .content-section{
+  .content-section {
     margin: 36px 0 0 20px;
   }
+
 }
 @media (min-width: 1025px) {
   /* big landscape tablets, laptops, and desktops */
@@ -701,3 +709,6 @@ input {
 @media (min-width: 1281px) {
   /* hi-res laptops and desktops */
 }
+
+/* html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */

@@ -16,25 +16,5 @@ export class State {
   WIELKOPOLSKIE = 'Wielkopolskie';
   ZACHODNIO_POMORSKIE = 'Zachodniopomorskie';
 
-  getAllState(): Array<string> {
-    let listOfState: Array<string> = [
-      this.DOLNOSLASKIE,
-      this.KUJAWSKO_POMORSKIE,
-      this.LUBELSKIE,
-      this.LUBUSKIE,
-      this.LODZKIE,
-      this.MALOPOLSKIE,
-      this.MAZOWIECKIE,
-      this.OPOLSKIE,
-      this.PODKARPACKIE,
-      this.PODLASKIE,
-      this.POMORSKIE,
-      this.SLASKIE,
-      this.SWIETOKRZYSKIE,
-      this.WARMINSKO_MAZURSKIE,
-      this.WIELKOPOLSKIE,
-      this.ZACHODNIO_POMORSKIE,
-    ];
-    return listOfState;
-  }
+  constructor(){}
 }

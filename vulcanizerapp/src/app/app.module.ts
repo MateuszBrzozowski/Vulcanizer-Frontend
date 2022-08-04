@@ -19,6 +19,8 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MainComponent } from './main/main.component';
 import { UserManagmentComponent } from './user-managment/user-managment.component';
+import { State } from './enum/states.enum'
+
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { UserManagmentComponent } from './user-managment/user-managment.componen
     ConfirmComponent,
     ResetPasswordComponent,
     UserManagmentComponent,
-    LoginComponent
+    LoginComponent,
+    State
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

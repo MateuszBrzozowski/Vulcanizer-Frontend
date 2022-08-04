@@ -22,10 +22,14 @@
         </button>
       </div>
       <div class="content">
-        <div *ngIf="isContentData" class="content-section_container">
+        <div
+          #contentData
+          [hidden]="!isContentData"
+          class="content-section_container"
+        >
           <!-- Account Details -->
 
-          <div class="header">
+          <div class="header" ng-init="callBakc()">
             <h2>Ustawienia konta</h2>
           </div>
           <div class="content-section">
@@ -41,109 +45,133 @@
                 <div class="form-group">
                   <input
                     type="text"
+                    maxlength="50"
                     class="form-control"
                     id="InputFirstName"
+                    placeholder="Imie"
                     required="required"
+                    (keyup)="validFirstName()"
                     formControlName="firstName"
                   />
                   <label for="InputFirstName" class="form-label">Imie</label>
-                  <small>Imię jest wymagane.</small>
+                  <small *ngIf="firstNameIsRequiredMessage"
+                    >Imię jest wymagane.</small
+                  >
                 </div>
 
                 <div class="form-group">
                   <input
                     type="text"
                     class="form-control"
+                    maxlength="50"
                     id="InputLastName"
+                    placeholder="Nazwisko"
                     required="required"
+                    (keyup)="validLastName()"
                     formControlName="lastName"
                   />
                   <label for="InputLastName" class="form-label">Nazwisko</label>
-                  <small>Nazwisko jest wymagane.</small>
+                  <small *ngIf="lastNameIsRequiredMessage"
+                    >Nazwisko jest wymagane.</small
+                  >
                 </div>
                 <div class="form-group">
                   <input
                     type="email, text"
+                    maxlength="150"
                     class="form-control"
                     id="InputEmail"
                     required="required"
+                    placeholder="Email"
                     formControlName="email"
+                    (keyup)="validEmail()"
                   />
                   <label for="InputEmail" class="form-label">Email</label>
-                  <small>Email jest wymagany.</small>
-                  <small>Nieprawidłowy adres email.</small>
+                  <small *ngIf="emailIsRequiredMessage"
+                    >Email jest wymagany.</small
+                  >
+                  <small *ngIf="emailIsNotValidMessage"
+                    >Nieprawidłowy adres email.</small
+                  >
                 </div>
                 <div class="form-group">
                   <input
                     type="text"
+                    maxlength="15"
                     class="form-control"
                     id="InputPhone"
-                    required=""
+                    required="required"
                     formControlName="phone"
+                    placeholder="Telefon"
+                    #phoneNumber
+                    (keyup)="validPhone()"
                   />
                   <label for="InputPhone" class="form-label">Telefon</label>
-                  <small>Nieprawidłowy numer telefonu.</small>
+                  <small *ngIf="phoneIsNotValidMessage"
+                    >Nieprawidłowy numer telefonu.</small
+                  >
                 </div>
                 <div class="form-group">
                   <h5>Płeć</h5>
                   <div class="gender">
-                    <button type="menu" class="btn btn-left btn-selected">
+                    <button
+                      #btnMale
+                      id="btnMale"
+                      type="menu"
+                      class="btn btn-left"
+                      (click)="maleClick(btnMale, btnFemale, btnNull)"
+                    >
                       <img src="assets/icon/gender-1.svg" alt="Mężczyzna" />
                     </button>
-                    <button type="menu" class="btn">
+                    <button
+                      #btnFemale
+                      id="btnFemale"
+                      type="menu"
+                      class="btn"
+                      (click)="femaleClick(btnMale, btnFemale, btnNull)"
+                    >
                       <img src="assets/icon/gender-2.svg" alt="" />
                     </button>
-                    <button type="menu" class="btn btn-right"></button>
+                    <button
+                      #btnNull
+                      id="btnNull"
+                      type="menu"
+                      class="btn btn-right"
+                      (click)="genderNullClick(btnMale, btnFemale, btnNull)"
+                    >
+                      <img src="assets/icon/gender-3.svg" alt="" />
+                    </button>
                   </div>
+                </div>
+                <div class="form-group birth-date">
+                  <!-- formControlName="" -->
+                  <input
+                  #birthDate
+                    type="text"
+                    class="form-control"
+                    id="InputDate"
+                    required="required"
+                    placeholder="Dzień urodzenia YYYY-MM-DD"
+                    [formControl]="birthDateControl"
+                    (keyup)="dateController()"
+                  />
+                  <label for="InputDate" class="form-label"
+                    >Dzień urodzenia YYYY-MM-DD</label
+                  >
+
+                  <small *ngIf="birthDateIsNotValidMessage"
+                    >Nieprawdidłowa data</small
+                  >
                 </div>
                 <div class="form-group">
-                  <h5>Dzień urodzenia</h5>
-                  <div class="birth-date">
-                    <!-- formControlName="" -->
-
-                    <div class="form-group">
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="InputDay"
-                        required=""
-                        placeholder="DD"
-                      />
-                      <label for="InputDay" class="form-label">Dzień</label>
-                    </div>
-                    <div class="form-group">
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="InputMonth"
-                        required=""
-                        placeholder="MM"
-                      />
-                      <label for="InputMonth" class="form-label">Miesiąc</label>
-                    </div>
-                    <div class="form-group">
-                      <input
-                        type="number"
-                        maxlength="4"
-                        class="form-control"
-                        id="InputYear"
-                        required=""
-                        placeholder="RRRR"
-                      />
-                      <label for="InputYear" class="form-label">Rok</label>
-                    </div>
-                  </div>
-                  <small>Nieprawdidłowy dzień</small>
-                  <small>Nieprawdidłowy miesiąc</small>
-                  <small>Nieprawdidłowy rok</small>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    (click)="accountDetailsUpdate()"
+                  >
+                    Aktualizuj
+                  </button>
                 </div>
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  (click)="accountDetailsUpdate()"
-                >
-                  Aktualizuj
-                </button>
               </form>
             </div>
           </div>
@@ -163,6 +191,7 @@
                     class="form-control"
                     id="InputStreet"
                     required="required"
+                    placeholder="Ulica i numer"
                     aria-describedby="emailHelp"
                   />
                   <label for="InputStreet" class="form-label"
@@ -176,6 +205,7 @@
                     class="form-control"
                     id="InputCity"
                     required="required"
+                    placeholder="Miasto"
                     aria-describedby="emailHelp"
                   />
                   <label for="InputCity" class="form-label">Miasto</label>
@@ -187,17 +217,24 @@
                     class="form-control"
                     id="InputPostalCode"
                     required="required"
+                    placeholder="Kod pocztowy XX-XXX"
                     aria-describedby="emailHelp"
                   />
                   <label for="InputPostalCode" class="form-label"
-                    >Kod pocztowy</label
+                    >Kod pocztowy XX-XXX</label
                   >
                   <small>Nieprawdidłowy kod pocztowy</small>
                 </div>
                 <div class="form-group">
                   <label for="state">Województwo</label>
                   <select class="form-control" id="state">
-                    <option></option>
+                    <option
+                      *ngFor="let state of states"
+                      [value]="state.id"
+                      [selected]="state.id == stateSelected"
+                    >
+                      {{ state.label }}
+                    </option>
                   </select>
                 </div>
                 <button
@@ -248,8 +285,12 @@
                   <label for="InputNewPassRepeat" class="form-label"
                     >Powtórz nowe hasło</label
                   >
-                  <small *ngIf="passNotSameMessage">Podane hasła nie są identyczne</small>
-                  <small *ngIf="passToShortMessage">Minimalna długość hasła: 6 znaków</small>
+                  <small *ngIf="passNotSameMessage"
+                    >Podane hasła nie są identyczne</small
+                  >
+                  <small *ngIf="passToShortMessage"
+                    >Minimalna długość hasła: 6 znaków</small
+                  >
                 </div>
                 <button
                   *ngIf="passTouched"

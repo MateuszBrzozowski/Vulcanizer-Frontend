@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { STRING_TYPE } from '@angular/compiler';
+import { IfStmt } from '@angular/compiler';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -24,10 +24,28 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public isContentFavorits: boolean = false;
   public isContentBusiness: boolean = false;
   public passTouched: boolean = false;
+  public stateSelected: number = 0;
+
+  //account details validation message controls below inputs
+  public accountDetailsIsChanged: boolean = false;
+  public firstNameIsRequiredMessage: boolean = false;
+  public lastNameIsRequiredMessage: boolean = false;
+  public emailIsRequiredMessage: boolean = false;
+  public emailIsNotValidMessage: boolean = false;
+  public phoneIsNotValidMessage: boolean = false;
+  public birthDateIsNotValidMessage: boolean = false;
 
   //validation not valid message below inputs
   public passNotSameMessage: boolean = false;
   public passToShortMessage: boolean = false;
+
+  //SavedData
+  private firstName: string = '';
+  private lastName: string = '';
+  private email: string = '';
+  private phone: string = '';
+  private gender: string = '';
+  private birthDate: string = '';
 
   userAccountDetails: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -39,18 +57,43 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     ]),
     phone: new FormControl('', [Validators.maxLength(13)]),
   });
+  public birthDateControl = new FormControl('');
+  public genderMale: boolean = false;
+  public genderFemale: boolean = false;
+  public genderNull: boolean = false;
 
   newPasswordGroup: FormGroup = new FormGroup({
     password: new FormControl('', Validators.required),
     passwordRepeat: new FormControl('', Validators.required),
   });
 
+  states = [
+    { id: 0, label: '' },
+    { id: 1, label: this.stateClass.DOLNOSLASKIE },
+    { id: 2, label: this.stateClass.KUJAWSKO_POMORSKIE },
+    { id: 3, label: this.stateClass.LUBELSKIE },
+    { id: 4, label: this.stateClass.LUBUSKIE },
+    { id: 5, label: this.stateClass.LODZKIE },
+    { id: 6, label: this.stateClass.MALOPOLSKIE },
+    { id: 7, label: this.stateClass.MAZOWIECKIE },
+    { id: 8, label: this.stateClass.OPOLSKIE },
+    { id: 9, label: this.stateClass.PODKARPACKIE },
+    { id: 10, label: this.stateClass.PODLASKIE },
+    { id: 11, label: this.stateClass.POMORSKIE },
+    { id: 12, label: this.stateClass.SLASKIE },
+    { id: 13, label: this.stateClass.SWIETOKRZYSKIE },
+    { id: 14, label: this.stateClass.WARMINSKO_MAZURSKIE },
+    { id: 15, label: this.stateClass.WIELKOPOLSKIE },
+    { id: 16, label: this.stateClass.ZACHODNIO_POMORSKIE },
+  ];
+
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
     private loginComponent: LoginComponent,
     private notificationService: NotificationService,
-    private userService: UserService
+    private userService: UserService,
+    private stateClass: State
   ) {
     if (!this.authenticationService.isLoggedIn()) {
       this.router.navigateByUrl('');
@@ -64,33 +107,34 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     let user: User = this.authenticationService.getUserFromLocalCahce();
     this.username = user.firstName + ' ' + user.lastName;
+    this.saveSavedData();
     this.setFields();
   }
 
   fillStateFiled() {
-    let selectState = document.getElementById('state');
-    let listOfStates: Array<string> = new State().getAllState();
+    const btnMale = document.getElementById('btnMale');
+    const btnFemale = document.getElementById('btnFemale');
+    const btnGenderNull = document.getElementById('btnGenderNull');
 
-    for (let index = 0; index < listOfStates.length; index++) {
-      let option = document.createElement('option');
-      option.innerHTML = listOfStates[index];
-      selectState?.appendChild(option);
+    if (this.genderMale) {
+      btnMale?.classList.add('btn-selected');
+    }
+    if (this.genderFemale) {
+      btnFemale?.classList.add('btn-selected');
+    }
+    if (this.genderNull) {
+      btnGenderNull?.classList.add('btn-selected');
     }
   }
 
   logout() {
     this.loginComponent.logout();
-    this.loginComponent.isLoginTab =true;
-    window.location.reload();
-    // this.router.navigateByUrl('');
     this.setContentData();
   }
 
   setContentData() {
     this.setAllContentToFalse();
     this.isContentData = true;
-
-    window.location.reload();
   }
 
   setContentVisits() {
@@ -118,17 +162,214 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   setFields() {
     let user: User = this.authenticationService.getUserFromLocalCahce();
     this.userAccountDetails.setValue({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phone: user.phone,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      phone: this.phone,
     });
+    this.birthDateControl.setValue(this.birthDate);
+    if (user.gender == 'MALE') {
+      this.genderMale = true;
+    } else if (user.gender == 'FEMALE') {
+      this.genderFemale = true;
+    } else if (user.gender == 'UNDEFINED') {
+      this.genderNull = true;
+    }
+  }
+
+  saveSavedData() {
+    let user: User = this.authenticationService.getUserFromLocalCahce();
+    if (user == null) {
+      return;
+    }
+    if (user.firstName != null) {
+      this.firstName = user.firstName;
+    }
+    if (user.lastName != null) {
+      this.lastName = user.lastName;
+    }
+    if (user.email != null) {
+      this.email = user.email;
+    }
+    if (user.phone != null) {
+      this.phone = user.phone;
+    }
+    if (user.gender != null) {
+      this.gender = user.gender;
+    }
+    if (user.birthDate != null) {
+      this.birthDate = user.birthDate;
+    }
   }
 
   accountDetailsUpdate() {
-    throw 'Method not implement';
+    if (this.validDataAccoundDetails()) {
+      this.userService
+        .updateAccountDetails(
+          this.userAccountDetails.value.firstName,
+          this.userAccountDetails.value.lastName,
+          this.userAccountDetails.value.email,
+          this.userAccountDetails.value.phone,
+          this.getGenderString(),
+          this.birthDateControl.value!
+        )
+        .subscribe(
+          (response) => {
+            this.notificationService.notify(
+              NotificationType.SUCCESS,
+              'Dane zostały zapisane'
+            );
+            this.authenticationService.addUserToLocalCache(response.body!);
+          },
+          (error: HttpErrorResponse) => {
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              error.error.message
+            );
+          }
+        );
+    } else {
+      this.notificationService.notify(
+        NotificationType.ERROR,
+        'Operacja niemożliwa'
+      );
+    }
+
     //moze byc invalid bo telefon jest wymagany a nie jest, a chodzi o
     // odpowiednie wyswietlanie przez css :( skoplikowane
+  }
+
+  getGenderString(): string {
+    if (this.genderFemale) {
+      return 'FEMALE';
+    }
+    if (this.genderMale) {
+      return 'MALE';
+    }
+    return 'UNDEFINED';
+  }
+
+  validDataAccoundDetails(): boolean {
+    this.validFirstName();
+    this.validLastName();
+    this.validEmail();
+    this.validPhone();
+    this.validBirthDate();
+    if (
+      this.firstNameIsRequiredMessage ||
+      this.lastNameIsRequiredMessage ||
+      this.emailIsNotValidMessage ||
+      this.emailIsRequiredMessage ||
+      this.phoneIsNotValidMessage ||
+      this.birthDateIsNotValidMessage
+    ) {
+      return false;
+    }
+    return true;
+  }
+
+  validFirstName() {
+    const firstName = this.userAccountDetails.value.firstName;
+    if (firstName.length == 0) {
+      this.firstNameIsRequiredMessage = true;
+    } else {
+      this.firstNameIsRequiredMessage = false;
+    }
+  }
+
+  validLastName() {
+    const lastName = this.userAccountDetails.value.lastName;
+    if (lastName.length == 0) {
+      this.lastNameIsRequiredMessage = true;
+    } else {
+      this.lastNameIsRequiredMessage = false;
+    }
+  }
+
+  validEmail() {
+    const email = this.userAccountDetails.value.email.toLowerCase();
+    if (email.length == 0) {
+      this.emailIsRequiredMessage = true;
+    } else {
+      this.emailIsRequiredMessage = false;
+    }
+    const e = new FormControl(email, [
+      Validators.required,
+      Validators.pattern(this.emailPattern),
+    ]);
+    if (!e.valid) {
+      this.emailIsNotValidMessage = true;
+    } else {
+      this.emailIsNotValidMessage = false;
+    }
+  }
+
+  validPhone() {
+    let phone: string = this.userAccountDetails.value.phone;
+    phone = phone.replace(' ', '');
+    let isValid = /^[0-9]+$/.test(phone);
+    if (!isValid) {
+      this.phoneIsNotValidMessage = true;
+    } else {
+      this.phoneIsNotValidMessage = false;
+    }
+    if (phone.length == 0) {
+      this.phoneIsNotValidMessage = false;
+    }
+  }
+
+  dateController() {
+    if (this.birthDateControl.value?.length == 4) {
+      this.birthDateControl.setValue(this.birthDateControl.value + '-');
+    }
+    if (this.birthDateControl.value?.length == 7) {
+      this.birthDateControl.setValue(this.birthDateControl.value + '-');
+    }
+  }
+
+  validBirthDate() {
+    const birthDay: string | null = this.birthDateControl.value;
+
+    if (birthDay != null) {
+      if (birthDay.length != 0) {
+        if (birthDay.length == 10) {
+          const first: number = birthDay.indexOf('-');
+          const last: number = birthDay.lastIndexOf('-');
+          if (first == 4 && last == 7) {
+            const year = birthDay.substring(0, 4);
+            const month = birthDay.substring(5, 7);
+            const day = birthDay.substring(8, 10);
+            const isValidYear = /^[0-9]+$/.test(year);
+            const isValidMonth = /^[0-9]+$/.test(month);
+            const isValidDay = /^[0-9]+$/.test(day);
+            if (isValidDay && isValidMonth && isValidYear) {
+              const dayInt: number = +day;
+              const monthInt: number = +month;
+              const yearInt: number = +year;
+              const currentYear = new Date().getFullYear();
+              if (
+                dayInt < 1 ||
+                dayInt > 31 ||
+                monthInt < 1 ||
+                monthInt > 12 ||
+                yearInt < 1900 ||
+                yearInt > currentYear - 1
+              ) {
+                this.birthDateIsNotValidMessage = true;
+              } else {
+                this.birthDateIsNotValidMessage = false;
+              }
+            } else {
+              this.birthDateIsNotValidMessage = true;
+            }
+          } else {
+            this.birthDateIsNotValidMessage = true;
+          }
+        } else {
+          this.birthDateIsNotValidMessage = true;
+        }
+      }
+    }
   }
 
   accounAddressUpdate() {
@@ -137,39 +378,41 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
 
   accountUpdatePassword() {
     if (this.checkNewPassword()) {
-      this.userService.saveNewPassword(this.newPasswordGroup.value.password).subscribe(
-        (response : HttpResponse<User>) => {
-          const token = response.headers.get('Jwt-Token');
-          const scId = response.headers.get('scid');
-          const scProperites = response.headers.get('sc_properties');
-          this.authenticationService.saveToken(token!);
-          this.authenticationService.saveScId(scId!);
-          this.authenticationService.saveScProperties(scProperites!);
-          this.authenticationService.addUserToLocalCache(response.body!);
-          this.notificationService.notify(
-            NotificationType.SUCCESS,
-            'Hasło zostało zmienione'
-          );
-        },
-        (error: HttpErrorResponse) => {
-          this.logout();
-          this.notificationService.notify(
-            NotificationType.ERROR,
-            'Coś poszło nie tak! Sprbuj ponownie później'
-          );
-        }
-      );;
+      this.userService
+        .saveNewPassword(this.newPasswordGroup.value.password)
+        .subscribe(
+          (response: HttpResponse<User>) => {
+            const token = response.headers.get('Jwt-Token');
+            const scId = response.headers.get('scid');
+            const scProperites = response.headers.get('sc_properties');
+            this.authenticationService.saveToken(token!);
+            this.authenticationService.saveScId(scId!);
+            this.authenticationService.saveScProperties(scProperites!);
+            this.authenticationService.addUserToLocalCache(response.body!);
+            this.notificationService.notify(
+              NotificationType.SUCCESS,
+              'Hasło zostało zmienione'
+            );
+          },
+          (error: HttpErrorResponse) => {
+            this.logout();
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              'Coś poszło nie tak! Sprbuj ponownie później'
+            );
+          }
+        );
       this.newPasswordGroup.setValue({
-        password : '',
-        passwordRepeat: ''
+        password: '',
+        passwordRepeat: '',
       });
       this.passTouched = false;
     }
   }
 
-   /**
+  /**
    * checkNewPassword
-   * 
+   *
    * Validate password with specific logic
    */
   checkNewPassword(): boolean {
@@ -201,5 +444,44 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     if (!this.passTouched) {
       this.passTouched = true;
     }
+  }
+
+  maleClick(
+    buttonMale: HTMLButtonElement,
+    buttonFemale: HTMLButtonElement,
+    buttonGenderNull: HTMLButtonElement
+  ) {
+    buttonMale.classList.add('btn-selected');
+    buttonFemale.classList.remove('btn-selected');
+    buttonGenderNull.classList.remove('btn-selected');
+    this.genderMale = true;
+    this.genderFemale = false;
+    this.genderNull = false;
+  }
+
+  femaleClick(
+    buttonMale: HTMLButtonElement,
+    buttonFemale: HTMLButtonElement,
+    buttonGenderNull: HTMLButtonElement
+  ) {
+    buttonFemale.classList.add('btn-selected');
+    buttonMale.classList.remove('btn-selected');
+    buttonGenderNull.classList.remove('btn-selected');
+    this.genderFemale = true;
+    this.genderMale = false;
+    this.genderNull = false;
+  }
+
+  genderNullClick(
+    buttonMale: HTMLButtonElement,
+    buttonFemale: HTMLButtonElement,
+    buttonGenderNull: HTMLButtonElement
+  ) {
+    buttonGenderNull.classList.add('btn-selected');
+    buttonMale.classList.remove('btn-selected');
+    buttonFemale.classList.remove('btn-selected');
+    this.genderNull = true;
+    this.genderMale = false;
+    this.genderFemale = false;
   }
 }

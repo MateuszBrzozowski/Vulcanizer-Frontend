@@ -122,9 +122,10 @@ export class LoginComponent implements OnInit {
 
   logout() {
     this.authenticationService.logOut();
+    this.isUserLogin = false;
     this.checkIsUserLogin();
-    console.log(this.isUserLogin);
-    this.ngOnInit();
+    this.router.navigateByUrl('');
+    window.location.reload();
   }
 
   registerTab() {
