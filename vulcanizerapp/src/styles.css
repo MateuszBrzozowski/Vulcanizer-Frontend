@@ -429,11 +429,6 @@ input[type="number"] {
   height: 80%;
 }
 
-.birth-date {
-  width: 80%;
-  margin: 0 auto;
-}
-
 .form-group small {
   color: red;
 }

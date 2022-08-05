@@ -18,6 +18,10 @@ import { User } from '../users';
 })
 export class UserManagmentComponent implements OnInit, AfterViewInit {
   emailPattern: string = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
+  private responseMessageInvalidDate: string =
+    'Invalid date or format (YYYY-MM-DD)';
+  private responseMessageEmailExist: string = 'Email is exist.';
+
   public username: string = '';
   public isContentData: boolean = true;
   public isContentVisits: boolean = false;
@@ -32,10 +36,11 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public lastNameIsRequiredMessage: boolean = false;
   public emailIsRequiredMessage: boolean = false;
   public emailIsNotValidMessage: boolean = false;
+  public emailExist: boolean = false;
   public phoneIsNotValidMessage: boolean = false;
   public birthDateIsNotValidMessage: boolean = false;
 
-  public updateAccountDetailsButtonVisable : boolean = false; 
+  public updateAccountDetailsButtonVisable: boolean = false;
 
   //validation not valid message below inputs
   public passNotSameMessage: boolean = false;
@@ -63,6 +68,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public genderMale: boolean = false;
   public genderFemale: boolean = false;
   public genderNull: boolean = false;
+  private genderSelectedString: string = '';
 
   newPasswordGroup: FormGroup = new FormGroup({
     password: new FormControl('', Validators.required),
@@ -172,10 +178,13 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.birthDateControl.setValue(this.birthDate);
     if (user.gender == 'MALE') {
       this.genderMale = true;
+      this.genderSelectedString = 'MALE';
     } else if (user.gender == 'FEMALE') {
       this.genderFemale = true;
+      this.genderSelectedString = 'FEMALE';
     } else if (user.gender == 'UNDEFINED') {
       this.genderNull = true;
+      this.genderSelectedString = 'UNDEFINED';
     }
   }
 
@@ -195,33 +204,43 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
     if (user.phone != null) {
       this.phone = user.phone;
+    } else {
+      this.phone = '';
     }
     if (user.gender != null) {
       this.gender = user.gender;
+    } else {
+      this.gender = 'UNDEFINED';
     }
     if (user.birthDate != null) {
       this.birthDate = user.birthDate;
+    } else {
+      this.birthDate = '';
     }
   }
 
-  accountDetailsValueChanges(){
-    if(this.firstName !== this.userAccountDetails.value.firstName){
+  accountDetailsValueChanges() {
+    if (this.firstName !== this.userAccountDetails.value.firstName) {
       this.updateAccountDetailsButtonVisable = true;
       return;
     }
-    if(this.lastName !== this.userAccountDetails.value.lastName){
+    if (this.lastName !== this.userAccountDetails.value.lastName) {
       this.updateAccountDetailsButtonVisable = true;
       return;
     }
-    if(this.email !== this.userAccountDetails.value.email){
+    if (this.email !== this.userAccountDetails.value.email) {
       this.updateAccountDetailsButtonVisable = true;
       return;
     }
-    if(this.phone !== this.userAccountDetails.value.phone){
+    if (this.phone !== this.userAccountDetails.value.phone) {
       this.updateAccountDetailsButtonVisable = true;
       return;
     }
-    if(this.birthDate !== this.birthDateControl.value){
+    if (this.birthDate !== this.birthDateControl.value) {
+      this.updateAccountDetailsButtonVisable = true;
+      return;
+    }
+    if (this.gender !== this.genderSelectedString) {
       this.updateAccountDetailsButtonVisable = true;
       return;
     }
@@ -229,6 +248,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   }
 
   accountDetailsUpdate() {
+    this.emailExist = false;
     if (this.validDataAccoundDetails()) {
       this.userService
         .updateAccountDetails(
@@ -245,9 +265,23 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
               NotificationType.SUCCESS,
               'Dane zostały zapisane'
             );
+            const token = response.headers.get('Jwt-Token');
+            const scId = response.headers.get('scid');
+            const scProperites = response.headers.get('sc_properties');
             this.authenticationService.addUserToLocalCache(response.body!);
+            this.authenticationService.saveToken(token!);
+            this.authenticationService.saveScId(scId!);
+            this.authenticationService.saveScProperties(scProperites!);
+            this.saveSavedData();
+            this.updateAccountDetailsButtonVisable = false;
           },
           (error: HttpErrorResponse) => {
+            if (error.error.message === this.responseMessageInvalidDate) {
+              this.birthDateIsNotValidMessage = true;
+            }
+            if (error.error.message === this.responseMessageEmailExist) {
+              this.emailExist = true;
+            }
             this.notificationService.notify(
               NotificationType.ERROR,
               error.error.message
@@ -494,6 +528,8 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.genderMale = true;
     this.genderFemale = false;
     this.genderNull = false;
+    this.genderSelectedString = 'MALE';
+    this.accountDetailsValueChanges();
   }
 
   femaleClick(
@@ -507,6 +543,8 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.genderFemale = true;
     this.genderMale = false;
     this.genderNull = false;
+    this.genderSelectedString = 'FEMALE';
+    this.accountDetailsValueChanges();
   }
 
   genderNullClick(
@@ -520,5 +558,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.genderNull = true;
     this.genderMale = false;
     this.genderFemale = false;
+    this.genderSelectedString = 'UNDEFINED';
+    this.accountDetailsValueChanges();
   }
 }

@@ -93,6 +93,7 @@
                   <small *ngIf="emailIsNotValidMessage"
                     >Nieprawidłowy adres email.</small
                   >
+                  <small *ngIf="emailExist">Taki email już istnieje.</small>
                 </div>
                 <div class="form-group">
                   <input
@@ -139,7 +140,8 @@
                       class="btn btn-right"
                       (click)="genderNullClick(btnMale, btnFemale, btnNull)"
                     >
-                      <img src="assets/icon/gender-3.svg" alt="" />
+                    -
+                      <!-- <img src="assets/icon/gender-3.svg" alt="" /> -->
                     </button>
                   </div>
                 </div>
