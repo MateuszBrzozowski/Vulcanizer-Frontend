@@ -161,10 +161,11 @@
 
                   <small *ngIf="birthDateIsNotValidMessage"
                     >Nieprawdidłowa data</small
-                  >
+                  > 
                 </div>
                 <div class="form-group">
                   <button
+                  *ngIf="updateAccountDetailsButtonVisable"
                     type="submit"
                     class="btn btn-primary"
                     (click)="accountDetailsUpdate()"

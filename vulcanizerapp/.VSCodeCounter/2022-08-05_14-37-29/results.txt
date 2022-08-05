@@ -1,0 +1,117 @@
+Date : 2022-08-05 14:37:29
+Directory : z:\PROJECTS_FRONTED\vulcanizerapp
+Total : 69 files,  23868 codes, 189 comments, 454 blanks, all 24511 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          5 |     20,668 |          2 |          4 |     20,674 |
+| TypeScript         |         39 |      1,682 |        110 |        256 |      2,048 |
+| HTML               |          9 |        840 |         54 |         62 |        956 |
+| CSS                |          8 |        591 |         16 |        115 |        722 |
+| JavaScript         |          1 |         37 |          6 |          2 |         45 |
+| JSON with Comments |          1 |         31 |          1 |          1 |         33 |
+| Markdown           |          1 |         14 |          0 |         14 |         28 |
+| XML                |          5 |          5 |          0 |          0 |          5 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                      | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                         |         69 |     23,868 |        189 |        454 |     24,511 |
+| src                                                                                       |         61 |      3,118 |        180 |        433 |      3,731 |
+| src\app                                                                                   |         49 |      2,474 |        102 |        305 |      2,881 |
+| src\app\confirm                                                                           |          4 |         68 |          0 |         16 |         84 |
+| src\app\enum                                                                              |          3 |         30 |          0 |          4 |         34 |
+| src\app\guard                                                                             |          1 |         31 |          1 |          4 |         36 |
+| src\app\interceptor                                                                       |          2 |         80 |          0 |          7 |         87 |
+| src\app\login                                                                             |          4 |        572 |         27 |         60 |        659 |
+| src\app\main                                                                              |          4 |         81 |          7 |         14 |        102 |
+| src\app\model                                                                             |          2 |         13 |          0 |          1 |         14 |
+| src\app\not-found                                                                         |          4 |         38 |          0 |         17 |         55 |
+| src\app\reset-password                                                                    |          4 |        156 |          6 |         21 |        183 |
+| src\app\service                                                                           |          3 |        120 |          0 |         27 |        147 |
+| src\app\user-managment                                                                    |          4 |        764 |         14 |         56 |        834 |
+| src\assets                                                                                |          5 |          5 |          0 |          0 |          5 |
+| src\assets\icon                                                                           |          3 |          3 |          0 |          0 |          3 |
+| src\assets\images                                                                         |          2 |          2 |          0 |          0 |          2 |
+| src\environments                                                                          |          2 |          7 |         11 |          4 |         22 |
++-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                  | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| z:\PROJECTS_FRONTED\vulcanizerapp\README.md                                               | Markdown           |         14 |          0 |         14 |         28 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\angular.json                                            | JSON               |        101 |          0 |          1 |        102 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\karma.conf.js                                           | JavaScript         |         37 |          6 |          2 |         45 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\package-lock.json                                       | JSON               |     20,490 |          0 |          1 |     20,491 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\package.json                                            | JSON               |         46 |          0 |          0 |         46 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\address.ts                                      | TypeScript         |          8 |          0 |          1 |          9 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\app-routing.module.ts                           | TypeScript         |         21 |          0 |          4 |         25 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\app.component.css                               | CSS                |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\app.component.html                              | HTML               |         31 |          0 |          1 |         32 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\app.component.spec.ts                           | TypeScript         |         27 |          0 |          5 |         32 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\app.component.ts                                | TypeScript         |         39 |         15 |          8 |         62 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\app.module.ts                                   | TypeScript         |         56 |          0 |          4 |         60 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\business.service.ts                             | TypeScript         |         15 |          3 |          5 |         23 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\business.ts                                     | TypeScript         |         11 |          0 |          2 |         13 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\confirm\confirm.component.css                   | CSS                |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\confirm\confirm.component.html                  | HTML               |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\confirm\confirm.component.spec.ts               | TypeScript         |         18 |          0 |          6 |         24 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\confirm\confirm.component.ts                    | TypeScript         |         50 |          0 |          8 |         58 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\enum\header-type.enum.ts                        | TypeScript         |          4 |          0 |          1 |          5 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\enum\notification-type.enum.ts                  | TypeScript         |          7 |          0 |          1 |          8 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\enum\states.enum.ts                             | TypeScript         |         19 |          0 |          2 |         21 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\guard\authentication.guard.ts                   | TypeScript         |         31 |          1 |          4 |         36 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\interceptor\auth.interceptor.spec.ts            | TypeScript         |         13 |          0 |          4 |         17 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\interceptor\auth.interceptor.ts                 | TypeScript         |         67 |          0 |          3 |         70 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\login\login.component.css                       | CSS                |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\login\login.component.html                      | HTML               |        277 |         26 |         21 |        324 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\login\login.component.spec.ts                   | TypeScript         |         18 |          0 |          6 |         24 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\login\login.component.ts                        | TypeScript         |        277 |          1 |         32 |        310 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\main\main.component.css                         | CSS                |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\main\main.component.html                        | HTML               |         36 |          4 |          1 |         41 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\main\main.component.spec.ts                     | TypeScript         |         18 |          0 |          6 |         24 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\main\main.component.ts                          | TypeScript         |         27 |          3 |          6 |         36 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\model\custom-http-response.ts                   | TypeScript         |          6 |          0 |          1 |          7 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\model\reset-request-body.ts                     | TypeScript         |          7 |          0 |          0 |          7 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\not-found\not-found.component.css               | CSS                |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\not-found\not-found.component.html              | HTML               |          5 |          0 |          2 |          7 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\not-found\not-found.component.spec.ts           | TypeScript         |         18 |          0 |          6 |         24 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\not-found\not-found.component.ts                | TypeScript         |         15 |          0 |          8 |         23 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\notification.module.ts                          | TypeScript         |         47 |          0 |          3 |         50 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\reset-password.service.ts                       | TypeScript         |         51 |          0 |          8 |         59 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\reset-password\reset-password.component.css     | CSS                |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\reset-password\reset-password.component.html    | HTML               |         42 |          3 |          4 |         49 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\reset-password\reset-password.component.spec.ts | TypeScript         |         18 |          0 |          6 |         24 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\reset-password\reset-password.component.ts      | TypeScript         |         96 |          3 |         10 |        109 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\service\authentication.service.ts               | TypeScript         |         96 |          0 |         19 |        115 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\service\notification.service.ts                 | TypeScript         |         12 |          0 |          3 |         15 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\service\reset-password.service.spec.ts          | TypeScript         |         12 |          0 |          5 |         17 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\temp.html                                       | HTML               |        127 |         17 |         23 |        167 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\user-managment\user-managment.component.css     | CSS                |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\user-managment\user-managment.component.html    | HTML               |        309 |          4 |          8 |        321 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\user-managment\user-managment.component.spec.ts | TypeScript         |         18 |          0 |          6 |         24 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\user-managment\user-managment.component.ts      | TypeScript         |        437 |         10 |         41 |        488 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\user.service.ts                                 | TypeScript         |         64 |         12 |          8 |         84 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\users.ts                                        | TypeScript         |         24 |          0 |          5 |         29 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\assets\icon\gender-1.svg                            | XML                |          1 |          0 |          0 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\assets\icon\gender-2.svg                            | XML                |          1 |          0 |          0 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\assets\icon\gender-3.svg                            | XML                |          1 |          0 |          0 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\assets\images\search-thin.svg                       | XML                |          1 |          0 |          0 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\assets\images\user-circle-thin.svg                  | XML                |          1 |          0 |          0 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\environments\environment.prod.ts                    | TypeScript         |          3 |          0 |          1 |          4 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\environments\environment.ts                         | TypeScript         |          4 |         11 |          3 |         18 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\index.html                                          | HTML               |         13 |          0 |          1 |         14 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\main.ts                                             | TypeScript         |          9 |          0 |          4 |         13 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\polyfills.ts                                        | TypeScript         |          1 |         47 |          6 |         54 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\styles.css                                          | CSS                |        591 |         16 |        108 |        715 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\test.ts                                             | TypeScript         |         18 |          4 |          5 |         27 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\tsconfig.app.json                                       | JSON               |         14 |          1 |          1 |         16 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\tsconfig.json                                           | JSON with Comments |         31 |          1 |          1 |         33 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\tsconfig.spec.json                                      | JSON               |         17 |          1 |          1 |         19 |
+| Total                                                                                     |                    |     23,868 |        189 |        454 |     24,511 |
++-------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
