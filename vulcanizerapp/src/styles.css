@@ -138,6 +138,19 @@ hypertext:focus {
   top: 50%;
 }
 
+.form-control select{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.select-dropdown {
+  padding: 0;
+  position: relative;
+}
+
 .form-label {
   opacity: 0;
   position: absolute;

@@ -28,7 +28,6 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public isContentFavorits: boolean = false;
   public isContentBusiness: boolean = false;
   public passTouched: boolean = false;
-  public stateSelected: number = 0;
 
   //account details validation message controls below inputs
   public accountDetailsIsChanged: boolean = false;
@@ -42,6 +41,9 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
 
   public updateAccountDetailsButtonVisable: boolean = false;
 
+  //address validation message controls below inputs
+  public postalCodeNotValidMessage: boolean = false;
+
   //validation not valid message below inputs
   public passNotSameMessage: boolean = false;
   public passToShortMessage: boolean = false;
@@ -53,6 +55,13 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   private phone: string = '';
   private gender: string = '';
   private birthDate: string = '';
+
+  //SavedData Address
+  private addressLine: string = '';
+  private city: string = '';
+  private postalCode: string = '';
+  public stateSelected: number = 0;
+  public countrySelected: number = 0;
 
   userAccountDetails: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -70,10 +79,21 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public genderNull: boolean = false;
   private genderSelectedString: string = '';
 
+  userAddress: FormGroup = new FormGroup({
+    addressLine: new FormControl(''),
+    city: new FormControl(''),
+    postalCode: new FormControl(''),
+  });
+
   newPasswordGroup: FormGroup = new FormGroup({
     password: new FormControl('', Validators.required),
     passwordRepeat: new FormControl('', Validators.required),
   });
+
+  countries = [
+    { id: 0, label: '' },
+    { id: 1, label: 'Polska' },
+  ];
 
   states = [
     { id: 0, label: '' },
@@ -186,6 +206,13 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       this.genderNull = true;
       this.genderSelectedString = 'UNDEFINED';
     }
+
+    //address
+    this.userAddress.setValue({
+      addressLine: this.addressLine,
+      city: this.city,
+      postalCode: this.postalCode,
+    });
   }
 
   saveSavedData() {
@@ -217,6 +244,45 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     } else {
       this.birthDate = '';
     }
+
+    //address
+    if (user.address != null) {
+      if (user.address.addressLine != null) {
+        this.addressLine = user.address.addressLine;
+      }
+      if (user.address.city != null) {
+        this.city = user.address.city;
+      }
+      if (user.address.code != null) {
+        this.postalCode = user.address.code;
+      }
+      if (user.address.state != null) {
+        this.stateSelected = this.getIdOfStateFromString(user.address.state);
+      }
+      if (user.address.country != null) {
+        this.countrySelected = this.getIdOfCountryFromString(
+          user.address.country
+        );
+      }
+    }
+  }
+
+  getIdOfStateFromString(state: string): number {
+    for (let index = 0; index < this.states.length; index++) {
+      if (this.states[index].label === state) {
+        return this.states[index].id;
+      }
+    }
+    return 0;
+  }
+
+  getIdOfCountryFromString(country: string): number {
+    for (let index = 0; index < this.countries.length; index++) {
+      if (this.countries[index].label === country) {
+        return this.countries[index].id;
+      }
+    }
+    return 0;
   }
 
   accountDetailsValueChanges() {
@@ -443,8 +509,58 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  accounAddressUpdate() {
-    throw 'Method not implement';
+  accounAddressUpdate(state: HTMLSelectElement, country: HTMLSelectElement) {
+    if (this.checkAddress()) {
+      this.userService
+        .saveAddress(
+          this.userAddress.value.addressLine,
+          this.userAddress.value.city,
+          this.userAddress.value.postalCode,
+          this.states[state.options.selectedIndex].label,
+          this.countries[country.options.selectedIndex].label
+        )
+        .subscribe(
+          (response) => {
+            this.notificationService.notify(
+              NotificationType.SUCCESS,
+              'Adres został zaktualizowany'
+            );
+            this.authenticationService.addUserToLocalCache(response.body!);
+          },
+          (error: HttpErrorResponse) => {
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              error.error.message
+            );
+          }
+        );
+    }
+  }
+
+  checkAddress(): boolean {
+    const code = this.userAddress.value.postalCode;
+    if (code.length == 0) {
+      this.postalCodeNotValidMessage = false;
+      return true;
+    }
+    if (code.length == 6) {
+      const char = code.indexOf('-');
+      if (char == 2) {
+        const codeNumber = code.replace('-', '');
+        let isValid = /^[0-9]+$/.test(codeNumber);
+        if (isValid) {
+          this.postalCodeNotValidMessage = false;
+          return true;
+        } else {
+          this.postalCodeNotValidMessage = true;
+        }
+      } else {
+        this.postalCodeNotValidMessage = true;
+      }
+    } else {
+      this.postalCodeNotValidMessage = true;
+    }
+    return false;
   }
 
   accountUpdatePassword() {

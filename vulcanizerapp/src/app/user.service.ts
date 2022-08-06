@@ -59,14 +59,36 @@ export class UserService {
     birthDate: string
   ): Observable<HttpResponse<User>> {
     const body = {
-      firstName : firstName,
-      lastName : lastName,
-      email : email,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
       phone: phone,
-      gender : gender,
-      birthDate : birthDate
+      gender: gender,
+      birthDate: birthDate,
     };
     return this.http.put<User>(`${this.apiServerUrl}/users/update`, body, {
+      observe: 'response',
+    });
+  }
+
+  /**
+   * saveAddress
+   */
+  public saveAddress(
+    addressLine: string,
+    city: string,
+    code: string,
+    state: string,
+    country: string
+  ): Observable<HttpResponse<User>> {
+    const body = {
+      addressLine: addressLine,
+      city: city,
+      code: code,
+      state: state,
+      country: country,
+    };
+    return this.http.put<User>(`${this.apiServerUrl}/users/address`, body, {
       observe: 'response',
     });
   }

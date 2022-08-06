@@ -140,7 +140,7 @@
                       class="btn btn-right"
                       (click)="genderNullClick(btnMale, btnFemale, btnNull)"
                     >
-                    -
+                      -
                       <!-- <img src="assets/icon/gender-3.svg" alt="" /> -->
                     </button>
                   </div>
@@ -148,7 +148,7 @@
                 <div class="form-group birth-date">
                   <!-- formControlName="" -->
                   <input
-                  #birthDate
+                    #birthDate
                     type="text"
                     class="form-control"
                     id="InputDate"
@@ -163,11 +163,11 @@
 
                   <small *ngIf="birthDateIsNotValidMessage"
                     >Nieprawdidłowa data</small
-                  > 
+                  >
                 </div>
                 <div class="form-group">
                   <button
-                  *ngIf="updateAccountDetailsButtonVisable"
+                    *ngIf="updateAccountDetailsButtonVisable"
                     type="submit"
                     class="btn btn-primary"
                     (click)="accountDetailsUpdate()"
@@ -186,7 +186,7 @@
               <h4>Adres</h4>
             </div>
             <div class="managment-form">
-              <form>
+              <form [formGroup]="userAddress" class="form">
                 <div class="form-group">
                   <input
                     type="text"
@@ -195,7 +195,7 @@
                     id="InputStreet"
                     required="required"
                     placeholder="Ulica i numer"
-                    aria-describedby="emailHelp"
+                    formControlName="addressLine"
                   />
                   <label for="InputStreet" class="form-label"
                     >Ulica i numer</label
@@ -209,7 +209,7 @@
                     id="InputCity"
                     required="required"
                     placeholder="Miasto"
-                    aria-describedby="emailHelp"
+                    formControlName="city"
                   />
                   <label for="InputCity" class="form-label">Miasto</label>
                 </div>
@@ -221,29 +221,44 @@
                     id="InputPostalCode"
                     required="required"
                     placeholder="Kod pocztowy XX-XXX"
-                    aria-describedby="emailHelp"
+                    formControlName="postalCode"
                   />
                   <label for="InputPostalCode" class="form-label"
                     >Kod pocztowy XX-XXX</label
                   >
-                  <small>Nieprawdidłowy kod pocztowy</small>
+                  <small *ngIf="postalCodeNotValidMessage">Nieprawdidłowy kod pocztowy</small>
                 </div>
                 <div class="form-group">
-                  <label for="state">Województwo</label>
-                  <select class="form-control" id="state">
-                    <option
-                      *ngFor="let state of states"
-                      [value]="state.id"
-                      [selected]="state.id == stateSelected"
-                    >
-                      {{ state.label }}
-                    </option>
-                  </select>
+                  <!-- <label for="state">Województwo</label> -->
+                  <div class="form-control select-dropdown">
+                    <select #selectState id="state">
+                      <option
+                        *ngFor="let state of states"
+                        [value]="state.id"
+                        [selected]="state.id == stateSelected"
+                      >
+                        {{ state.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-control select-dropdown">
+                    <select #selectCountry id="country">
+                      <option
+                        *ngFor="let country of countries"
+                        [value]="country.id"
+                        [selected]="country.id == countrySelected"
+                      >
+                        {{ country.label }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
                 <button
                   type="submit"
                   class="btn btn-primary"
-                  (click)="accounAddressUpdate()"
+                  (click)="accounAddressUpdate(selectState, selectCountry)"
                 >
                   Aktualizuj
                 </button>
@@ -268,6 +283,7 @@
                     required="required"
                     aria-describedby="emailHelp"
                     formControlName="password"
+                    placeholder="Nowe hasło"
                     (click)="passTouch()"
                   />
                   <label for="InputNewPass" class="form-label"
@@ -283,6 +299,7 @@
                     required="required"
                     aria-describedby="emailHelp"
                     formControlName="passwordRepeat"
+                    placeholder="Powtórz nowe hasło"
                     (click)="passTouch()"
                   />
                   <label for="InputNewPassRepeat" class="form-label"

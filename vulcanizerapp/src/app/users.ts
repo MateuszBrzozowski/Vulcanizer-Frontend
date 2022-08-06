@@ -1,12 +1,14 @@
-import { FormGroup } from '@angular/forms';
+import { Address } from "./address";
+
 
 export class User {
   firstName: string = '';
   lastName: string = '';
-  email: string = '' ;
-  phone: string = '' ;
-  birthDate: string = '' ;
-  gender: string = '' ;
+  email: string = '';
+  phone: string = '';
+  birthDate: string = '';
+  gender: string = '';
+  address: Address = new Address();
 
   constructor(firstName: string, lastName: string, email: string) {
     this.firstName = firstName;

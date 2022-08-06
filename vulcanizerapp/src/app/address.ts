@@ -1,8 +1,9 @@
 export class Address {
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '' ;
-  phone: string = '' ;
-  birthDate: string = '' ;
-  gender: string = '' ;
+  addressLine: string = '';
+  city: string = '';
+  code: string = '';
+  state: string = '';
+  country: string = '';
+
+  constructor() {}
 }
