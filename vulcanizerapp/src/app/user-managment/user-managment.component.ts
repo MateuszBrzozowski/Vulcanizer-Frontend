@@ -44,6 +44,8 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   //address validation message controls below inputs
   public postalCodeNotValidMessage: boolean = false;
 
+  public updateAddressButtonVisable: boolean = false;
+
   //validation not valid message below inputs
   public passNotSameMessage: boolean = false;
   public passToShortMessage: boolean = false;
@@ -84,6 +86,9 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     city: new FormControl(''),
     postalCode: new FormControl(''),
   });
+
+  public stateNewSelected: number = 0;
+  public countryNewSelected: number = 0;
 
   newPasswordGroup: FormGroup = new FormGroup({
     password: new FormControl('', Validators.required),
@@ -256,18 +261,14 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       if (user.address.code != null) {
         this.postalCode = user.address.code;
       }
-      if (user.address.state != null) {
-        this.stateSelected = this.getIdOfStateFromString(user.address.state);
-      }
-      if (user.address.country != null) {
-        this.countrySelected = this.getIdOfCountryFromString(
-          user.address.country
-        );
-      }
+      this.stateSelected = this.getIdOfStateFromString(user.address.state);
+      this.countrySelected = this.getIdOfCountryFromString(
+        user.address.country
+      );
     }
   }
 
-  getIdOfStateFromString(state: string): number {
+  getIdOfStateFromString(state: string | null): number {
     for (let index = 0; index < this.states.length; index++) {
       if (this.states[index].label === state) {
         return this.states[index].id;
@@ -360,9 +361,6 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         'Operacja niemożliwa'
       );
     }
-
-    //moze byc invalid bo telefon jest wymagany a nie jest, a chodzi o
-    // odpowiednie wyswietlanie przez css :( skoplikowane
   }
 
   getGenderString(): string {
@@ -526,6 +524,8 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
               'Adres został zaktualizowany'
             );
             this.authenticationService.addUserToLocalCache(response.body!);
+            this.saveSavedData();
+            this.updateAddressButtonVisable = false;
           },
           (error: HttpErrorResponse) => {
             this.notificationService.notify(
@@ -561,6 +561,49 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       this.postalCodeNotValidMessage = true;
     }
     return false;
+  }
+
+  checkAddressValueChanges(
+    state: HTMLSelectElement,
+    country: HTMLSelectElement
+  ) {
+    if (
+      this.addressLine.toLowerCase() !==
+      this.userAddress.value.addressLine.toLowerCase()
+    ) {
+      this.updateAddressButtonVisable = true;
+      return;
+    }
+    if (this.city.toLowerCase() !== this.userAddress.value.city.toLowerCase()) {
+      this.updateAddressButtonVisable = true;
+      return;
+    }
+    if (this.postalCode !== this.userAddress.value.postalCode) {
+      this.updateAddressButtonVisable = true;
+      return;
+    }
+    if (this.stateSelected !== state.options.selectedIndex) {
+      this.updateAddressButtonVisable = true;
+      return;
+    }
+    if (this.countrySelected !== country.options.selectedIndex) {
+      this.updateAddressButtonVisable = true;
+      return;
+    }
+
+    this.updateAddressButtonVisable = false;
+  }
+
+  selectStateNewValue(state: HTMLSelectElement) {
+    // this.stateNewSelected = state.options.selectedIndex;
+    // this.checkAddressValueChanges();
+  }
+
+  selectCountryNewValue(country: HTMLSelectElement) {
+    // if(this.countryNewSelected != country.options.selectedIndex){
+    //   this.countryNewSelected = country.options.selectedIndex;
+    // }
+    // this.checkAddressValueChanges();
   }
 
   accountUpdatePassword() {

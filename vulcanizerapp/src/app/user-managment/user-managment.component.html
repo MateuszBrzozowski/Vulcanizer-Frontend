@@ -196,6 +196,7 @@
                     required="required"
                     placeholder="Ulica i numer"
                     formControlName="addressLine"
+                    (keyup)="checkAddressValueChanges(selectState,selectCountry)"
                   />
                   <label for="InputStreet" class="form-label"
                     >Ulica i numer</label
@@ -210,6 +211,7 @@
                     required="required"
                     placeholder="Miasto"
                     formControlName="city"
+                    (keyup)="checkAddressValueChanges(selectState,selectCountry)"
                   />
                   <label for="InputCity" class="form-label">Miasto</label>
                 </div>
@@ -222,6 +224,7 @@
                     required="required"
                     placeholder="Kod pocztowy XX-XXX"
                     formControlName="postalCode"
+                    (keyup)="checkAddressValueChanges(selectState,selectCountry)"
                   />
                   <label for="InputPostalCode" class="form-label"
                     >Kod pocztowy XX-XXX</label
@@ -231,11 +234,12 @@
                 <div class="form-group">
                   <!-- <label for="state">Województwo</label> -->
                   <div class="form-control select-dropdown">
-                    <select #selectState id="state">
+                    <select #selectState id="state" (click)="checkAddressValueChanges(selectState,selectCountry)">
                       <option
                         *ngFor="let state of states"
                         [value]="state.id"
                         [selected]="state.id == stateSelected"
+                        
                       >
                         {{ state.label }}
                       </option>
@@ -244,7 +248,7 @@
                 </div>
                 <div class="form-group">
                   <div class="form-control select-dropdown">
-                    <select #selectCountry id="country">
+                    <select #selectCountry id="country" (click)="checkAddressValueChanges(selectState,selectCountry)">
                       <option
                         *ngFor="let country of countries"
                         [value]="country.id"
@@ -256,6 +260,7 @@
                   </div>
                 </div>
                 <button
+                *ngIf="updateAddressButtonVisable"
                   type="submit"
                   class="btn btn-primary"
                   (click)="accounAddressUpdate(selectState, selectCountry)"
