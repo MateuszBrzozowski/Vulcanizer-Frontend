@@ -309,17 +309,27 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     if (user.address != null) {
       if (user.address.addressLine != null) {
         this.addressLine = user.address.addressLine;
+      } else {
+        this.addressLine = '';
       }
       if (user.address.city != null) {
         this.city = user.address.city;
+      } else {
+        this.city = '';
       }
       if (user.address.code != null) {
         this.postalCode = user.address.code;
+      } else {
+        this.postalCode = '';
       }
       this.stateSelected = this.getIdOfStateFromString(user.address.state);
       this.countrySelected = this.getIdOfCountryFromString(
         user.address.country
       );
+    } else {
+      this.addressLine = '';
+      this.city = '';
+      this.postalCode = '';
     }
   }
 

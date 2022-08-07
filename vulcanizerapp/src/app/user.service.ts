@@ -13,6 +13,7 @@ import { NotificationType } from './enum/notification-type.enum';
 import { AuthenticationService } from './service/authentication.service';
 import { Router } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { Business } from './business';
 
 @Injectable({
   providedIn: 'root',
@@ -91,6 +92,28 @@ export class UserService {
     return this.http.put<User>(`${this.apiServerUrl}/users/address`, body, {
       observe: 'response',
     });
+  }
+
+  // : Observable<HttpResponse<Business>>
+  /**
+   * createBusiness
+   */
+  public createBusiness(
+    nip: string,
+    name : string,
+    addressLine: string,
+    city : string,
+    postalCode : string,
+    state: string,
+    country: string,
+    displayName : string,
+    description : string
+  ) {
+    const body = {
+      
+    }
+    return null;
+    
   }
 
   /**
