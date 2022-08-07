@@ -442,7 +442,7 @@ input[type="number"] {
   height: 80%;
 }
 
-.form-group small {
+small {
   color: red;
 }
 
@@ -490,6 +490,28 @@ input[type="number"] {
 .managment-form {
   padding: 1em;
 }
+
+.text-black {
+  color: black;
+}
+
+ul {list-style: none}
+
+.managment-form li::before {content: "•  "; color: red}
+
+.one-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 
+.business-create-relative{
+  position: relative;
+  
+}
+.business-create {
+  position: absolute;
+} */
 
 .search-engine {
   margin-top: calc(6vw + 1em);

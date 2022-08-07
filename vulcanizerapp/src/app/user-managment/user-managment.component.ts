@@ -65,6 +65,13 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public stateSelected: number = 0;
   public countrySelected: number = 0;
 
+  //Create Business
+  public createBusinessStart : boolean = true;
+  public createBusinessNip : boolean = false;
+  public createBusinessDetails : boolean = false;
+  public createBusinessDescription : boolean = false;
+  public createBusinessSummary : boolean = false;
+
   userAccountDetails: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -183,6 +190,11 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   setContentBusiness() {
     this.setAllContentToFalse();
     this.isContentBusiness = true;
+    this.createBusinessStart = true;
+    this.createBusinessNip = false;
+    this.createBusinessDetails = false;
+    this.createBusinessDescription = false;
+    this.createBusinessSummary = false
   }
 
   setAllContentToFalse() {
@@ -719,5 +731,29 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.genderFemale = false;
     this.genderSelectedString = 'UNDEFINED';
     this.accountDetailsValueChanges();
+  }
+
+  ///
+  // Create Bussiness for user
+  ///
+
+  businessStepOne(){
+    this.createBusinessStart = false;
+    this.createBusinessNip = true;
+  }
+
+  businessStepTwo(){
+    this.createBusinessNip = false;
+    this.createBusinessDetails = true;
+  }
+
+  businessStepThree(){
+    this.createBusinessDetails = false;
+    this.createBusinessDescription = true;
+  }
+
+  businessStepFour(){
+    this.createBusinessDescription = false;
+    this.createBusinessSummary = true;
   }
 }
