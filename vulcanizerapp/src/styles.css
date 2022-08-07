@@ -15,6 +15,7 @@
   --color-button-selected: #0d6efd;
   --color-button-selected-focus: #3683f7;
   --color-text-dark: #212529;
+  --color-text-gray: #888;
   --color-footer-light: RGBA(0, 0, 0, 0.2);
   --color-footer-dark: RGBA(0, 0, 0, 0.3);
   --color-search-engine: RGBA(255, 255, 255, 0.2);
@@ -491,13 +492,22 @@ small {
   padding: 1em;
 }
 
-.text-black {
-  color: black;
+.text-gray {
+  padding-top: 0.5em;
+  color: gray;
+}
+
+.business-summary{
+  color: var(--color-text-gray) ;
+}
+
+.business-summary h5{
+  color: var(--color-text-dark) ;
 }
 
 ul {list-style: none}
 
-.managment-form li::before {content: "•  "; color: red}
+.managment-form li small::before {content: "•  "; color: red}
 
 .one-column {
   display: flex;

@@ -360,217 +360,279 @@
             <h2>Strefa dla biznesu</h2>
           </div>
 
-          <div class="business-create-relative">
-            <div class="content-section" [hidden]="!createBusinessStart">
-              <div class="header">
-                <h4>Zacznij korzystać za darmo</h4>
-              </div>
-              <div class="managment-form one-column">
-                <button type="button" class="btn btn-primary" (click)="businessStepOne()">
-                  Rozpocznij
-                </button>
-                <small
-                  >Rozszerzenie konta dla biznesu wymagane jest uzupełnienie
-                  wszystkich danych personalnych w zakładce <b>Konto</b></small
-                >
-                <ul>
-                  <li><small>Brak numeru telefonu</small></li>
-                  <li><small>Brak daty urodzenia</small></li>
-                  <li><small>Adres - brak ulicy</small></li>
-                  <li><small>Adres - brak miasta</small></li>
-                  <li><small>Adres - brak kodu pocztowego</small></li>
-                  <li><small>Adres - brak województwa</small></li>
-                  <li><small>Adres - brak Państwa</small></li>
-                </ul>
-              </div>
+          <div class="content-section" [hidden]="!createBusinessStart">
+            <div class="header">
+              <h4>Zacznij korzystać za darmo</h4>
             </div>
+            <div class="managment-form one-column">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="businessStepOne()"
+              >
+                Rozpocznij
+              </button>
+              <small *ngIf="emptyUserDetailsMessage"
+                >Rozszerzenie konta dla biznesu wymagane jest uzupełnienie
+                wszystkich danych personalnych w zakładce <b>Konto</b></small
+              >
+              <ul>
+                <li>
+                  <small *ngIf="emptyPhoneNumberMessage"
+                    >Brak numeru telefonu</small
+                  >
+                </li>
+                <li>
+                  <small *ngIf="emptyBirthDateMessage"
+                    >Brak daty urodzenia</small
+                  >
+                </li>
+                <li>
+                  <small *ngIf="emptyAddressStreeMessage"
+                    >Adres - brak ulicy</small
+                  >
+                </li>
+                <li>
+                  <small *ngIf="emptyAddressCityMessage"
+                    >Adres - brak miasta</small
+                  >
+                </li>
+                <li>
+                  <small *ngIf="emptyAddressPostalCodeMessage"
+                    >Adres - brak kodu pocztowego</small
+                  >
+                </li>
+                <li>
+                  <small *ngIf="emptyAddressStateMessage"
+                    >Adres - brak województwa</small
+                  >
+                </li>
+                <li>
+                  <small *ngIf="emptyAddressCountryMessage"
+                    >Adres - brak Państwa</small
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
 
-            <div class="content-section" [hidden]="!createBusinessNip">
-              <div class="header">
-                <h4>Wypełnij dane</h4>
-              </div>
-              <div class="managment-form one-column">
-                <form action="create-business-nip">
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      maxlength="10"
-                      class="form-control"
-                      id="inputNip"
-                      placeholder="NIP"
-                      required="required"
-                    />
-                    <label for="inputNip" class="form-label">NIP</label>
-                    <small>Nip jest wymagany</small>
-                    <small>Nieprawidowy format</small>
-                  </div>
-                  <div class="form-group">
-                    <button
+          <div class="content-section" [hidden]="!createBusinessNip">
+            <div class="header">
+              <h4>Wypełnij dane</h4>
+            </div>
+            <div class="managment-form one-column">
+              <form action="create-business-nip">
+                <div class="form-group">
+                  <input
+                  #inputNip
+                    type="text"
+                    maxlength="13"
+                    class="form-control"
+                    id="inputNip"
+                    placeholder="NIP"
+                    required="required"
+                    (keyup)="checkNip(inputNip)"
+                  />
+                  <label for="inputNip" class="form-label">NIP</label>
+                  <small *ngIf="nipIsNotValidMessage">Nieprawidowy NIP</small>
+                </div>
+                <div class="form-group">
+                  <button
                     type="button"
-                      class="btn btn-primary"
-                      (click)="businessStepTwo()"
-                    >
-                      Dalej
-                    </button>
-                  </div>
-                </form>
-              </div>
+                    class="btn btn-primary"
+                    (click)="businessStepTwo(inputNip)"
+                  >
+                    Dalej
+                  </button>
+                </div>
+              </form>
             </div>
+          </div>
 
-            <div class="content-section" [hidden]="!createBusinessDetails">
-              <div class="header">
-                <h4>Wypełnij dane</h4>
-              </div>
-              <div class="managment-form one-column">
-                <form action="create-business-nip" class="form">
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      maxlength="255"
-                      class="form-control"
-                      id="inputCompanyName"
-                      placeholder="Nazwa"
-                      required="required"
-                    />
-                    <label for="inputCompanyName" class="form-label"
-                      >Nazwa</label
-                    >
-                    <small>Nazwa jest wymagana</small>
-                  </div>
-
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      maxlength="100"
-                      class="form-control"
-                      id="InputCompanyStreet"
-                      required="required"
-                      placeholder="Ulica i numer"
-                    />
-                    <label for="InputCompanyStreet" class="form-label"
-                      >Ulica i numer</label
-                    >
-                    <small>Ulica i numer są wymagane</small>
-                  </div>
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      maxlength="40"
-                      class="form-control"
-                      id="InputCompanyCity"
-                      required="required"
-                      placeholder="Miasto"
-                    />
-                    <label for="InputCompanyCity" class="form-label"
-                      >Miasto</label
-                    >
-                    <small>Miasto jest wymagane</small>
-                  </div>
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      maxlength="6"
-                      class="form-control"
-                      id="InputCompanyPostalCode"
-                      required="required"
-                      placeholder="Kod pocztowy XX-XXX"
-                    />
-                    <label for="InputCompanyPostalCode" class="form-label"
-                      >Kod pocztowy XX-XXX</label
-                    >
-                    <small>Kod pocztowy jest wymagany</small>
-                    <small>Nieprawdidłowy kod pocztowy</small>
-                  </div>
-                  <div class="form-group">
-                    <!-- <label for="state">Województwo</label> -->
-                    <div class="form-control select-dropdown">
-                      <select #selectStateBusiness id="companyState">
-                        <option *ngFor="let state of states" [value]="state.id">
-                          {{ state.label }}
-                        </option>
-                      </select>
-                      <small>Województwo jest wymagane</small>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="form-control select-dropdown">
-                      <select #selectCountryBusiness id="companyCountry">
-                        <option
-                          *ngFor="let country of countries"
-                          [value]="country.id"
-                          [selected]="country.id == countrySelected"
-                        >
-                          {{ country.label }}
-                        </option>
-                      </select>
-                      <small>Państwo jest wymagane</small>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <button type="button" class="btn btn-primary" (click)="businessStepThree()">Dalej</button>
-                  </div>
-                </form>
-              </div>
+          <div class="content-section" [hidden]="!createBusinessDetails">
+            <div class="header">
+              <h4>Wypełnij dane</h4>
             </div>
-
-            <div class="content-section" [hidden]="!createBusinessDescription">
-              <div class="header">
-                <h4>Opis działalności</h4>
-              </div>
-              <div class="managment-form">
-                <form action="create-business-nip">
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="inputDisplayName"
-                      placeholder="Wyświetlana nazwa"
-                      required="required"
-                    />
-                    <label for="inputDisplayName" class="form-label"
-                      >Wyświetlana nazwa</label
-                    >
-                    <small class="text-black"
-                      >Nazwa która będzie wyświetlana w serwisie. <br />
-                      Brak wypełnienia = Cała nazwa firmy</small
-                    >
-                  </div>
-
-                  <div class="form-group">
-                    <textarea
-                      cols="2"
-                      type="textarea"
-                      class="form-control"
-                      id="inputCompanyDescription"
-                      placeholder="Krótki opis twojej firmy (opcjonalnie)"
-                      required="required"
-                    ></textarea>
-                    <label for="inputCompanyDescription" class="form-label"
-                      >Wyświetlana nazwa</label
-                    >
-                  </div>
-
-                  <div class="form-group">
-                    <button type="button" class="btn btn-primary" (click)="businessStepFour()">Dalej</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            <div class="content-section" [hidden]="!createBusinessSummary">
-              <div class="header">
-                <h4>Podsumowanie</h4>
-              </div>
-              <div class="managment-form">
+            <div class="managment-form one-column">
+              <form action="create-business-nip" class="form" [formGroup]="businessDetails">
                 <div class="form-group">
-                  Firma: NIP + NAZWA + Adres w łądnym ścisłym formacie Nazwa w
-                  serwisie: NAZWA WYŚWIETLANA Opis: OPIS
+                  <input
+                    type="text"
+                    maxlength="255"
+                    class="form-control"
+                    id="inputCompanyName"
+                    placeholder="Nazwa"
+                    required="required"
+                    formControlName="name"
+                  />
+                  <label for="inputCompanyName" class="form-label">Nazwa</label>
+                  <small *ngIf="businessNameIsRequiredMessage">Nazwa jest wymagana</small>
                 </div>
 
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary">Utwórz</button>
+                  <input
+                    type="text"
+                    maxlength="255"
+                    class="form-control"
+                    id="InputCompanyStreet"
+                    required="required"
+                    placeholder="Ulica i numer"
+                    formControlName="addressLine"
+                  />
+                  <label for="InputCompanyStreet" class="form-label"
+                    >Ulica i numer</label
+                  >
+                  <small *ngIf="businessStreetIsRequiredMessage">Ulica i numer są wymagane</small>
                 </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    maxlength="40"
+                    class="form-control"
+                    id="InputCompanyCity"
+                    required="required"
+                    placeholder="Miasto"
+                    formControlName="city"
+                  />
+                  <label for="InputCompanyCity" class="form-label"
+                    >Miasto</label
+                  >
+                  <small *ngIf="businessCityIsRequiredMessage">Miasto jest wymagane</small>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    maxlength="6"
+                    class="form-control"
+                    id="InputCompanyPostalCode"
+                    required="required"
+                    placeholder="Kod pocztowy XX-XXX"
+                    formControlName="postalCode"
+                  />
+                  <label for="InputCompanyPostalCode" class="form-label"
+                    >Kod pocztowy XX-XXX</label
+                  >
+                  <small *ngIf="businessPostalCodeIsRequiredMessage">Kod pocztowy jest wymagany</small>
+                  <small *ngIf="businessPostalCodeIsNotValidMessage">Nieprawdidłowy kod pocztowy</small>
+                </div>
+                <div class="form-group">
+                  <!-- <label for="state">Województwo</label> -->
+                  <div class="form-control select-dropdown">
+                    <select #selectStateBusiness id="companyState" #businessState>
+                      <option *ngFor="let state of states" [value]="state.id">
+                        {{ state.label }}
+                      </option>
+                    </select>
+                    <small *ngIf="businessStateIsRequiredMessage">Województwo jest wymagane</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-control select-dropdown">
+                    <select #selectCountryBusiness id="companyCountry" #businessCountry>
+                      <option
+                      
+                        *ngFor="let country of countries"
+                        [value]="country.id"
+                        [selected]="country.id == 1"
+                      >
+                        {{ country.label }}
+                      </option>
+                    </select>
+                    <small *ngIf="businessCountryIsRequiredMessage">Państwo jest wymagane</small>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="businessStepThree(businessState,businessCountry)"
+                  >
+                    Dalej
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="content-section" [hidden]="!createBusinessDescription">
+            <div class="header">
+              <h4>Opis działalności</h4>
+            </div>
+            <div class="managment-form">
+              <form action="create-business-nip">
+                <div class="form-group">
+                  <input
+                  #businessDisplayName
+                    type="text"
+                    class="form-control"
+                    id="inputDisplayName"
+                    placeholder="Wyświetlana nazwa (opcjonalnie)"
+                    required="required"
+                  />
+                  <label for="inputDisplayName" class="form-label"
+                    >Wyświetlana nazwa</label
+                  >
+                  <small class="text-gray"
+                    ><b>Skrócona nazwa firmy</b><br>
+                    Nazwa która będzie wyświetlana w serwisie. <br />
+                    Brak wypełnienia = Cała nazwa firmy</small
+                  >
+                </div>
+
+                <div class="form-group">
+                  <textarea
+                  #busienssDescription
+                    cols="2"
+                    type="textarea"
+                    maxlength="1000"
+                    class="form-control"
+                    id="inputCompanyDescription"
+                    placeholder="Krótki opis twojej firmy (opcjonalnie)"
+                    required="required"
+                    style="height: 100px;"
+                  ></textarea>
+                  <label for="inputCompanyDescription" class="form-label"
+                    >Opis</label
+                  >
+                </div>
+
+                <div class="form-group">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="businessStepFour(businessDisplayName,busienssDescription)"
+                  >
+                    Dalej
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="content-section" [hidden]="!createBusinessSummary">
+            <div class="header">
+              <h4>Podsumowanie</h4>
+            </div>
+            <div class="managment-form">
+              <div class="form-group business-summary">
+                <h5>Dane firmy</h5>
+                NIP: 1254681234 <br>
+                Wymianimy łopony Sp. z o. o.<br>
+                ul. Długa 22/124 <br>
+                Warszawa, 99-300 <br>
+                Mazowieckie, Polska<br><br>
+
+                <h5>Nazwa w serwisie</h5>
+                Wymianiamy Łopony <br><br>
+
+                <h5>Opis</h5>
+                Działamy tu i tam, wymieniamy to i tamto. Wpadaj do naz a wyjedziesz na 
+                pustakach xD hahaha, nie no zrobimy cud malina
+              </div>
+
+              <div class="form-group">
+                <button type="submit" class="btn btn-success">Utwórz</button>
               </div>
             </div>
           </div>

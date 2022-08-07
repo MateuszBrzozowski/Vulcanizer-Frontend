@@ -65,12 +65,33 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public stateSelected: number = 0;
   public countrySelected: number = 0;
 
+  ///
   //Create Business
-  public createBusinessStart : boolean = true;
-  public createBusinessNip : boolean = false;
-  public createBusinessDetails : boolean = false;
-  public createBusinessDescription : boolean = false;
-  public createBusinessSummary : boolean = false;
+  ///
+  //creating states
+  public createBusinessStart: boolean = true;
+  public createBusinessNip: boolean = false;
+  public createBusinessDetails: boolean = false;
+  public createBusinessDescription: boolean = false;
+  public createBusinessSummary: boolean = false;
+
+  //validation message below inputs
+  public emptyUserDetailsMessage: boolean = false;
+  public emptyPhoneNumberMessage: boolean = false;
+  public emptyBirthDateMessage: boolean = false;
+  public emptyAddressStreeMessage: boolean = false;
+  public emptyAddressCityMessage: boolean = false;
+  public emptyAddressPostalCodeMessage: boolean = false;
+  public emptyAddressStateMessage: boolean = false;
+  public emptyAddressCountryMessage: boolean = false;
+  public nipIsNotValidMessage: boolean = false;
+  public businessNameIsRequiredMessage: boolean = false;
+  public businessStreetIsRequiredMessage: boolean = false;
+  public businessCityIsRequiredMessage: boolean = false;
+  public businessPostalCodeIsRequiredMessage: boolean = false;
+  public businessPostalCodeIsNotValidMessage: boolean = false;
+  public businessStateIsRequiredMessage: boolean = false;
+  public businessCountryIsRequiredMessage: boolean = false;
 
   userAccountDetails: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -100,6 +121,13 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   newPasswordGroup: FormGroup = new FormGroup({
     password: new FormControl('', Validators.required),
     passwordRepeat: new FormControl('', Validators.required),
+  });
+
+  businessDetails: FormGroup = new FormGroup({
+    name: new FormControl(''),
+    addressLine: new FormControl(''),
+    city: new FormControl(''),
+    postalCode: new FormControl(''),
   });
 
   countries = [
@@ -194,7 +222,16 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.createBusinessNip = false;
     this.createBusinessDetails = false;
     this.createBusinessDescription = false;
-    this.createBusinessSummary = false
+    this.createBusinessSummary = false;
+
+    this.emptyUserDetailsMessage = false;
+    this.emptyPhoneNumberMessage = false;
+    this.emptyBirthDateMessage = false;
+    this.emptyAddressStreeMessage = false;
+    this.emptyAddressCityMessage = false;
+    this.emptyAddressPostalCodeMessage = false;
+    this.emptyAddressStateMessage = false;
+    this.emptyAddressCountryMessage = false;
   }
 
   setAllContentToFalse() {
@@ -555,24 +592,13 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       this.postalCodeNotValidMessage = false;
       return true;
     }
-    if (code.length == 6) {
-      const char = code.indexOf('-');
-      if (char == 2) {
-        const codeNumber = code.replace('-', '');
-        let isValid = /^[0-9]+$/.test(codeNumber);
-        if (isValid) {
-          this.postalCodeNotValidMessage = false;
-          return true;
-        } else {
-          this.postalCodeNotValidMessage = true;
-        }
-      } else {
-        this.postalCodeNotValidMessage = true;
-      }
+    if (this.checkPostalCode(code)) {
+      this.postalCodeNotValidMessage = false;
+      return true;
     } else {
       this.postalCodeNotValidMessage = true;
+      return false;
     }
-    return false;
   }
 
   checkAddressValueChanges(
@@ -737,23 +763,175 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   // Create Bussiness for user
   ///
 
-  businessStepOne(){
-    this.createBusinessStart = false;
-    this.createBusinessNip = true;
+  businessStepOne() {
+    //sprawdzenie czy wszystkie pola w presonal details są uzupełnione - można z localStorage
+    if (this.checkUserBeforeCreateBusienss()) {
+      this.createBusinessStart = false;
+      this.createBusinessNip = true;
+    }
   }
 
-  businessStepTwo(){
-    this.createBusinessNip = false;
-    this.createBusinessDetails = true;
+  businessStepTwo(inputNIP: HTMLInputElement) {
+    if (this.checkNip(inputNIP) === 10) {
+      this.nipIsNotValidMessage = false;
+      this.createBusinessNip = false;
+      this.createBusinessDetails = true;
+    } else {
+      this.nipIsNotValidMessage = true;
+    }
   }
 
-  businessStepThree(){
-    this.createBusinessDetails = false;
-    this.createBusinessDescription = true;
+  businessStepThree(state: HTMLSelectElement, country: HTMLSelectElement) {
+    if (this.checkBusinessAddress(state, country)) {
+      this.createBusinessDetails = false;
+      this.createBusinessDescription = true;
+    }
   }
 
-  businessStepFour(){
+  businessStepFour(displayNameInput : HTMLInputElement, descriptionTextarea : HTMLTextAreaElement) {
     this.createBusinessDescription = false;
     this.createBusinessSummary = true;
+    console.log(displayNameInput.value);
+    console.log(descriptionTextarea.value);
+    
+  }
+
+  checkUserBeforeCreateBusienss(): boolean {
+    const user = this.authenticationService.getUserFromLocalCahce();
+    if (user.firstName != null && user.lastName != null && user.email != null) {
+      if (user.birthDate == null) {
+        this.emptyUserDetailsMessage = true;
+        this.emptyBirthDateMessage = true;
+      } else {
+        this.emptyBirthDateMessage = false;
+      }
+      if (user.phone == null) {
+        this.emptyUserDetailsMessage = true;
+        this.emptyPhoneNumberMessage = true;
+      } else {
+        this.emptyPhoneNumberMessage = false;
+      }
+      if (user.address.addressLine == null) {
+        this.emptyUserDetailsMessage = true;
+        this.emptyAddressStreeMessage = true;
+      } else {
+        this.emptyAddressStreeMessage = false;
+      }
+      if (user.address.city == null) {
+        this.emptyUserDetailsMessage = true;
+        this.emptyAddressCityMessage = true;
+      } else {
+        this.emptyAddressCityMessage = false;
+      }
+      if (user.address.code == null) {
+        this.emptyUserDetailsMessage = true;
+        this.emptyAddressPostalCodeMessage = true;
+      } else {
+        this.emptyAddressPostalCodeMessage = false;
+      }
+      if (user.address.country == null) {
+        this.emptyUserDetailsMessage = true;
+        this.emptyAddressCountryMessage = true;
+      } else {
+        this.emptyAddressCountryMessage = false;
+      }
+      if (user.address.state == null) {
+        this.emptyUserDetailsMessage = true;
+        this.emptyAddressStateMessage = true;
+      } else {
+        this.emptyAddressStateMessage = false;
+      }
+    } else {
+      this.emptyUserDetailsMessage = true;
+      return false;
+    }
+    if (this.emptyUserDetailsMessage) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  checkNip(nipInput: HTMLInputElement): number {
+    let nipNumber: string = nipInput.value;
+    nipNumber = nipNumber.replace(/-/g, '');
+    nipNumber = nipNumber.replace(/ /g, '');
+    let isValid = /^[0-9]+$/.test(nipNumber);
+    if (!isValid) {
+      this.nipIsNotValidMessage = true;
+    } else {
+      this.nipIsNotValidMessage = false;
+    }
+    return nipNumber.length;
+  }
+
+  checkBusinessAddress(
+    state: HTMLSelectElement,
+    country: HTMLSelectElement
+  ): boolean {
+    if (this.businessDetails.value.name.length == 0) {
+      this.businessNameIsRequiredMessage = true;
+    } else {
+      this.businessNameIsRequiredMessage = false;
+    }
+    if (this.businessDetails.value.addressLine.length == 0) {
+      this.businessStreetIsRequiredMessage = true;
+    } else {
+      this.businessStreetIsRequiredMessage = false;
+    }
+    if (this.businessDetails.value.city.length == 0) {
+      this.businessCityIsRequiredMessage = true;
+    } else {
+      this.businessCityIsRequiredMessage = false;
+    }
+    if (this.businessDetails.value.postalCode.length == 0) {
+      this.businessPostalCodeIsRequiredMessage = true;
+    } else {
+      this.businessPostalCodeIsRequiredMessage = false;
+      //is valid?
+      if (this.checkPostalCode(this.businessDetails.value.postalCode)) {
+        this.businessPostalCodeIsNotValidMessage = false;
+      } else {
+        this.businessPostalCodeIsNotValidMessage = true;
+      }
+    }
+    if (state.options.selectedIndex == 0) {
+      this.businessStateIsRequiredMessage = true;
+    } else {
+      this.businessStateIsRequiredMessage = false;
+    }
+    if (country.options.selectedIndex == 0) {
+      this.businessCountryIsRequiredMessage = true;
+    } else {
+      this.businessCountryIsRequiredMessage = false;
+    }
+
+    if (
+      this.businessNameIsRequiredMessage ||
+      this.businessStreetIsRequiredMessage ||
+      this.businessCityIsRequiredMessage ||
+      this.businessPostalCodeIsRequiredMessage ||
+      this.businessPostalCodeIsNotValidMessage ||
+      this.businessStateIsRequiredMessage ||
+      this.businessCountryIsRequiredMessage
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private checkPostalCode(code: string): boolean {
+    if (code.length == 6) {
+      const char = code.indexOf('-');
+      if (char == 2) {
+        const codeNumber = code.replace('-', '');
+        let isValid = /^[0-9]+$/.test(codeNumber);
+        if (isValid) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
