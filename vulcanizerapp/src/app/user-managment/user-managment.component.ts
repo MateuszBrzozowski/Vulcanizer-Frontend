@@ -93,6 +93,12 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public businessStateIsRequiredMessage: boolean = false;
   public businessCountryIsRequiredMessage: boolean = false;
 
+  public busienssDataNIP: string = '';
+  public busienssDataDisplayName: string = '';
+  public busienssDataDescription: string = '';
+  public busienssDataStateId: number = 0;
+  public busienssDataCountryId: number = 0;
+
   userAccountDetails: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -766,16 +772,21 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   businessStepOne() {
     //sprawdzenie czy wszystkie pola w presonal details są uzupełnione - można z localStorage
     if (this.checkUserBeforeCreateBusienss()) {
+      this.createBusinessSummary = false;
       this.createBusinessStart = false;
       this.createBusinessNip = true;
     }
   }
 
   businessStepTwo(inputNIP: HTMLInputElement) {
+    let nipNumber: string = inputNIP.value;
+    nipNumber = nipNumber.replace(/-/g, '');
+    nipNumber = nipNumber.replace(/ /g, '');
     if (this.checkNip(inputNIP) === 10) {
       this.nipIsNotValidMessage = false;
       this.createBusinessNip = false;
       this.createBusinessDetails = true;
+      this.busienssDataNIP = nipNumber;
     } else {
       this.nipIsNotValidMessage = true;
     }
@@ -785,15 +796,27 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     if (this.checkBusinessAddress(state, country)) {
       this.createBusinessDetails = false;
       this.createBusinessDescription = true;
+      this.busienssDataStateId = state.options.selectedIndex;
+      this.busienssDataCountryId = country.options.selectedIndex;
     }
   }
 
-  businessStepFour(displayNameInput : HTMLInputElement, descriptionTextarea : HTMLTextAreaElement) {
+  businessStepFour(
+    displayNameInput: HTMLInputElement,
+    descriptionTextarea: HTMLTextAreaElement
+  ) {
     this.createBusinessDescription = false;
     this.createBusinessSummary = true;
-    console.log(displayNameInput.value);
-    console.log(descriptionTextarea.value);
-    
+    if (displayNameInput.value.length != 0) {
+      this.busienssDataDisplayName = displayNameInput.value;
+    } else {
+      this.busienssDataDisplayName = this.businessDetails.value.name;
+    }
+    if (descriptionTextarea.value.length != 0) {
+      this.busienssDataDescription = descriptionTextarea.value;
+    } else {
+      this.busienssDataDescription = '-';
+    }
   }
 
   checkUserBeforeCreateBusienss(): boolean {

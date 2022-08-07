@@ -424,7 +424,7 @@
               <form action="create-business-nip">
                 <div class="form-group">
                   <input
-                  #inputNip
+                    #inputNip
                     type="text"
                     maxlength="13"
                     class="form-control"
@@ -454,7 +454,11 @@
               <h4>Wypełnij dane</h4>
             </div>
             <div class="managment-form one-column">
-              <form action="create-business-nip" class="form" [formGroup]="businessDetails">
+              <form
+                action="create-business-nip"
+                class="form"
+                [formGroup]="businessDetails"
+              >
                 <div class="form-group">
                   <input
                     type="text"
@@ -466,7 +470,9 @@
                     formControlName="name"
                   />
                   <label for="inputCompanyName" class="form-label">Nazwa</label>
-                  <small *ngIf="businessNameIsRequiredMessage">Nazwa jest wymagana</small>
+                  <small *ngIf="businessNameIsRequiredMessage"
+                    >Nazwa jest wymagana</small
+                  >
                 </div>
 
                 <div class="form-group">
@@ -482,7 +488,9 @@
                   <label for="InputCompanyStreet" class="form-label"
                     >Ulica i numer</label
                   >
-                  <small *ngIf="businessStreetIsRequiredMessage">Ulica i numer są wymagane</small>
+                  <small *ngIf="businessStreetIsRequiredMessage"
+                    >Ulica i numer są wymagane</small
+                  >
                 </div>
                 <div class="form-group">
                   <input
@@ -497,7 +505,9 @@
                   <label for="InputCompanyCity" class="form-label"
                     >Miasto</label
                   >
-                  <small *ngIf="businessCityIsRequiredMessage">Miasto jest wymagane</small>
+                  <small *ngIf="businessCityIsRequiredMessage"
+                    >Miasto jest wymagane</small
+                  >
                 </div>
                 <div class="form-group">
                   <input
@@ -512,25 +522,38 @@
                   <label for="InputCompanyPostalCode" class="form-label"
                     >Kod pocztowy XX-XXX</label
                   >
-                  <small *ngIf="businessPostalCodeIsRequiredMessage">Kod pocztowy jest wymagany</small>
-                  <small *ngIf="businessPostalCodeIsNotValidMessage">Nieprawdidłowy kod pocztowy</small>
+                  <small *ngIf="businessPostalCodeIsRequiredMessage"
+                    >Kod pocztowy jest wymagany</small
+                  >
+                  <small *ngIf="businessPostalCodeIsNotValidMessage"
+                    >Nieprawdidłowy kod pocztowy</small
+                  >
                 </div>
                 <div class="form-group">
                   <!-- <label for="state">Województwo</label> -->
                   <div class="form-control select-dropdown">
-                    <select #selectStateBusiness id="companyState" #businessState>
+                    <select
+                      #selectStateBusiness
+                      id="companyState"
+                      #businessState
+                    >
                       <option *ngFor="let state of states" [value]="state.id">
                         {{ state.label }}
                       </option>
                     </select>
-                    <small *ngIf="businessStateIsRequiredMessage">Województwo jest wymagane</small>
+                    <small *ngIf="businessStateIsRequiredMessage"
+                      >Województwo jest wymagane</small
+                    >
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="form-control select-dropdown">
-                    <select #selectCountryBusiness id="companyCountry" #businessCountry>
+                    <select
+                      #selectCountryBusiness
+                      id="companyCountry"
+                      #businessCountry
+                    >
                       <option
-                      
                         *ngFor="let country of countries"
                         [value]="country.id"
                         [selected]="country.id == 1"
@@ -538,7 +561,9 @@
                         {{ country.label }}
                       </option>
                     </select>
-                    <small *ngIf="businessCountryIsRequiredMessage">Państwo jest wymagane</small>
+                    <small *ngIf="businessCountryIsRequiredMessage"
+                      >Państwo jest wymagane</small
+                    >
                   </div>
                 </div>
 
@@ -546,7 +571,7 @@
                   <button
                     type="button"
                     class="btn btn-primary"
-                    (click)="businessStepThree(businessState,businessCountry)"
+                    (click)="businessStepThree(businessState, businessCountry)"
                   >
                     Dalej
                   </button>
@@ -563,7 +588,7 @@
               <form action="create-business-nip">
                 <div class="form-group">
                   <input
-                  #businessDisplayName
+                    #businessDisplayName
                     type="text"
                     class="form-control"
                     id="inputDisplayName"
@@ -574,7 +599,7 @@
                     >Wyświetlana nazwa</label
                   >
                   <small class="text-gray"
-                    ><b>Skrócona nazwa firmy</b><br>
+                    ><b>Skrócona nazwa firmy</b><br />
                     Nazwa która będzie wyświetlana w serwisie. <br />
                     Brak wypełnienia = Cała nazwa firmy</small
                   >
@@ -582,7 +607,7 @@
 
                 <div class="form-group">
                   <textarea
-                  #busienssDescription
+                    #busienssDescription
                     cols="2"
                     type="textarea"
                     maxlength="1000"
@@ -590,7 +615,7 @@
                     id="inputCompanyDescription"
                     placeholder="Krótki opis twojej firmy (opcjonalnie)"
                     required="required"
-                    style="height: 100px;"
+                    style="height: 100px"
                   ></textarea>
                   <label for="inputCompanyDescription" class="form-label"
                     >Opis</label
@@ -601,7 +626,9 @@
                   <button
                     type="button"
                     class="btn btn-primary"
-                    (click)="businessStepFour(businessDisplayName,busienssDescription)"
+                    (click)="
+                      businessStepFour(businessDisplayName, busienssDescription)
+                    "
                   >
                     Dalej
                   </button>
@@ -617,22 +644,42 @@
             <div class="managment-form">
               <div class="form-group business-summary">
                 <h5>Dane firmy</h5>
-                NIP: 1254681234 <br>
-                Wymianimy łopony Sp. z o. o.<br>
-                ul. Długa 22/124 <br>
-                Warszawa, 99-300 <br>
-                Mazowieckie, Polska<br><br>
-
+                <div class="description">
+                  NIP: {{ busienssDataNIP }} <br />
+                  {{ businessDetails.value.name }}<br />
+                  {{ businessDetails.value.addressLine }}<br />
+                  {{ businessDetails.value.city }},
+                  {{ businessDetails.value.postalCode }} <br />
+                  {{states[busienssDataStateId].label}},
+                  {{countries[busienssDataCountryId].label}}
+                </div>
+                <br /><br />
                 <h5>Nazwa w serwisie</h5>
-                Wymianiamy Łopony <br><br>
-
+                <div class="description">
+                  {{ busienssDataDisplayName }}
+                </div>
+                <br /><br />
                 <h5>Opis</h5>
-                Działamy tu i tam, wymieniamy to i tamto. Wpadaj do naz a wyjedziesz na 
-                pustakach xD hahaha, nie no zrobimy cud malina
+                <div class="description">
+                  {{ busienssDataDescription }}
+                </div>
               </div>
 
-              <div class="form-group">
-                <button type="submit" class="btn btn-success">Utwórz</button>
+              <div class="form-group flex-row">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="businessStepOne()"
+                >
+                  Zmień dane
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                  style="margin-left: 1em"
+                >
+                  Utwórz
+                </button>
               </div>
             </div>
           </div>

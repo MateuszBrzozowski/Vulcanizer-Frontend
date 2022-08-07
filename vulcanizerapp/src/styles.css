@@ -505,6 +505,16 @@ small {
   color: var(--color-text-dark) ;
 }
 
+.business-summary .description {
+  padding-left: 1em;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 ul {list-style: none}
 
 .managment-form li small::before {content: "•  "; color: red}
