@@ -100,20 +100,38 @@ export class UserService {
    */
   public createBusiness(
     nip: string,
-    name : string,
+    name: string,
     addressLine: string,
-    city : string,
-    postalCode : string,
+    city: string,
+    code: string,
     state: string,
     country: string,
-    displayName : string,
-    description : string
-  ) {
+    displayName: string,
+    description: string,
+    phoneFirst: string,
+    phoneSecond: string
+  ): Observable<HttpResponse<any>> {
+    const address = {
+      addressLine: addressLine,
+      city: city,
+      code: code,
+      state: state,
+      country: country,
+    };
     const body = {
-      
-    }
-    return null;
-    
+      name: name,
+      displayName: displayName,
+      nip: nip,
+      description: description,
+      phoneFirst: phoneFirst,
+      phoneSecond: phoneSecond,
+      address: address,
+    };
+    return this.http.post<HttpResponse<any>>(
+      `${this.apiServerUrl}/api/v1/business/create`,
+      body,
+      { observe: 'response' }
+    );
   }
 
   /**

@@ -72,6 +72,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public createBusinessStart: boolean = true;
   public createBusinessNip: boolean = false;
   public createBusinessDetails: boolean = false;
+  public createBusinessPhones: boolean = false;
   public createBusinessDescription: boolean = false;
   public createBusinessSummary: boolean = false;
 
@@ -92,10 +93,15 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public businessPostalCodeIsNotValidMessage: boolean = false;
   public businessStateIsRequiredMessage: boolean = false;
   public businessCountryIsRequiredMessage: boolean = false;
+  public phoneFirstIsNotValidMessage: boolean = false;
+  public phoneSecondIsNotValidMessage: boolean = false;
+  public phoneFirstIsRequiredMessage: boolean = false;
 
   public busienssDataNIP: string = '';
   public busienssDataDisplayName: string = '';
   public busienssDataDescription: string = '';
+  public busienssDataPhoneFirst: string = '';
+  public busienssDataPhoneSecond: string = '';
   public busienssDataStateId: number = 0;
   public busienssDataCountryId: number = 0;
 
@@ -442,7 +448,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.validFirstName();
     this.validLastName();
     this.validEmail();
-    this.validPhone();
+    this.validUserPhone();
     this.validBirthDate();
     if (
       this.firstNameIsRequiredMessage ||
@@ -500,7 +506,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  validPhone() {
+  validUserPhone() {
     let phone: string = this.userAccountDetails.value.phone;
     phone = phone.replace(' ', '');
     let isValid = /^[0-9]+$/.test(phone);
@@ -514,6 +520,49 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     if (phone.length == 0) {
       this.phoneIsNotValidMessage = false;
       this.accountDetailsValueChanges();
+    }
+  }
+
+  validPhoneLength(phoneNumber: string): boolean {
+    if (phoneNumber.length > 6) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  validBusinessPhoneFirst(phoneInput: HTMLInputElement) {
+    if (phoneInput.value.length > 6) {
+      if (this.validPhone(phoneInput.value)) {
+        this.phoneFirstIsNotValidMessage = false;
+      } else {
+        this.phoneFirstIsNotValidMessage = true;
+      }
+    } else {
+      this.phoneFirstIsNotValidMessage = true;
+    }
+  }
+
+  validBusinessPhoneSecond(phoneInput: HTMLInputElement) {
+    if (phoneInput.value.length > 0) {
+      if (this.validPhone(phoneInput.value)) {
+        this.phoneSecondIsNotValidMessage = false;
+      } else {
+        this.phoneSecondIsNotValidMessage = true;
+      }
+    } else {
+      this.phoneSecondIsNotValidMessage = false;
+    }
+  }
+
+  validPhone(phone: string) {
+    phone = phone.replace(/ /g, '');
+    phone = phone.replace(/-/g, '');
+    let isValid = /^[0-9]+$/.test(phone);
+    if (!isValid) {
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -805,13 +854,38 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   businessStepThree(state: HTMLSelectElement, country: HTMLSelectElement) {
     if (this.checkBusinessAddress(state, country)) {
       this.createBusinessDetails = false;
-      this.createBusinessDescription = true;
+      this.createBusinessPhones = true;
       this.busienssDataStateId = state.options.selectedIndex;
       this.busienssDataCountryId = country.options.selectedIndex;
     }
   }
 
   businessStepFour(
+    phoneFirstInput: HTMLInputElement,
+    phoneSecondInput: HTMLInputElement
+  ) {
+    if (phoneFirstInput.value.length === 0) {
+      this.phoneFirstIsRequiredMessage = true;
+    } else {
+      this.phoneFirstIsRequiredMessage = false;
+    }
+
+    this.validBusinessPhoneFirst(phoneFirstInput);
+    this.validBusinessPhoneSecond(phoneSecondInput);
+
+    if (
+      !this.phoneFirstIsNotValidMessage &&
+      !this.phoneFirstIsRequiredMessage &&
+      !this.phoneSecondIsNotValidMessage
+    ) {
+      this.busienssDataPhoneFirst = phoneFirstInput.value;
+      this.busienssDataPhoneSecond = phoneSecondInput.value;
+      this.createBusinessPhones = false;
+      this.createBusinessDescription = true;
+    }
+  }
+
+  businessStepFive(
     displayNameInput: HTMLInputElement,
     descriptionTextarea: HTMLTextAreaElement
   ) {
@@ -966,5 +1040,31 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       }
     }
     return false;
+  }
+
+  createBusiness() {
+    this.userService
+      .createBusiness(
+        this.busienssDataNIP,
+        this.businessDetails.value.name,
+        this.businessDetails.value.addressLine,
+        this.businessDetails.value.city,
+        this.businessDetails.value.postalCode,
+        this.states[this.busienssDataStateId].label,
+        this.countries[this.busienssDataCountryId].label,
+        this.busienssDataDisplayName,
+        this.busienssDataDescription,
+        this.busienssDataPhoneFirst,
+        this.busienssDataPhoneSecond
+      )
+      .subscribe(
+        (response) => {},
+        (error: HttpErrorResponse) => {
+          this.notificationService.notify(
+            NotificationType.ERROR,
+            'Rejestracja niepowiodła się! Spróbuj ponownie. Jeżeli błąd powatrza się skontaktuj się z administaracją'
+          );
+        }
+      );
   }
 }
