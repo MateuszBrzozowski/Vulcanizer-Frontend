@@ -26,6 +26,8 @@
   --color-form-inactive: #212529;
   --color-form-start-border: 1px solid #ced4da;
   --color-badge-warning: #ffc107;
+  --color-badge-success: #28a745;
+  --color-badge-danger: #dc3545;
   --color-badge-secondary: #6c757d;
 }
 
@@ -64,9 +66,6 @@ header {
   padding-bottom: 4vw;
 }
 
-main {
-}
-
 .main {
   display: flex;
   flex-direction: column;
@@ -84,6 +83,7 @@ footer {
   );
   padding: 30px 0 30px 30px;
 }
+
 .modal-popup {
   color: black;
   display: block;
@@ -343,6 +343,14 @@ h1 span {
   margin-top: 1em;
 }
 
+table.mat-table {
+  width: 100%;
+}
+
+.max-width-500 {
+  max-width: 500px;
+}
+
 .menu {
   display: flex;
   flex-direction: column;
@@ -502,6 +510,15 @@ small {
   background-color: var(--color-badge-warning) ;
 }
 
+.badge-success {
+  background-color: var(--color-badge-success) ;
+}
+
+.badge-danger {
+  background-color: var(--color-badge-danger) ;
+}
+
+
 .badge-secondary {
   background-color: var(--color-badge-secondary) ;
 }
@@ -523,6 +540,10 @@ small {
   height: 100%;
   border-top: 1px var(--color-border-gray) solid;
   border-right: 1px var(--color-border-gray) solid;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
 }
 
 .center-text {
@@ -739,7 +760,8 @@ input {
   }
 
   .menu {
-    width: 250px;
+    min-width: 200px;
+    max-width: 200px;
   }
 
   .menu button {
@@ -747,8 +769,8 @@ input {
   }
 
   .content {
-    width: 343px;
-    margin: 0 24px;
+    /* width: 500px; */
+    width: calc(100% - 200px - 48px);
   }
 
   .header {
@@ -780,9 +802,7 @@ input {
 }
 @media (min-width: 961px) {
   /* tablet, landscape iPad, lo-res laptops ands desktops */
-  .content {
-    width: 500px;
-  }
+  
   .user-managment-container {
     display: flex;
     justify-self: center;
@@ -790,11 +810,22 @@ input {
   }
 
   .content-section_container {
-    margin: 20px 0 0 40px;
+    /* margin: 20px 0 0 40px; */
   }
 
   .content-section {
     margin: 36px 0 0 20px;
+  }
+
+  .menu {
+    min-width: 250px;
+    max-width: 250px;
+  }
+
+
+  .content {
+    /* width: 500px; */
+    width: calc(100% - 250px - 48px);
   }
 
 }
@@ -805,5 +836,5 @@ input {
   /* hi-res laptops and desktops */
 }
 
-/* html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+html, body { height: 100%; }
+/* body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */

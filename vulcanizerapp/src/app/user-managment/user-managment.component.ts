@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { IfStmt } from '@angular/compiler';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserBusiness } from '../business';
 import { NotificationType } from '../enum/notification-type.enum';
 import { State } from '../enum/states.enum';
 import { LoginComponent } from '../login/login.component';
@@ -69,6 +69,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   //Create Business
   ///
   //creating states
+  public businessList: boolean = false;
   public createBusinessStart: boolean = true;
   public createBusinessNip: boolean = false;
   public createBusinessDetails: boolean = false;
@@ -168,6 +169,9 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     { id: 16, label: this.stateClass.ZACHODNIO_POMORSKIE },
   ];
 
+  columnsToDisplay: string[] = ['position','name', 'status', 'action'];
+  public businesses: UserBusiness[] = new Array<UserBusiness>;
+
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
@@ -190,7 +194,6 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.username = user.firstName + ' ' + user.lastName;
     this.saveSavedData();
     this.setFields();
-    this.checkUserBusinesses()
   }
 
   fillStateFiled() {
@@ -237,6 +240,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.createBusinessDetails = false;
     this.createBusinessDescription = false;
     this.createBusinessSummary = false;
+    this.createBusinessEnd = false;
 
     this.emptyUserDetailsMessage = false;
     this.emptyPhoneNumberMessage = false;
@@ -246,6 +250,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.emptyAddressPostalCodeMessage = false;
     this.emptyAddressStateMessage = false;
     this.emptyAddressCountryMessage = false;
+    this.checkUserBusinesses();
   }
 
   setAllContentToFalse() {
@@ -359,8 +364,60 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     return 0;
   }
 
-  checkUserBusinesses(){
-    
+  preapreUserBusinessList(businessList: HTMLElement) {
+    this.createTableTopDiv('Nazwa', businessList);
+    this.createTableTopDiv('Status', businessList);
+    this.createTableTopDiv('Akcja', businessList);
+  }
+
+  createTableTopDiv(name: string, businessList: HTMLElement) {
+    const div = document.createElement('div');
+    div.classList.add('grid-border', 'center-text');
+    const span = document.createElement('span');
+    span.insertAdjacentText('afterbegin', name);
+    div.appendChild(span);
+    businessList.appendChild(div);
+  }
+
+  checkUserBusinesses() {
+    this.userService.getUserBusiness().subscribe(
+      (response) => {
+        if (response.body == null) {
+          return;
+        }
+        this.businessList = true;
+        this.createBusinessStart = false;
+        
+        for (let index = 0; index < response.body.length; index++) {
+          let userBusiness = response.body[index];
+          userBusiness.noId = index+1;
+          userBusiness.isPanelDisable = true;
+          if (userBusiness.businessStatus === 'NOT_ACTIVE') {
+            userBusiness.statusClass = 'badge-warning';
+            userBusiness.businessStatus = 'Oczekujący';
+          } else if (userBusiness.businessStatus === 'ACTIVE') {
+            userBusiness.statusClass = 'badge-success';
+            userBusiness.businessStatus = 'Aktywny';
+            userBusiness.isPanelDisable = false;
+          } else {
+            userBusiness.statusClass = 'badge-danger';
+            userBusiness.businessStatus = 'Odrzucony';
+          }
+          if(userBusiness.position === 'OWNER'){
+            userBusiness.position = 'Właściciel'
+          }else if(userBusiness.position === 'MODERATOR'){
+            userBusiness.position = 'Moderator'
+          }else {
+            userBusiness.position = 'Pracownik'
+          }
+          
+        }  
+        this.businesses = response.body;
+      },
+      (error) => {
+        console.log(error.error.message);
+      }
+    );
   }
 
   accountDetailsValueChanges() {
@@ -834,8 +891,12 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   // Create Bussiness for user
   ///
 
+  addBusiness(){
+      this.businessList = false;
+      this.createBusinessNip = true;
+  }
+
   businessStepOne() {
-    //sprawdzenie czy wszystkie pola w presonal details są uzupełnione - można z localStorage
     if (this.checkUserBeforeCreateBusienss()) {
       this.createBusinessSummary = false;
       this.createBusinessStart = false;
@@ -924,7 +985,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       } else {
         this.emptyPhoneNumberMessage = false;
       }
-      if(user.address == null){
+      if (user.address == null) {
         this.emptyUserDetailsMessage = true;
         this.emptyAddressStreeMessage = true;
         this.emptyAddressCityMessage = true;
@@ -932,7 +993,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         this.emptyAddressCountryMessage = true;
         this.emptyAddressStateMessage = true;
         return false;
-      }else {
+      } else {
         if (user.address.addressLine == null) {
           this.emptyUserDetailsMessage = true;
           this.emptyAddressStreeMessage = true;
@@ -964,7 +1025,6 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
           this.emptyAddressStateMessage = false;
         }
       }
- 
     } else {
       this.emptyUserDetailsMessage = true;
       return false;
@@ -1077,8 +1137,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       .subscribe(
         (response) => {
           this.createBusinessSummary = false;
-          this.createBusinessEnd =true;
-
+          this.createBusinessEnd = true;
         },
         (error: HttpErrorResponse) => {
           this.notificationService.notify(
@@ -1088,4 +1147,6 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         }
       );
   }
+
+
 }

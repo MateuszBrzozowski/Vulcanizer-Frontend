@@ -19,7 +19,12 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { MainComponent } from './main/main.component';
 import { UserManagmentComponent } from './user-managment/user-managment.component';
-import { State } from './enum/states.enum'
+import { State } from './enum/states.enum';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material/slider';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatTableModule} from '@angular/material/table';
+
 
 
 @NgModule({
@@ -39,6 +44,10 @@ import { State } from './enum/states.enum'
     ReactiveFormsModule,
     AppRoutingModule,
     NotificationModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatProgressSpinnerModule,
+    MatTableModule
   ],
   providers: [
     UserService,
