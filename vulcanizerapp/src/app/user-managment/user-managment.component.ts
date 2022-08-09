@@ -75,6 +75,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public createBusinessPhones: boolean = false;
   public createBusinessDescription: boolean = false;
   public createBusinessSummary: boolean = false;
+  public createBusinessEnd: boolean = false;
 
   //validation message below inputs
   public emptyUserDetailsMessage: boolean = false;
@@ -189,6 +190,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.username = user.firstName + ' ' + user.lastName;
     this.saveSavedData();
     this.setFields();
+    this.checkUserBusinesses()
   }
 
   fillStateFiled() {
@@ -355,6 +357,10 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       }
     }
     return 0;
+  }
+
+  checkUserBusinesses(){
+    
   }
 
   accountDetailsValueChanges() {
@@ -918,36 +924,47 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       } else {
         this.emptyPhoneNumberMessage = false;
       }
-      if (user.address.addressLine == null) {
+      if(user.address == null){
         this.emptyUserDetailsMessage = true;
         this.emptyAddressStreeMessage = true;
-      } else {
-        this.emptyAddressStreeMessage = false;
-      }
-      if (user.address.city == null) {
-        this.emptyUserDetailsMessage = true;
         this.emptyAddressCityMessage = true;
-      } else {
-        this.emptyAddressCityMessage = false;
-      }
-      if (user.address.code == null) {
-        this.emptyUserDetailsMessage = true;
         this.emptyAddressPostalCodeMessage = true;
-      } else {
-        this.emptyAddressPostalCodeMessage = false;
-      }
-      if (user.address.country == null) {
-        this.emptyUserDetailsMessage = true;
         this.emptyAddressCountryMessage = true;
-      } else {
-        this.emptyAddressCountryMessage = false;
-      }
-      if (user.address.state == null) {
-        this.emptyUserDetailsMessage = true;
         this.emptyAddressStateMessage = true;
-      } else {
-        this.emptyAddressStateMessage = false;
+        return false;
+      }else {
+        if (user.address.addressLine == null) {
+          this.emptyUserDetailsMessage = true;
+          this.emptyAddressStreeMessage = true;
+        } else {
+          this.emptyAddressStreeMessage = false;
+        }
+        if (user.address.city == null) {
+          this.emptyUserDetailsMessage = true;
+          this.emptyAddressCityMessage = true;
+        } else {
+          this.emptyAddressCityMessage = false;
+        }
+        if (user.address.code == null) {
+          this.emptyUserDetailsMessage = true;
+          this.emptyAddressPostalCodeMessage = true;
+        } else {
+          this.emptyAddressPostalCodeMessage = false;
+        }
+        if (user.address.country == null) {
+          this.emptyUserDetailsMessage = true;
+          this.emptyAddressCountryMessage = true;
+        } else {
+          this.emptyAddressCountryMessage = false;
+        }
+        if (user.address.state == null) {
+          this.emptyUserDetailsMessage = true;
+          this.emptyAddressStateMessage = true;
+        } else {
+          this.emptyAddressStateMessage = false;
+        }
       }
+ 
     } else {
       this.emptyUserDetailsMessage = true;
       return false;
@@ -1058,7 +1075,11 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         this.busienssDataPhoneSecond
       )
       .subscribe(
-        (response) => {},
+        (response) => {
+          this.createBusinessSummary = false;
+          this.createBusinessEnd =true;
+
+        },
         (error: HttpErrorResponse) => {
           this.notificationService.notify(
             NotificationType.ERROR,

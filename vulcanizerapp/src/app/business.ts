@@ -7,7 +7,6 @@ export interface Business {
   nip: string;
   createdDate: string;
   description: string;
-  status: string;
   address: Address;
   photo: string;
 }

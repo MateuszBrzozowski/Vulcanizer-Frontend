@@ -362,6 +362,22 @@
 
           <div class="content-section" [hidden]="!createBusinessStart">
             <div class="header">
+              <h4>Twój biznes</h4>
+            </div>
+            <button class="btn btn-secondary badge badge-secondary margin-top">Dodaj kolejny</button>
+
+            <div class="busienss-list margin-top">
+              <div class="grid-border center-text"><span>Nazwa</span></div>
+              <div class="grid-border center-text"><span>Status</span></div>
+              <div class="grid-border center-text"><span>Akcja</span></div>
+              <div class="grid-border vertical-midle"><span>stanowisko - Nazwa biznesu</span></div>
+              <div class="grid-border"><span class="badge badge-warning margin">Oczekujący</span></div>
+              <div class="grid-border"><button class="btn btn-secondary btn-business-managment margin">Panel</button></div>     
+            </div>
+          </div>
+
+          <div class="content-section" [hidden]="!createBusinessStart">
+            <div class="header">
               <h4>Zacznij korzystać za darmo</h4>
             </div>
             <div class="managment-form one-column">
@@ -599,8 +615,12 @@
                   <label for="inputPhoneFirst" class="form-label"
                     >Numer tel.</label
                   >
-                  <small *ngIf="phoneFirstIsNotValidMessage">Nieprawidłowy numer telefonu.</small>
-                  <small *ngIf="phoneFirstIsRequiredMessage">Numer obowiązkowy</small>
+                  <small *ngIf="phoneFirstIsNotValidMessage"
+                    >Nieprawidłowy numer telefonu.</small
+                  >
+                  <small *ngIf="phoneFirstIsRequiredMessage"
+                    >Numer obowiązkowy</small
+                  >
                 </div>
 
                 <div class="form-group">
@@ -616,7 +636,9 @@
                   <label for="inputPhoneSecond" class="form-label"
                     >Numer tel. (opcjonalnie)</label
                   >
-                  <small *ngIf="phoneSecondIsNotValidMessage">Nieprawidłowy numer telefonu.</small>
+                  <small *ngIf="phoneSecondIsNotValidMessage"
+                    >Nieprawidłowy numer telefonu.</small
+                  >
                 </div>
 
                 <div class="form-group">
@@ -633,8 +655,6 @@
               </form>
             </div>
           </div>
-
-
 
           <div class="content-section" [hidden]="!createBusinessDescription">
             <div class="header">
@@ -706,10 +726,10 @@
                   {{ businessDetails.value.addressLine }}<br />
                   {{ businessDetails.value.city }},
                   {{ businessDetails.value.postalCode }} <br />
-                  {{states[busienssDataStateId].label}},
-                  {{countries[busienssDataCountryId].label}} <br />
-                  Tel. {{busienssDataPhoneFirst}} <br />
-                  Tel. {{busienssDataPhoneSecond}}
+                  {{ states[busienssDataStateId].label }},
+                  {{ countries[busienssDataCountryId].label }} <br />
+                  Tel. {{ busienssDataPhoneFirst }} <br />
+                  Tel. {{ busienssDataPhoneSecond }}
                 </div>
                 <br /><br />
                 <h5>Nazwa w serwisie</h5>
@@ -741,6 +761,22 @@
                 </button>
               </div>
             </div>
+          </div>
+
+          <div class="content-section" *ngIf="createBusinessEnd">
+            <div class="form-group flex-row">
+              <h5>Dziękujemy za założenie konta biznes w naszym serwisie</h5>
+              Otrzymaliśmy twoje zgłoszenie. Więcej szczegółów prześlemy w
+              wiadomości e-mail. Pełen dostęp do serwisu będzie możliwy po
+              pozytywnym wyniku werfikacji Państwa firmy.
+            </div>
+            <button
+              type="submit"
+              class="btn btn-success"
+              style="margin-left: 1em"
+            >
+              Zakończ
+            </button>
           </div>
         </div>
       </div>

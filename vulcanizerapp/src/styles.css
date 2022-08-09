@@ -25,6 +25,8 @@
   --color-form-gray: #4f4f4f;
   --color-form-inactive: #212529;
   --color-form-start-border: 1px solid #ced4da;
+  --color-badge-warning: #ffc107;
+  --color-badge-secondary: #6c757d;
 }
 
 * {
@@ -486,6 +488,49 @@ small {
 
 .content {
   width: 100vw;
+}
+
+.busienss-list {
+  display: grid;
+  grid-template-columns: 60% 20% 20%;
+  align-items: center;
+  border-bottom: 1px var(--color-border-gray) solid;
+  border-left: 1px var(--color-border-gray) solid;
+}
+
+.badge-warning {
+  background-color: var(--color-badge-warning) ;
+}
+
+.badge-secondary {
+  background-color: var(--color-badge-secondary) ;
+}
+
+.margin {
+  margin: 0.5em;
+}
+
+.margin-top {
+  margin-top: 2em;
+}
+
+
+.btn-business-managment {
+  line-height: 1;
+}
+
+.grid-border {
+  height: 100%;
+  border-top: 1px var(--color-border-gray) solid;
+  border-right: 1px var(--color-border-gray) solid;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.vertical-midle {
+  vertical-align: middle;
 }
 
 .managment-form {
