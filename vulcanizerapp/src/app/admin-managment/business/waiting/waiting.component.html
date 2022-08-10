@@ -1,1 +1,57 @@
-<p>waiting works!</p>
+<div class="table">
+    <!-- <mat-form-field appearance="standard">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+      </mat-form-field> -->
+  <table
+    mat-table
+    [dataSource]="businesses"
+    class="mat-elevation-z8"
+  >
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>L.P.</th>
+      <td mat-cell *matCellDef="let element">1</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.position }} - {{ element.businessName }}
+      </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Właściciel</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="badge margin {{ element.statusClass }}">{{
+          element.businessStatus
+        }}</span>
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Akcja</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          id="panel_{{ element.noId }}"
+          class="btn btn-secondary btn-business-managment, margin"
+          style="font-size: 0.8rem"
+        >
+          Panel
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page of users"
+  ></mat-paginator>
+</div>

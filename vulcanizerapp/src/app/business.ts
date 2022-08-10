@@ -15,9 +15,10 @@ export interface Business {
 export class UserBusiness {
   noId: number = 1;
   position: string = '';
-  businessId: string = '';
-  businessName: string = '';
-  businessStatus: string = '';
+  companyId: string = '';
+  companyBranchId: string = '';
+  companyBranchName: string = '';
+  companyBranchStatus: string = '';
   statusClass: string = '';
   isPanelDisable: boolean = true;
 }

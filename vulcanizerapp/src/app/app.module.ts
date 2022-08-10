@@ -27,6 +27,8 @@ import {MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
 import { AdminManagmentComponent } from './admin-managment/admin-managment.component';
 import { WaitingComponent } from './admin-managment/business/waiting/waiting.component';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -54,6 +56,8 @@ import { WaitingComponent } from './admin-managment/business/waiting/waiting.com
     MatProgressSpinnerModule,
     MatTableModule,
     MatMenuModule,
+    MatPaginatorModule,
+    MatFormFieldModule
   ],
   providers: [
     UserService,
@@ -68,7 +72,6 @@ import { WaitingComponent } from './admin-managment/business/waiting/waiting.com
     UserManagmentComponent,
     LoginComponent,
     State,
-
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

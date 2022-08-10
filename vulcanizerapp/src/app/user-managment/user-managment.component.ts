@@ -398,16 +398,16 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
           let userBusiness = response.body[index];
           userBusiness.noId = index+1;
           userBusiness.isPanelDisable = true;
-          if (userBusiness.businessStatus === 'NOT_ACTIVE') {
+          if (userBusiness.companyBranchStatus === 'NOT_ACTIVE') {
             userBusiness.statusClass = 'badge-warning';
-            userBusiness.businessStatus = 'Oczekujący';
-          } else if (userBusiness.businessStatus === 'ACTIVE') {
+            userBusiness.companyBranchStatus = 'Oczekujący';
+          } else if (userBusiness.companyBranchStatus === 'ACTIVE') {
             userBusiness.statusClass = 'badge-success';
-            userBusiness.businessStatus = 'Aktywny';
+            userBusiness.companyBranchStatus = 'Aktywny';
             userBusiness.isPanelDisable = false;
           } else {
             userBusiness.statusClass = 'badge-danger';
-            userBusiness.businessStatus = 'Odrzucony';
+            userBusiness.companyBranchStatus = 'Odrzucony';
           }
           if(userBusiness.position === 'OWNER'){
             userBusiness.position = 'Właściciel'
