@@ -111,4 +111,28 @@ export class AuthenticationService {
     this.logOut();
     return false;
   }
+
+  public isAdmin() : boolean {
+      if(this.isSuperAdmin()) {
+        return true;
+      }else {
+        //TODO in future another auth check 
+        return false;
+      }
+  }
+  
+  public isSuperAdmin() : boolean {
+    this.loadToken();
+    if(this.token!=null && this.token!== ''){
+      if(this.jwtHelper.decodeToken(this.token).Authorities != null || ''){
+        const auth: string[] = this.jwtHelper.decodeToken(this.token).Authorities
+        for (let index = 0; index < auth.length; index++) {
+          if(auth[index] === 'super:admin'){
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
 }

@@ -24,6 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
+import {MatMenuModule} from '@angular/material/menu';
+import { AdminManagmentComponent } from './admin-managment/admin-managment.component';
 
 
 
@@ -34,7 +36,8 @@ import {MatTableModule} from '@angular/material/table';
     NotFoundComponent,
     MainComponent,
     ResetPasswordComponent,
-    UserManagmentComponent
+    UserManagmentComponent,
+    AdminManagmentComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import {MatTableModule} from '@angular/material/table';
     BrowserAnimationsModule,
     MatSliderModule,
     MatProgressSpinnerModule,
-    MatTableModule
+    MatTableModule,
+    MatMenuModule,
   ],
   providers: [
     UserService,
@@ -61,7 +65,8 @@ import {MatTableModule} from '@angular/material/table';
     ResetPasswordComponent,
     UserManagmentComponent,
     LoginComponent,
-    State
+    State,
+
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

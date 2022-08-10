@@ -17,6 +17,9 @@
         <button (click)="setContentBusiness()">
           <span>Biznes</span>
         </button>
+        <button *ngIf="isAdmin" (click)="adminManagment()">
+          <span>Panel Administracyjny</span>
+        </button>
         <button id="logout-button" (click)="logout()">
           <span>Wyloguj</span>
         </button>
@@ -379,7 +382,7 @@
             >
               <!-- Position Column -->
               <ng-container matColumnDef="position">
-                <th mat-header-cell *matHeaderCellDef>No.</th>
+                <th mat-header-cell *matHeaderCellDef>L.P.</th>
                 <td mat-cell *matCellDef="let element">{{ element.noId }}</td>
               </ng-container>
 
@@ -408,6 +411,7 @@
                   <button
                     id="panel_{{ element.noId }}"
                     class="btn btn-secondary btn-business-managment, margin"
+                    style="font-size: 0.8rem;"
                     [disabled]="element.isPanelDisable"
                   >
                     Panel

@@ -27,6 +27,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public isContentVisits: boolean = false;
   public isContentFavorits: boolean = false;
   public isContentBusiness: boolean = false;
+  public isAdmin: boolean = false;
   public passTouched: boolean = false;
 
   //account details validation message controls below inputs
@@ -194,6 +195,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.username = user.firstName + ' ' + user.lastName;
     this.saveSavedData();
     this.setFields();
+    this.isAdmin = this.authenticationService.isAdmin();
   }
 
   fillStateFiled() {
@@ -210,6 +212,10 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     if (this.genderNull) {
       btnGenderNull?.classList.add('btn-selected');
     }
+  }
+
+  adminManagment(){
+    this.router.navigateByUrl('/admin/managment')
   }
 
   logout() {
