@@ -5,6 +5,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { MainComponent } from './main/main.component';
 import { UserManagmentComponent } from './user-managment/user-managment.component';
 import { AdminManagmentComponent } from './admin-managment/admin-managment.component';
+import { WaitingComponent } from './admin-managment/business/waiting/waiting.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},

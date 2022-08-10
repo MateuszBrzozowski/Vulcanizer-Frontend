@@ -10,20 +10,26 @@
       Menu
     </button>
     <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="startPage()">Start</button>
       <button mat-menu-item [matMenuTriggerFor]="users">Użytkownicy</button>
       <button mat-menu-item [matMenuTriggerFor]="business">Biznes</button>
     </mat-menu>
 
     <mat-menu #business="matMenu">
-      <button mat-menu-item>Oczekujące</button>
+      <button mat-menu-item (click)="viewBusinessWaiting()">Oczekujące</button>
     </mat-menu>
 
     <mat-menu #users="matMenu">
       <button mat-menu-item>Szukaj</button>
     </mat-menu>
 
-    <div class="managment-body">
-        <router-outlet></router-outlet>
+    <div class="managment-body" *ngIf="isAdminMain">
+        Siemankooo <br>
+        Może tu jakieś miesięczne, dzienne statystyki jebniemy?
+    </div>
+
+    <div class="managment-body" *ngIf="isWaitingComponent">
+        <app-waiting></app-waiting>
     </div>
   </div>
 </div>

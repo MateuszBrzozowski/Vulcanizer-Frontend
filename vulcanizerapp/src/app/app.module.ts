@@ -26,6 +26,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
 import { AdminManagmentComponent } from './admin-managment/admin-managment.component';
+import { WaitingComponent } from './admin-managment/business/waiting/waiting.component';
 
 
 
@@ -37,7 +38,8 @@ import { AdminManagmentComponent } from './admin-managment/admin-managment.compo
     MainComponent,
     ResetPasswordComponent,
     UserManagmentComponent,
-    AdminManagmentComponent
+    AdminManagmentComponent,
+    WaitingComponent
   ],
   imports: [
     BrowserModule,

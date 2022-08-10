@@ -9,6 +9,9 @@ import { MatMenuTrigger} from '@angular/material/menu';
   styleUrls: ['./admin-managment.component.css'],
 })
 export class AdminManagmentComponent implements OnInit {
+  isAdminMain: boolean = true;
+  isWaitingComponent: boolean = false;
+
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router
@@ -21,4 +24,19 @@ export class AdminManagmentComponent implements OnInit {
   }
 
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined;
+
+  setAllViewsHidden() {
+    this.isAdminMain = false;
+    this.isWaitingComponent = false;
+  }
+
+  startPage(){
+    this.setAllViewsHidden();
+    this.isAdminMain = true;
+  }
+
+  viewBusinessWaiting(){
+    this.setAllViewsHidden();
+    this.isWaitingComponent = true;
+  }
 }
