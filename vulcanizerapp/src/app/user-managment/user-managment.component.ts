@@ -405,6 +405,12 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
             userBusiness.statusClass = 'badge-success';
             userBusiness.companyBranchStatus = 'Aktywny';
             userBusiness.isPanelDisable = false;
+          }else if (userBusiness.companyBranchStatus === 'LOCKED'){
+            userBusiness.statusClass = 'badge-danger';
+            userBusiness.companyBranchStatus = 'Zablokowany';
+          } else if (userBusiness.companyBranchStatus === 'CLOSED'){
+            userBusiness.statusClass = 'badge-danger';
+            userBusiness.companyBranchStatus = 'Zamknięty';
           } else {
             userBusiness.statusClass = 'badge-danger';
             userBusiness.companyBranchStatus = 'Odrzucony';
