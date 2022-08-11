@@ -122,6 +122,8 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public busienssDataCountryId: number = 0;
   public companyBranchDataCountryId: number = 0;
 
+  public isAddOnlyBranch: boolean = false;
+
   userAccountDetails: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -780,18 +782,6 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.updateAddressButtonVisable = false;
   }
 
-  selectStateNewValue(state: HTMLSelectElement) {
-    // this.stateNewSelected = state.options.selectedIndex;
-    // this.checkAddressValueChanges();
-  }
-
-  selectCountryNewValue(country: HTMLSelectElement) {
-    // if(this.countryNewSelected != country.options.selectedIndex){
-    //   this.countryNewSelected = country.options.selectedIndex;
-    // }
-    // this.checkAddressValueChanges();
-  }
-
   accountUpdatePassword() {
     if (this.checkNewPassword()) {
       this.userService
@@ -957,6 +947,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       this.nipIsNotValidMessage = false;
       this.createBusinessNip = false;
       this.createBusinessDetails = true;
+      this.isAddOnlyBranch = false;
       this.busienssDataNIP = nipNumber;
     } else {
       this.nipIsNotValidMessage = true;
@@ -980,6 +971,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.nipIsNotValidMessage = false;
     this.createBusinessNip = false;
     this.createBusinessDescription = true;
+    this.isAddOnlyBranch = true;
   }
 
   getindexOfContryFromString(contry: string): number {
@@ -1286,15 +1278,10 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   }
 
   createBusiness() {
-    this.userService
-      .createBusiness(
+    if (this.isAddOnlyBranch) {
+      console.log("tak jest malenki");
+      this.userService.createOnlyCompanyBranch(
         this.busienssDataNIP,
-        this.businessDetails.value.name,
-        this.businessDetails.value.addressLine,
-        this.businessDetails.value.city,
-        this.businessDetails.value.postalCode,
-        this.states[this.busienssDataStateId].label,
-        this.countries[this.busienssDataCountryId].label,
         this.companyBranchDetails.value.addressLine,
         this.companyBranchDetails.value.city,
         this.companyBranchDetails.value.postalCode,
@@ -1302,22 +1289,53 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         this.countries[this.companyBranchDataCountryId].label,
         this.companyBranchName,
         this.companyBranchDataDescription,
-        this.busienssDataPhoneFirst,
         this.companyBranchDataPhone,
-        this.companyId
-      )
-      .subscribe(
+      ).subscribe(
         (response) => {
           this.createBusinessSummary = false;
           this.createBusinessEnd = true;
         },
-        (error: HttpErrorResponse) => {
+        (error) => {
           this.notificationService.notify(
             NotificationType.ERROR,
             'Rejestracja niepowiodła się! Spróbuj ponownie. Jeżeli błąd powatrza się skontaktuj się z administaracją'
           );
         }
-      );
+      )
+
+    } else {
+      this.userService
+        .createBusiness(
+          this.busienssDataNIP,
+          this.businessDetails.value.name,
+          this.businessDetails.value.addressLine,
+          this.businessDetails.value.city,
+          this.businessDetails.value.postalCode,
+          this.states[this.busienssDataStateId].label,
+          this.countries[this.busienssDataCountryId].label,
+          this.companyBranchDetails.value.addressLine,
+          this.companyBranchDetails.value.city,
+          this.companyBranchDetails.value.postalCode,
+          this.states[this.companyBranchDataStateId].label,
+          this.countries[this.companyBranchDataCountryId].label,
+          this.companyBranchName,
+          this.companyBranchDataDescription,
+          this.busienssDataPhoneFirst,
+          this.companyBranchDataPhone,
+        )
+        .subscribe(
+          (response) => {
+            this.createBusinessSummary = false;
+            this.createBusinessEnd = true;
+          },
+          (error: HttpErrorResponse) => {
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              'Rejestracja niepowiodła się! Spróbuj ponownie. Jeżeli błąd powatrza się skontaktuj się z administaracją'
+            );
+          }
+        );
+    }
   }
 
   companyBranchAddressVisable(htmlInput: HTMLInputElement) {
