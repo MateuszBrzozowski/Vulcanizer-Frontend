@@ -944,11 +944,12 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
           return;
         }
       }
-      this.nipIsNotValidMessage = false;
-      this.createBusinessNip = false;
-      this.createBusinessDetails = true;
-      this.isAddOnlyBranch = false;
-      this.busienssDataNIP = nipNumber;
+      if(!this.nipIsNotValidMessage){
+        this.createBusinessNip = false;
+        this.createBusinessDetails = true;
+        this.isAddOnlyBranch = false;
+        this.busienssDataNIP = nipNumber;
+      }
     } else {
       this.nipIsNotValidMessage = true;
     }
@@ -1153,8 +1154,24 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       this.nipIsNotValidMessage = true;
     } else {
       this.nipIsNotValidMessage = false;
+      this.nipControl(nipNumber);
     }
     return nipNumber.length;
+  }
+
+  nipControl(nip: string) {
+    const weights: number[] = [6, 5, 7, 2, 3, 4, 5, 6, 7];
+    let sum : number = 0;
+    for (let index = 0; index < weights.length; index++) {
+      const charInt : number = +nip.charAt(index); 
+      sum = sum + (weights[index] * charInt);
+    }
+    const charLast : number = +nip.charAt(9);
+    if(sum % 11 != charLast){
+      this.nipIsNotValidMessage = true;
+    }else {
+      this.nipIsNotValidMessage = false;
+    }
   }
 
   checkBusinessAddress(
