@@ -404,21 +404,6 @@
                 </td>
               </ng-container>
 
-              <!-- Symbol Column -->
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef>Akcja</th>
-                <td mat-cell *matCellDef="let element">
-                  <button
-                    id="panel_{{ element.noId }}"
-                    class="btn btn-secondary btn-business-managment, margin"
-                    style="font-size: 0.8rem"
-                    [disabled]="element.isPanelDisable"
-                  >
-                    Panel
-                  </button>
-                </td>
-              </ng-container>
-
               <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
               <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
             </table>
@@ -490,8 +475,16 @@
             <div class="header">
               <h4>Wypełnij dane</h4>
             </div>
+
+            <!-- Pokazanie listy biznesow jezeli user ma z niapmi i nazwa
+            Pytanie czy chcesz dodac oddzial do istniejacego biznesu czy 
+          stworzyc nowy biznes i z nowym oddzialem
+        Jeżeli kliknie w nip to przechodzi do podania nazwy i adresu, jak wpisze taki jak juz istnieje,
+      to BE to musi sprawdzić i nie pozowli już mu założyć drugiego takiego samego oddziału w tym samym miejscu. 
+    Jak będzie chciał dodać nowy biznes to poakzuje sie NIP-->
+
             <div class="managment-form one-column">
-              <form action="create-business-nip">
+              <form action="create-business-nip" class="form">
                 <div class="form-group">
                   <input
                     #inputNip
@@ -529,7 +522,7 @@
             <div class="managment-form one-column">
               <form
                 action="create-business-nip"
-                class="form"
+                class="form widht-100"
                 [formGroup]="businessDetails"
               >
                 <div class="form-group">
@@ -661,7 +654,7 @@
               <h4>Kontakt</h4>
             </div>
             <div class="managment-form">
-              <form action="create-business-phone">
+              <form action="create-business-phone" class="form">
                 <div class="form-group">
                   <input
                     #businessPhoneFirst
@@ -684,30 +677,10 @@
                 </div>
 
                 <div class="form-group">
-                  <input
-                    #businessPhoneSecond
-                    type="text"
-                    maxlength="15"
-                    class="form-control"
-                    id="inputPhoneSecond"
-                    placeholder="Numer tel. (opcjonalnie)"
-                    required="required"
-                  />
-                  <label for="inputPhoneSecond" class="form-label"
-                    >Numer tel. (opcjonalnie)</label
-                  >
-                  <small *ngIf="phoneSecondIsNotValidMessage"
-                    >Nieprawidłowy numer telefonu.</small
-                  >
-                </div>
-
-                <div class="form-group">
                   <button
                     type="button"
                     class="btn btn-primary"
-                    (click)="
-                      businessStepFour(businessPhoneFirst, businessPhoneSecond)
-                    "
+                    (click)="businessStepFour(businessPhoneFirst)"
                   >
                     Dalej
                   </button>
@@ -724,7 +697,7 @@
               <h4>Opis działalności</h4>
             </div>
             <div class="managment-form">
-              <form action="create-business-nip">
+              <form action="create-business-nip" class="form">
                 <div class="form-group">
                   <input
                     #businessDisplayName
@@ -738,7 +711,7 @@
                     >Wyświetlana nazwa</label
                   >
                   <small class="text-gray"
-                    ><b>Skrócona nazwa firmy</b><br />
+                    ><b>Skrócona nazwa firmy/oddziału</b><br />
                     Nazwa która będzie wyświetlana w serwisie. <br />
                     Brak wypełnienia = Cała nazwa firmy</small
                   >
@@ -762,11 +735,207 @@
                 </div>
 
                 <div class="form-group">
+                  <form action="address-company-branch" class="form">
+                    <label class="radio-group-label"
+                      >Adres wykonywanej działalności</label
+                    >
+                    <div class="form-check">
+                      <input
+                        #inputAddressFalse
+                        type="radio"
+                        class="form-check-input"
+                        id="radio1"
+                        name="optradio"
+                        value="false"
+                        checked
+                        (click)="companyBranchAddressVisable(inputAddressFalse)"
+                      />Taki sam jak działalności
+                      <label class="form-check-label" for="radio1"></label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        #inputAddressTrue
+                        type="radio"
+                        class="form-check-input"
+                        id="radio2"
+                        name="optradio"
+                        value="true"
+                        (click)="companyBranchAddressVisable(inputAddressTrue)"
+                      />Inny
+                      <label class="form-check-label" for="radio2"></label>
+                    </div>
+                  </form>
+                </div>
+
+                <div
+                  class="form-group"
+                  [hidden]="!createBusinessAddressCompanyBranch"
+                >
+                  <form class="form" [formGroup]="companyBranchDetails">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        maxlength="255"
+                        class="form-control"
+                        id="InputCompanyBranchStreet"
+                        required="required"
+                        placeholder="Ulica i numer"
+                        formControlName="addressLine"
+                      />
+                      <label for="InputCompanyBranchStreet" class="form-label"
+                        >Ulica i numer</label
+                      >
+                      <small *ngIf="companyBranchStreetIsRequiredMessage"
+                        >Ulica i numer są wymagane</small
+                      >
+                    </div>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        maxlength="40"
+                        class="form-control"
+                        id="InputCompanyBranchCity"
+                        required="required"
+                        placeholder="Miasto"
+                        formControlName="city"
+                      />
+                      <label for="InputCompanyBranchCity" class="form-label"
+                        >Miasto</label
+                      >
+                      <small *ngIf="companyBranchCityIsRequiredMessage"
+                        >Miasto jest wymagane</small
+                      >
+                    </div>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        maxlength="6"
+                        class="form-control"
+                        id="InputCompanyBranchPostalCode"
+                        required="required"
+                        placeholder="Kod pocztowy XX-XXX"
+                        formControlName="postalCode"
+                      />
+                      <label for="InputCompanyBranchPostalCode" class="form-label"
+                        >Kod pocztowy XX-XXX</label
+                      >
+                      <small *ngIf="companyBranchPostalCodeIsRequiredMessage"
+                        >Kod pocztowy jest wymagany</small
+                      >
+                      <small *ngIf="companyBranchPostalCodeIsNotValidMessage"
+                        >Nieprawdidłowy kod pocztowy</small
+                      >
+                    </div>
+                    <div class="form-group">
+                      <!-- <label for="state">Województwo</label> -->
+                      <div class="form-control select-dropdown">
+                        <select #selectStateCompanyBranch id="companyBranchState">
+                          <option
+                            *ngFor="let state of states"
+                            [value]="state.id"
+                          >
+                            {{ state.label }}
+                          </option>
+                        </select>
+                        <small *ngIf="companyBranchStateIsRequiredMessage"
+                          >Województwo jest wymagane</small
+                        >
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="form-control select-dropdown">
+                        <select #selectCountryCompanyBranch id="companyBranchCountry">
+                          <option
+                            *ngFor="let country of countries"
+                            [value]="country.id"
+                            [selected]="country.id == 1"
+                          >
+                            {{ country.label }}
+                          </option>
+                        </select>
+                        <small *ngIf="companyBranchCountryIsRequiredMessage"
+                          >Państwo jest wymagane</small
+                        >
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="form-group">
+                  <form action="address-company-branch" class="form">
+                    <label class="radio-group-label">Telefon</label>
+                    <div class="form-check">
+                      <input
+                        #inputPhoneFalse
+                        type="radio"
+                        class="form-check-input"
+                        id="radio3"
+                        name="optradio"
+                        value="false"
+                        checked
+                        (click)="companyBranchPhoneVisable(inputAddressFalse)"
+                      />Taki sam jak działalności
+                      <label class="form-check-label" for="radio3"></label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        #inputPhoneTrue
+                        type="radio"
+                        class="form-check-input"
+                        id="radio4"
+                        name="optradio"
+                        value="true"
+                        (click)="companyBranchPhoneVisable(inputAddressTrue)"
+                      />Inny
+                      <label class="form-check-label" for="radio4"></label>
+                    </div>
+                  </form>
+                </div>
+
+                <div
+                  class="form-group"
+                  [hidden]="!createBusinessPhoneCompanyBranch"
+                >
+                  <form action="create-business-phone" class="form">
+                    <div class="form-group">
+                      <input
+                        #businessPhoneCompanyBranch
+                        type="text"
+                        maxlength="15"
+                        class="form-control"
+                        id="inputPhoneCompanyBranch"
+                        placeholder="Numer tel."
+                        required="required"
+                      />
+                      <label for="inputPhoneCompanyBranch" class="form-label"
+                        >Numer tel.</label
+                      >
+                      <small *ngIf="phoneCompanyBranchIsNotValidMessage"
+                        >Nieprawidłowy numer telefonu.</small
+                      >
+                      <small *ngIf="phoneCompanyBranchIsRequiredMessage"
+                        >Numer obowiązkowy</small
+                      >
+                    </div>
+                  </form>
+                </div>
+                <!-- Checkbox czy chcesz podać inny numer do miejsca wykonywania usług
+              Jeżeli tak to pokazuje sie input z numerem do wpisania 
+            Jeżeli nie to przypisujemy do zmiennej numer do oddzialu - może być taaki sam 
+          jak pierwszy, BE będzie wiedział co z tym zrobić :) -->
+
+                <div class="form-group">
                   <button
                     type="button"
                     class="btn btn-primary"
                     (click)="
-                      businessStepFive(businessDisplayName, busienssDescription)
+                      businessStepFive(
+                        businessDisplayName,
+                        busienssDescription,
+                        selectStateCompanyBranch,
+                        selectCountryCompanyBranch,
+                        businessPhoneCompanyBranch
+                      )
                     "
                   >
                     Dalej
@@ -794,13 +963,18 @@
                   {{ businessDetails.value.postalCode }} <br />
                   {{ states[busienssDataStateId].label }},
                   {{ countries[busienssDataCountryId].label }} <br />
-                  Tel. {{ busienssDataPhoneFirst }} <br />
-                  Tel. {{ busienssDataPhoneSecond }}
+                  Tel. {{ busienssDataPhoneFirst }} 
                 </div>
                 <br /><br />
-                <h5>Nazwa w serwisie</h5>
+                <h5>Oddział</h5>
                 <div class="description">
-                  {{ busienssDataDisplayName }}
+                  {{ companyBranchName }} <br>
+                  {{ companyBranchDetails.value.addressLine }} <br>
+                  {{ companyBranchDetails.value.city }},
+                  {{ companyBranchDetails.value.postalCode }} <br />
+                  {{ states[companyBranchDataStateId].label }},
+                  {{ countries[companyBranchDataCountryId].label }} <br />
+                  Tel. {{ companyBranchDataPhone }} 
                 </div>
                 <br /><br />
                 <h5>Opis</h5>

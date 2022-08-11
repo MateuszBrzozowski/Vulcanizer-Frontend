@@ -76,6 +76,8 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public createBusinessDetails: boolean = false;
   public createBusinessPhones: boolean = false;
   public createBusinessDescription: boolean = false;
+  public createBusinessAddressCompanyBranch: boolean = false;
+  public createBusinessPhoneCompanyBranch: boolean = false;
   public createBusinessSummary: boolean = false;
   public createBusinessEnd: boolean = false;
 
@@ -90,23 +92,33 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public emptyAddressCountryMessage: boolean = false;
   public nipIsNotValidMessage: boolean = false;
   public businessNameIsRequiredMessage: boolean = false;
+  public companyBranchNameIsRequiredMessage: boolean = false;
   public businessStreetIsRequiredMessage: boolean = false;
+  public companyBranchStreetIsRequiredMessage: boolean = false;
   public businessCityIsRequiredMessage: boolean = false;
+  public companyBranchCityIsRequiredMessage: boolean = false;
   public businessPostalCodeIsRequiredMessage: boolean = false;
+  public companyBranchPostalCodeIsRequiredMessage: boolean = false;
   public businessPostalCodeIsNotValidMessage: boolean = false;
+  public companyBranchPostalCodeIsNotValidMessage: boolean = false;
   public businessStateIsRequiredMessage: boolean = false;
+  public companyBranchStateIsRequiredMessage: boolean = false;
   public businessCountryIsRequiredMessage: boolean = false;
+  public companyBranchCountryIsRequiredMessage: boolean = false;
   public phoneFirstIsNotValidMessage: boolean = false;
-  public phoneSecondIsNotValidMessage: boolean = false;
+  public phoneCompanyBranchIsNotValidMessage: boolean = false;
   public phoneFirstIsRequiredMessage: boolean = false;
+  public phoneCompanyBranchIsRequiredMessage: boolean = false;
 
   public busienssDataNIP: string = '';
-  public busienssDataDisplayName: string = '';
+  public companyBranchName: string = '';
   public busienssDataDescription: string = '';
   public busienssDataPhoneFirst: string = '';
-  public busienssDataPhoneSecond: string = '';
+  public companyBranchDataPhone: string = '';
   public busienssDataStateId: number = 0;
+  public companyBranchDataStateId: number = 0;
   public busienssDataCountryId: number = 0;
+  public companyBranchDataCountryId: number = 0;
 
   userAccountDetails: FormGroup = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -145,6 +157,12 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     postalCode: new FormControl(''),
   });
 
+  companyBranchDetails: FormGroup = new FormGroup({
+    addressLine: new FormControl(''),
+    city: new FormControl(''),
+    postalCode: new FormControl(''),
+  });
+
   countries = [
     { id: 0, label: '' },
     { id: 1, label: 'Polska' },
@@ -170,8 +188,9 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     { id: 16, label: this.stateClass.ZACHODNIO_POMORSKIE },
   ];
 
-  columnsToDisplay: string[] = ['position','name', 'status', 'action'];
+  columnsToDisplay: string[] = ['position','name', 'status'];
   public businesses: UserBusiness[] = new Array<UserBusiness>;
+
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -185,7 +204,6 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       this.router.navigateByUrl('');
     }
   }
-
   ngAfterViewInit() {
     this.fillStateFiled();
   }
@@ -618,15 +636,15 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  validBusinessPhoneSecond(phoneInput: HTMLInputElement) {
-    if (phoneInput.value.length > 0) {
+  validCompanyBranchPhone(phoneInput: HTMLInputElement) {
+    if (phoneInput.value.length > 6) {
       if (this.validPhone(phoneInput.value)) {
-        this.phoneSecondIsNotValidMessage = false;
+        this.phoneCompanyBranchIsNotValidMessage = false;
       } else {
-        this.phoneSecondIsNotValidMessage = true;
+        this.phoneCompanyBranchIsNotValidMessage = true;
       }
     } else {
-      this.phoneSecondIsNotValidMessage = false;
+      this.phoneCompanyBranchIsNotValidMessage = true;
     }
   }
 
@@ -940,8 +958,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   }
 
   businessStepFour(
-    phoneFirstInput: HTMLInputElement,
-    phoneSecondInput: HTMLInputElement
+    phoneFirstInput: HTMLInputElement
   ) {
     if (phoneFirstInput.value.length === 0) {
       this.phoneFirstIsRequiredMessage = true;
@@ -950,15 +967,12 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
 
     this.validBusinessPhoneFirst(phoneFirstInput);
-    this.validBusinessPhoneSecond(phoneSecondInput);
 
     if (
       !this.phoneFirstIsNotValidMessage &&
-      !this.phoneFirstIsRequiredMessage &&
-      !this.phoneSecondIsNotValidMessage
+      !this.phoneFirstIsRequiredMessage
     ) {
       this.busienssDataPhoneFirst = phoneFirstInput.value;
-      this.busienssDataPhoneSecond = phoneSecondInput.value;
       this.createBusinessPhones = false;
       this.createBusinessDescription = true;
     }
@@ -966,14 +980,56 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
 
   businessStepFive(
     displayNameInput: HTMLInputElement,
-    descriptionTextarea: HTMLTextAreaElement
+    descriptionTextarea: HTMLTextAreaElement,
+    stateCompanyBranch: HTMLSelectElement,
+    conutryCompanyBranch : HTMLSelectElement,
+    phoneInput: HTMLInputElement
   ) {
+    console.log("Sprawdzam");
+    
+    console.log(this.companyBranchDetails.value.addressLine);
+    console.log(this.companyBranchDetails.value.addressLine.length);
+    
+    if(this.createBusinessAddressCompanyBranch){
+      //sprawdzic adress
+      if(!this.checkCompanyBranchAddress(stateCompanyBranch,conutryCompanyBranch)){
+        return;
+      }else{
+        this.companyBranchDataStateId = stateCompanyBranch.options.selectedIndex;
+        this.companyBranchDataCountryId = conutryCompanyBranch.options.selectedIndex;
+      }
+    }else{
+      this.companyBranchDetails.value.addressLine = this.businessDetails.value.addressLine;
+      this.companyBranchDetails.value.postalCode = this.businessDetails.value.postalCode;
+      this.companyBranchDetails.value.city = this.businessDetails.value.city;
+      this.companyBranchDataStateId = this.busienssDataStateId;
+      this.companyBranchDataCountryId = this.busienssDataCountryId;
+    }
+    if(this.createBusinessPhoneCompanyBranch){
+      if (phoneInput.value.length === 0) {
+        this.phoneCompanyBranchIsRequiredMessage = true;
+      } else {
+        this.phoneCompanyBranchIsRequiredMessage = false;
+      }
+      this.validCompanyBranchPhone(phoneInput);
+      if (
+        this.phoneCompanyBranchIsNotValidMessage &&
+        this.phoneCompanyBranchIsRequiredMessage
+      ){
+        return;
+      }else {
+        this.companyBranchDataPhone = phoneInput.value;
+      }
+    }else {
+      this.companyBranchDataPhone = this.busienssDataPhoneFirst;
+    }
+
     this.createBusinessDescription = false;
     this.createBusinessSummary = true;
     if (displayNameInput.value.length != 0) {
-      this.busienssDataDisplayName = displayNameInput.value;
+      this.companyBranchName = displayNameInput.value;
     } else {
-      this.busienssDataDisplayName = this.businessDetails.value.name;
+      this.companyBranchName = this.businessDetails.value.name;
     }
     if (descriptionTextarea.value.length != 0) {
       this.busienssDataDescription = descriptionTextarea.value;
@@ -1117,6 +1173,56 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
   }
 
+  checkCompanyBranchAddress(
+    state: HTMLSelectElement,
+    country: HTMLSelectElement
+  ): boolean {
+    if (this.companyBranchDetails.value.addressLine.length == 0) {
+      this.companyBranchStreetIsRequiredMessage = true;
+    } else {
+      this.companyBranchStreetIsRequiredMessage = false;
+    }
+    if (this.companyBranchDetails.value.city.length == 0) {
+      this.companyBranchCityIsRequiredMessage = true;
+    } else {
+      this.companyBranchCityIsRequiredMessage = false;
+    }
+    if (this.companyBranchDetails.value.postalCode.length == 0) {
+      this.companyBranchPostalCodeIsRequiredMessage = true;
+    } else {
+      this.companyBranchPostalCodeIsRequiredMessage = false;
+      //is valid?
+      if (this.checkPostalCode(this.companyBranchDetails.value.postalCode)) {
+        this.companyBranchPostalCodeIsNotValidMessage = false;
+      } else {
+        this.companyBranchPostalCodeIsNotValidMessage = true;
+      }
+    }
+    if (state.options.selectedIndex == 0) {
+      this.companyBranchStateIsRequiredMessage = true;
+    } else {
+      this.companyBranchStateIsRequiredMessage = false;
+    }
+    if (country.options.selectedIndex == 0) {
+      this.companyBranchCountryIsRequiredMessage = true;
+    } else {
+      this.companyBranchCountryIsRequiredMessage = false;
+    }
+
+    if (
+      this.companyBranchStreetIsRequiredMessage ||
+      this.companyBranchCityIsRequiredMessage ||
+      this.companyBranchPostalCodeIsRequiredMessage ||
+      this.companyBranchPostalCodeIsNotValidMessage ||
+      this.companyBranchStateIsRequiredMessage ||
+      this.companyBranchCountryIsRequiredMessage
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   private checkPostalCode(code: string): boolean {
     if (code.length == 6) {
       const char = code.indexOf('-');
@@ -1141,10 +1247,10 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         this.businessDetails.value.postalCode,
         this.states[this.busienssDataStateId].label,
         this.countries[this.busienssDataCountryId].label,
-        this.busienssDataDisplayName,
+        this.companyBranchName,
         this.busienssDataDescription,
         this.busienssDataPhoneFirst,
-        this.busienssDataPhoneSecond
+        this.companyBranchDataPhone
       )
       .subscribe(
         (response) => {
@@ -1158,6 +1264,27 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
           );
         }
       );
+  }
+
+  companyBranchAddressVisable(htmlInput : HTMLInputElement){
+    if(htmlInput.value === 'false'){
+      this.createBusinessAddressCompanyBranch = false;
+    }else {
+      this.companyBranchDetails.setValue({
+        addressLine : '',
+        city : '',
+        postalCode : ''
+      })
+      this.createBusinessAddressCompanyBranch = true;
+    }
+  }
+
+  companyBranchPhoneVisable(htmlInput : HTMLInputElement){
+    if(htmlInput.value === 'false'){
+      this.createBusinessPhoneCompanyBranch = false;
+    }else {
+      this.createBusinessPhoneCompanyBranch = true;
+    }
   }
 
 

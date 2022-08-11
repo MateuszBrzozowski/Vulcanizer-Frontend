@@ -22,15 +22,18 @@ import { UserManagmentComponent } from './user-managment/user-managment.componen
 import { State } from './enum/states.enum';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatTableModule} from '@angular/material/table';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatMenuModule } from '@angular/material/menu';
 import { AdminManagmentComponent } from './admin-managment/admin-managment.component';
 import { WaitingComponent } from './admin-managment/business/waiting/waiting.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
-
+import {
+  MatRadioModule,
+  MAT_RADIO_DEFAULT_OPTIONS,
+} from '@angular/material/radio';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ResetPasswordComponent,
     UserManagmentComponent,
     AdminManagmentComponent,
-    WaitingComponent
+    WaitingComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTableModule,
     MatMenuModule,
     MatPaginatorModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatRadioModule,
+    FormsModule,
   ],
   providers: [
     UserService,
@@ -65,6 +70,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     AuthenticationService,
     NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    {
+      provide: MAT_RADIO_DEFAULT_OPTIONS,
+      useValue: { color: 'primary' },
+  },
     AuthenticationGuard,
     NotFoundComponent,
     ConfirmComponent,

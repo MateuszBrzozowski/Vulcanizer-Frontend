@@ -162,6 +162,10 @@ hypertext:focus {
   border: none;
 }
 
+.widht-100 {
+  width: 100%;
+}
+
 .select-dropdown {
   padding: 0;
   position: relative;
@@ -213,6 +217,7 @@ hypertext:focus {
 
 .form {
   border: none;
+  width: 100%;
 }
 
 #form-reset-password {
@@ -252,8 +257,6 @@ hypertext:focus {
 .form-check {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0;
 }
 
 .form-check-input {
@@ -474,6 +477,8 @@ small {
   color: red;
 }
 
+
+
 .managment-form .form-control {
   background-color: none;
 }
@@ -650,6 +655,19 @@ ul {list-style: none}
   flex-direction: column;
 }
 
+
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0 1rem 0;
+}
+
+#radio-group-label{
+
+}
+
+
 input {
   width: 100%;
   height: 44px;
@@ -659,7 +677,7 @@ input {
   border-radius: 44px;
   margin: 0 auto;
   padding-left: 40px;
-  box-shadow: var(--element-shadow-dark);
+  /* box-shadow: var(--element-shadow-dark); */
 }
 
 .search-icon {
