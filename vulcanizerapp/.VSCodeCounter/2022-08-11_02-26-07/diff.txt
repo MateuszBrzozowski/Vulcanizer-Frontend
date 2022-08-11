@@ -1,0 +1,59 @@
+Date : 2022-08-11 02:26:07
+Directory : z:\PROJECTS_FRONTED\vulcanizerapp
+Total : 22 files,  1874 codes, 72 comments, 172 blanks, all 2118 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| TypeScript |         11 |        955 |         29 |         92 |      1,076 |
+| HTML       |          4 |        749 |         21 |         36 |        806 |
+| CSS        |          3 |         99 |         22 |         44 |        165 |
+| JSON       |          3 |         70 |          0 |          0 |         70 |
+| XML        |          1 |          1 |          0 |          0 |          1 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                 | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                    |         22 |      1,874 |         72 |        172 |      2,118 |
+| src                                                                                                  |         19 |      1,804 |         72 |        172 |      2,048 |
+| src\app                                                                                              |         16 |      1,701 |         50 |        130 |      1,881 |
+| src\app\admin-managment                                                                              |          8 |        184 |          8 |         42 |        234 |
+| src\app\admin-managment\business                                                                     |          4 |        100 |          8 |         22 |        130 |
+| src\app\admin-managment\business\waiting                                                             |          4 |        100 |          8 |         22 |        130 |
+| src\app\service                                                                                      |          1 |         21 |          1 |          2 |         24 |
+| src\app\user-managment                                                                               |          2 |      1,395 |         31 |         81 |      1,507 |
+| src\assets                                                                                           |          1 |          1 |          0 |          0 |          1 |
+| src\assets\icon                                                                                      |          1 |          1 |          0 |          0 |          1 |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                             | language   | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| z:\PROJECTS_FRONTED\vulcanizerapp\angular.json                                                       | JSON       |          2 |          0 |          0 |          2 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\package-lock.json                                                  | JSON       |         66 |          0 |          0 |         66 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\package.json                                                       | JSON       |          2 |          0 |          0 |          2 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\address.ts                                                 | TypeScript |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\admin-managment\admin-managment.component.css              | CSS        |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\admin-managment\admin-managment.component.html             | HTML       |         31 |          0 |          5 |         36 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\admin-managment\admin-managment.component.spec.ts          | TypeScript |         18 |          0 |          6 |         24 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\admin-managment\admin-managment.component.ts               | TypeScript |         35 |          0 |          8 |         43 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\admin-managment\business\waiting\waiting.component.css     | CSS        |          0 |          0 |          1 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\admin-managment\business\waiting\waiting.component.html    | HTML       |         44 |          8 |          6 |         58 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\admin-managment\business\waiting\waiting.component.spec.ts | TypeScript |         18 |          0 |          6 |         24 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\admin-managment\business\waiting\waiting.component.ts      | TypeScript |         38 |          0 |          9 |         47 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\app.module.ts                                              | TypeScript |         29 |          0 |         -1 |         28 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\business.ts                                                | TypeScript |         11 |          0 |          1 |         12 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\service\authentication.service.ts                          | TypeScript |         21 |          1 |          2 |         24 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\user-managment\user-managment.component.html               | HTML       |        671 |         13 |         25 |        709 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\user-managment\user-managment.component.ts                 | TypeScript |        724 |         18 |         56 |        798 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\user.service.ts                                            | TypeScript |         60 |         10 |          3 |         73 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\app\users.ts                                                   | TypeScript |          1 |          0 |          1 |          2 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\assets\icon\caret-down-filled.svg                              | XML        |          1 |          0 |          0 |          1 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\index.html                                                     | HTML       |          3 |          0 |          0 |          3 |
+| z:\PROJECTS_FRONTED\vulcanizerapp\src\styles.css                                                     | CSS        |         99 |         22 |         42 |        163 |
+| Total                                                                                                |            |      1,874 |         72 |        172 |      2,118 |
++------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

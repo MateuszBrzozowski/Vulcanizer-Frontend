@@ -985,13 +985,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     conutryCompanyBranch : HTMLSelectElement,
     phoneInput: HTMLInputElement
   ) {
-    console.log("Sprawdzam");
-    
-    console.log(this.companyBranchDetails.value.addressLine);
-    console.log(this.companyBranchDetails.value.addressLine.length);
-    
     if(this.createBusinessAddressCompanyBranch){
-      //sprawdzic adress
       if(!this.checkCompanyBranchAddress(stateCompanyBranch,conutryCompanyBranch)){
         return;
       }else{

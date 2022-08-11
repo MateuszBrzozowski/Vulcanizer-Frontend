@@ -816,7 +816,9 @@
                         placeholder="Kod pocztowy XX-XXX"
                         formControlName="postalCode"
                       />
-                      <label for="InputCompanyBranchPostalCode" class="form-label"
+                      <label
+                        for="InputCompanyBranchPostalCode"
+                        class="form-label"
                         >Kod pocztowy XX-XXX</label
                       >
                       <small *ngIf="companyBranchPostalCodeIsRequiredMessage"
@@ -829,7 +831,10 @@
                     <div class="form-group">
                       <!-- <label for="state">Województwo</label> -->
                       <div class="form-control select-dropdown">
-                        <select #selectStateCompanyBranch id="companyBranchState">
+                        <select
+                          #selectStateCompanyBranch
+                          id="companyBranchState"
+                        >
                           <option
                             *ngFor="let state of states"
                             [value]="state.id"
@@ -844,7 +849,10 @@
                     </div>
                     <div class="form-group">
                       <div class="form-control select-dropdown">
-                        <select #selectCountryCompanyBranch id="companyBranchCountry">
+                        <select
+                          #selectCountryCompanyBranch
+                          id="companyBranchCountry"
+                        >
                           <option
                             *ngFor="let country of countries"
                             [value]="country.id"
@@ -919,10 +927,6 @@
                     </div>
                   </form>
                 </div>
-                <!-- Checkbox czy chcesz podać inny numer do miejsca wykonywania usług
-              Jeżeli tak to pokazuje sie input z numerem do wpisania 
-            Jeżeli nie to przypisujemy do zmiennej numer do oddzialu - może być taaki sam 
-          jak pierwszy, BE będzie wiedział co z tym zrobić :) -->
 
                 <div class="form-group">
                   <button
@@ -963,18 +967,18 @@
                   {{ businessDetails.value.postalCode }} <br />
                   {{ states[busienssDataStateId].label }},
                   {{ countries[busienssDataCountryId].label }} <br />
-                  Tel. {{ busienssDataPhoneFirst }} 
+                  Tel. {{ busienssDataPhoneFirst }}
                 </div>
                 <br /><br />
                 <h5>Oddział</h5>
                 <div class="description">
-                  {{ companyBranchName }} <br>
-                  {{ companyBranchDetails.value.addressLine }} <br>
+                  {{ companyBranchName }} <br />
+                  {{ companyBranchDetails.value.addressLine }} <br />
                   {{ companyBranchDetails.value.city }},
                   {{ companyBranchDetails.value.postalCode }} <br />
                   {{ states[companyBranchDataStateId].label }},
                   {{ countries[companyBranchDataCountryId].label }} <br />
-                  Tel. {{ companyBranchDataPhone }} 
+                  Tel. {{ companyBranchDataPhone }}
                 </div>
                 <br /><br />
                 <h5>Opis</h5>
