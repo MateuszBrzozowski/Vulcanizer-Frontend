@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { UserBusiness } from 'src/app/business';
+import { UserCompanyBranch } from 'src/app/business';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
@@ -14,8 +14,8 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 export class WaitingComponent implements OnInit {
 
   columnsToDisplay: string[] = ['position','name', 'status', 'action'];
-  public businesses: UserBusiness[] = new Array<UserBusiness>;
-  dataSource: MatTableDataSource<UserBusiness> | undefined;
+  public businesses: UserCompanyBranch[] = new Array<UserCompanyBranch>;
+  dataSource: MatTableDataSource<UserCompanyBranch> | undefined;
 
   constructor(
     private authenticationService: AuthenticationService,

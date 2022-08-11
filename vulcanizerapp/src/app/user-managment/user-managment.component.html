@@ -377,7 +377,7 @@
 
             <table
               mat-table
-              [dataSource]="businesses"
+              [dataSource]="companyBranches"
               class="mat-elevation-z8 demo-table"
             >
               <!-- Position Column -->
@@ -475,13 +475,55 @@
             <div class="header">
               <h4>Wypełnij dane</h4>
             </div>
+            <span *ngIf="isCompanies"
+              >Wybierz już zarejestrowaną firmę w naszym serwisie lub uwtórz
+              nową wpisując NIP.
+            </span>
+            <div class="managment-form one-column" *ngIf="isCompanies">
+              <table
+                mat-table
+                [dataSource]="companies"
+                class="mat-elevation-z8"
+              >
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                  <th mat-header-cell *matHeaderCellDef>L.P.</th>
+                  <td mat-cell *matCellDef="let element">{{ element.noId }}</td>
+                </ng-container>
 
-            <!-- Pokazanie listy biznesow jezeli user ma z niapmi i nazwa
-            Pytanie czy chcesz dodac oddzial do istniejacego biznesu czy 
-          stworzyc nowy biznes i z nowym oddzialem
-        Jeżeli kliknie w nip to przechodzi do podania nazwy i adresu, jak wpisze taki jak juz istnieje,
-      to BE to musi sprawdzić i nie pozowli już mu założyć drugiego takiego samego oddziału w tym samym miejscu. 
-    Jak będzie chciał dodać nowy biznes to poakzuje sie NIP-->
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+                  <td mat-cell *matCellDef="let element">
+                    NIP: <b>{{ element.nip }}</b> - {{ element.name }}
+                  </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="akcja">
+                  <th mat-header-cell *matHeaderCellDef>Akcja</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button
+                    #buttonCompany
+                      class="btn btn-secondary btn-business-managment"
+                      value="{{ element.noId }}"
+                      (click)="choosedCompany(buttonCompany)"
+                    >
+                      Wybierz
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="columnsToDisplayCompany"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: columnsToDisplayCompany"
+                ></tr>
+              </table>
+            </div>
 
             <div class="managment-form one-column">
               <form action="create-business-nip" class="form">

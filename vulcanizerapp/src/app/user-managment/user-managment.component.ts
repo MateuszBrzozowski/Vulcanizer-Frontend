@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserBusiness } from '../business';
+import { UserCompany, UserCompanyBranch } from '../business';
 import { NotificationType } from '../enum/notification-type.enum';
 import { State } from '../enum/states.enum';
 import { LoginComponent } from '../login/login.component';
@@ -71,6 +71,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   ///
   //creating states
   public businessList: boolean = false;
+  public isCompanies: boolean = false;
   public createBusinessStart: boolean = true;
   public createBusinessNip: boolean = false;
   public createBusinessDetails: boolean = false;
@@ -110,6 +111,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public phoneFirstIsRequiredMessage: boolean = false;
   public phoneCompanyBranchIsRequiredMessage: boolean = false;
 
+  public companyId: string = '-1';
   public busienssDataNIP: string = '';
   public companyBranchName: string = '';
   public companyBranchDataDescription: string = '';
@@ -189,7 +191,9 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   ];
 
   columnsToDisplay: string[] = ['position','name', 'status'];
-  public businesses: UserBusiness[] = new Array<UserBusiness>;
+  public companyBranches: UserCompanyBranch[] = new Array<UserCompanyBranch>;
+  columnsToDisplayCompany: string[] = ['position','name', 'akcja'];
+  public companies: UserCompany[] = new Array<UserCompany>;
 
 
   constructor(
@@ -274,7 +278,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.emptyAddressPostalCodeMessage = false;
     this.emptyAddressStateMessage = false;
     this.emptyAddressCountryMessage = false;
-    this.checkUserBusinesses();
+    this.checkUserCompanieesBranches();
   }
 
   setAllContentToFalse() {
@@ -388,30 +392,17 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     return 0;
   }
 
-  preapreUserBusinessList(businessList: HTMLElement) {
-    this.createTableTopDiv('Nazwa', businessList);
-    this.createTableTopDiv('Status', businessList);
-    this.createTableTopDiv('Akcja', businessList);
-  }
 
-  createTableTopDiv(name: string, businessList: HTMLElement) {
-    const div = document.createElement('div');
-    div.classList.add('grid-border', 'center-text');
-    const span = document.createElement('span');
-    span.insertAdjacentText('afterbegin', name);
-    div.appendChild(span);
-    businessList.appendChild(div);
-  }
-
-  checkUserBusinesses() {
-    this.userService.getUserBusiness().subscribe(
+  checkUserCompanieesBranches() {
+    this.userService.getUserCompanyBranch().subscribe(
       (response) => {
         if (response.body == null) {
           return;
         }
+        console.log(response.body.length);
+        
         this.businessList = true;
         this.createBusinessStart = false;
-        
         for (let index = 0; index < response.body.length; index++) {
           let userBusiness = response.body[index];
           userBusiness.noId = index+1;
@@ -442,7 +433,8 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
           }
           
         }  
-        this.businesses = response.body;
+        this.companyBranches = response.body;
+        
       },
       (error) => {
         console.log(error.error.message);
@@ -922,8 +914,9 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   ///
 
   addBusiness(){
+    this.checkUsersCompanies();
       this.businessList = false;
-      this.createBusinessNip = true;
+      this.createBusinessNip = true;      
   }
 
   businessStepOne() {
@@ -934,11 +927,40 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
   }
 
+  checkUsersCompanies() { 
+    this.userService.getUserCompany().subscribe(
+      (response) => {
+        console.log(response.body);
+        
+        if (response.body == null) {
+          return;
+        }
+        for (let index = 0; index < response.body.length; index++) {
+          const element = response.body[index];          
+          element.noId = index +1;
+          element.id = response.body[index].id;
+        }
+        this.companies = response.body;
+        this.isCompanies =true;
+      },
+      (error) => {
+
+      }
+    );
+  }
+
   businessStepTwo(inputNIP: HTMLInputElement) {
     let nipNumber: string = inputNIP.value;
     nipNumber = nipNumber.replace(/-/g, '');
     nipNumber = nipNumber.replace(/ /g, '');
     if (this.checkNip(inputNIP) === 10) {
+      for (let index = 0; index < this.companies.length; index++) {
+        const element = this.companies[index];
+        if(element.nip === nipNumber){
+          this.notificationService.notify(NotificationType.ERROR,"Nip istnieje. Wybierz go z listy");
+          return;
+        }
+      }
       this.nipIsNotValidMessage = false;
       this.createBusinessNip = false;
       this.createBusinessDetails = true;
@@ -946,6 +968,47 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     } else {
       this.nipIsNotValidMessage = true;
     }
+    console.log(this.companyId);
+    
+  }
+
+  choosedCompany(button : HTMLButtonElement){
+    const index : number = +button.value - 1;
+    const companyId = this.companies[index].id;
+    this.companyId = companyId.toString();
+    this.busienssDataNIP = this.companies[index].nip;
+    this.businessDetails.setValue({
+      name: this.companies[index].name,
+      addressLine: this.companies[index].address.addressLine,
+      city: this.companies[index].address.city,
+      postalCode: this.companies[index].address.code,
+    });
+    this.busienssDataPhoneFirst = this.companies[index].phone;
+    this.busienssDataCountryId = this.getindexOfContryFromString(this.companies[index].address.country);
+    this.busienssDataStateId = this.getindexOfStateFromString(this.companies[index].address.state);
+    this.nipIsNotValidMessage = false;
+    this.createBusinessNip = false;
+    this.createBusinessDescription = true;
+  }
+
+  getindexOfContryFromString(contry: string): number{
+    for (let index = 0; index < this.countries.length; index++) {
+      const element = this.countries[index];
+      if(element.label === contry){
+        return index;
+      }
+    }
+    return 0;
+  }
+
+  getindexOfStateFromString(state: string): number{
+    for (let index = 0; index < this.states.length; index++) {
+      const element = this.states[index];
+      if(element.label === state){
+        return index;
+      }
+    }
+    return 0;
   }
 
   businessStepThree(state: HTMLSelectElement, country: HTMLSelectElement) {
@@ -1249,7 +1312,8 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         this.companyBranchName,
         this.companyBranchDataDescription,
         this.busienssDataPhoneFirst,
-        this.companyBranchDataPhone
+        this.companyBranchDataPhone,
+        this.companyId
       )
       .subscribe(
         (response) => {

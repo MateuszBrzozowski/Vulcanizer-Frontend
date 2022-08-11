@@ -13,7 +13,7 @@ import { NotificationType } from './enum/notification-type.enum';
 import { AuthenticationService } from './service/authentication.service';
 import { Router } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { Business, UserBusiness } from './business';
+import { Business, UserCompany, UserCompanyBranch } from './business';
 
 @Injectable({
   providedIn: 'root',
@@ -114,7 +114,8 @@ export class UserService {
     nameCB: string,
     descriptionCB: string,
     phone: string,
-    phoneCB: string
+    phoneCB: string,
+    companyId : string
   ): Observable<HttpResponse<any>> {
     const address = {
       addressLine: addressLine,
@@ -139,6 +140,7 @@ export class UserService {
       descriptionCB: descriptionCB,
       addressCB: addressCB,
       phoneCB: phoneCB,
+      companyId : companyId
     };
     return this.http.post<HttpResponse<any>>(
       `${this.apiServerUrl}/api/v1/company/create`,
@@ -148,11 +150,18 @@ export class UserService {
   }
 
   /**
-   * getUserBusiness
+   * getUserCompany
    */
-  public getUserBusiness(): Observable<HttpResponse<UserBusiness[]>> {
-    return this.http.get<UserBusiness[]>(
-      `${this.apiServerUrl}/users/business/get`,
+  public getUserCompany() : Observable<HttpResponse<UserCompany[]>> {
+    return this.http.get<UserCompany[]>(`${this.apiServerUrl}/users/company`, {observe : 'response'})
+  }
+
+  /**
+   * getUserCompanyBranch
+   */
+  public getUserCompanyBranch(): Observable<HttpResponse<UserCompanyBranch[]>> {
+    return this.http.get<UserCompanyBranch[]>(
+      `${this.apiServerUrl}/users/company/branch`,
       { observe: 'response' }
     );
   }

@@ -12,7 +12,7 @@ export interface Business {
   photo: string;
 }
 
-export class UserBusiness {
+export class UserCompanyBranch {
   noId: number = 1;
   position: string = '';
   companyId: string = '';
@@ -21,4 +21,13 @@ export class UserBusiness {
   companyBranchStatus: string = '';
   statusClass: string = '';
   isPanelDisable: boolean = true;
+}
+
+export class UserCompany {
+  noId: number = 1;
+  id: number = -1;
+  nip: string = 'Nip';
+  name: string = 'Nazwa';
+  address: Address = new Address();
+  phone: string = '';
 }
