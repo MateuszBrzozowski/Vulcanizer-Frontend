@@ -106,10 +106,15 @@ export class UserService {
     code: string,
     state: string,
     country: string,
-    displayName: string,
-    description: string,
-    phoneFirst: string,
-    phoneSecond: string
+    addressLineCB: string,
+    cityCB: string,
+    codeCB: string,
+    stateCB: string,
+    countryCB: string,
+    nameCB: string,
+    descriptionCB: string,
+    phone: string,
+    phoneCB: string
   ): Observable<HttpResponse<any>> {
     const address = {
       addressLine: addressLine,
@@ -118,17 +123,25 @@ export class UserService {
       state: state,
       country: country,
     };
+    const addressCB = {
+      addressLine: addressLineCB,
+      city: cityCB,
+      code: codeCB,
+      state: stateCB,
+      country: countryCB,
+    };
     const body = {
       name: name,
-      displayName: displayName,
       nip: nip,
-      description: description,
-      phoneFirst: phoneFirst,
-      phoneSecond: phoneSecond,
       address: address,
+      phone: phone,
+      nameCB: nameCB,
+      descriptionCB: descriptionCB,
+      addressCB: addressCB,
+      phoneCB: phoneCB,
     };
     return this.http.post<HttpResponse<any>>(
-      `${this.apiServerUrl}/api/v1/business/create`,
+      `${this.apiServerUrl}/api/v1/company/create`,
       body,
       { observe: 'response' }
     );

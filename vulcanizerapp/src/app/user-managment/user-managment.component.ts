@@ -112,7 +112,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
 
   public busienssDataNIP: string = '';
   public companyBranchName: string = '';
-  public busienssDataDescription: string = '';
+  public companyBranchDataDescription: string = '';
   public busienssDataPhoneFirst: string = '';
   public companyBranchDataPhone: string = '';
   public busienssDataStateId: number = 0;
@@ -1026,9 +1026,9 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       this.companyBranchName = this.businessDetails.value.name;
     }
     if (descriptionTextarea.value.length != 0) {
-      this.busienssDataDescription = descriptionTextarea.value;
+      this.companyBranchDataDescription = descriptionTextarea.value;
     } else {
-      this.busienssDataDescription = '-';
+      this.companyBranchDataDescription = '-';
     }
   }
 
@@ -1241,8 +1241,13 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         this.businessDetails.value.postalCode,
         this.states[this.busienssDataStateId].label,
         this.countries[this.busienssDataCountryId].label,
+        this.companyBranchDetails.value.addressLine,
+        this.companyBranchDetails.value.city,
+        this.companyBranchDetails.value.postalCode,
+        this.states[this.companyBranchDataStateId].label,
+        this.countries[this.companyBranchDataCountryId].label,
         this.companyBranchName,
-        this.busienssDataDescription,
+        this.companyBranchDataDescription,
         this.busienssDataPhoneFirst,
         this.companyBranchDataPhone
       )
