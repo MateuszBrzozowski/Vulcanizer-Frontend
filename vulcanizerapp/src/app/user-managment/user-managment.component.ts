@@ -190,9 +190,9 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     { id: 16, label: this.stateClass.ZACHODNIO_POMORSKIE },
   ];
 
-  columnsToDisplay: string[] = ['position','name', 'status'];
+  columnsToDisplay: string[] = ['position', 'name', 'status'];
   public companyBranches: UserCompanyBranch[] = new Array<UserCompanyBranch>;
-  columnsToDisplayCompany: string[] = ['position','name', 'akcja'];
+  columnsToDisplayCompany: string[] = ['position', 'name', 'akcja'];
   public companies: UserCompany[] = new Array<UserCompany>;
 
 
@@ -236,7 +236,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  adminManagment(){
+  adminManagment() {
     this.router.navigateByUrl('/admin/managment')
   }
 
@@ -399,13 +399,11 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         if (response.body == null) {
           return;
         }
-        console.log(response.body.length);
-        
         this.businessList = true;
         this.createBusinessStart = false;
         for (let index = 0; index < response.body.length; index++) {
           let userBusiness = response.body[index];
-          userBusiness.noId = index+1;
+          userBusiness.noId = index + 1;
           userBusiness.isPanelDisable = true;
           if (userBusiness.companyBranchStatus === 'NOT_ACTIVE') {
             userBusiness.statusClass = 'badge-warning';
@@ -414,27 +412,27 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
             userBusiness.statusClass = 'badge-success';
             userBusiness.companyBranchStatus = 'Aktywny';
             userBusiness.isPanelDisable = false;
-          }else if (userBusiness.companyBranchStatus === 'LOCKED'){
+          } else if (userBusiness.companyBranchStatus === 'LOCKED') {
             userBusiness.statusClass = 'badge-danger';
             userBusiness.companyBranchStatus = 'Zablokowany';
-          } else if (userBusiness.companyBranchStatus === 'CLOSED'){
+          } else if (userBusiness.companyBranchStatus === 'CLOSED') {
             userBusiness.statusClass = 'badge-danger';
             userBusiness.companyBranchStatus = 'Zamknięty';
           } else {
             userBusiness.statusClass = 'badge-danger';
             userBusiness.companyBranchStatus = 'Odrzucony';
           }
-          if(userBusiness.position === 'OWNER'){
+          if (userBusiness.position === 'OWNER') {
             userBusiness.position = 'Właściciel'
-          }else if(userBusiness.position === 'MODERATOR'){
+          } else if (userBusiness.position === 'MODERATOR') {
             userBusiness.position = 'Moderator'
-          }else {
+          } else {
             userBusiness.position = 'Pracownik'
           }
-          
-        }  
+
+        }
         this.companyBranches = response.body;
-        
+
       },
       (error) => {
         console.log(error.error.message);
@@ -836,9 +834,6 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   checkNewPassword(): boolean {
     let pass = this.newPasswordGroup.value.password;
     let passRepeat = this.newPasswordGroup.value.passwordRepeat;
-    console.log(pass);
-    console.log(passRepeat);
-
     if (pass !== passRepeat) {
       this.passNotSameMessage = true;
       return false;
@@ -913,10 +908,10 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   // Create Bussiness for user
   ///
 
-  addBusiness(){
+  addBusiness() {
     this.checkUsersCompanies();
-      this.businessList = false;
-      this.createBusinessNip = true;      
+    this.businessList = false;
+    this.createBusinessNip = true;
   }
 
   businessStepOne() {
@@ -927,21 +922,19 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  checkUsersCompanies() { 
+  checkUsersCompanies() {
     this.userService.getUserCompany().subscribe(
       (response) => {
-        console.log(response.body);
-        
         if (response.body == null) {
           return;
         }
         for (let index = 0; index < response.body.length; index++) {
-          const element = response.body[index];          
-          element.noId = index +1;
+          const element = response.body[index];
+          element.noId = index + 1;
           element.id = response.body[index].id;
         }
         this.companies = response.body;
-        this.isCompanies =true;
+        this.isCompanies = true;
       },
       (error) => {
 
@@ -956,8 +949,8 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     if (this.checkNip(inputNIP) === 10) {
       for (let index = 0; index < this.companies.length; index++) {
         const element = this.companies[index];
-        if(element.nip === nipNumber){
-          this.notificationService.notify(NotificationType.ERROR,"Nip istnieje. Wybierz go z listy");
+        if (element.nip === nipNumber) {
+          this.notificationService.notify(NotificationType.ERROR, "Nip istnieje. Wybierz go z listy");
           return;
         }
       }
@@ -968,12 +961,10 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     } else {
       this.nipIsNotValidMessage = true;
     }
-    console.log(this.companyId);
-    
   }
 
-  choosedCompany(button : HTMLButtonElement){
-    const index : number = +button.value - 1;
+  choosedCompany(button: HTMLButtonElement) {
+    const index: number = +button.value - 1;
     const companyId = this.companies[index].id;
     this.companyId = companyId.toString();
     this.busienssDataNIP = this.companies[index].nip;
@@ -991,20 +982,20 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.createBusinessDescription = true;
   }
 
-  getindexOfContryFromString(contry: string): number{
+  getindexOfContryFromString(contry: string): number {
     for (let index = 0; index < this.countries.length; index++) {
       const element = this.countries[index];
-      if(element.label === contry){
+      if (element.label === contry) {
         return index;
       }
     }
     return 0;
   }
 
-  getindexOfStateFromString(state: string): number{
+  getindexOfStateFromString(state: string): number {
     for (let index = 0; index < this.states.length; index++) {
       const element = this.states[index];
-      if(element.label === state){
+      if (element.label === state) {
         return index;
       }
     }
@@ -1045,24 +1036,24 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     displayNameInput: HTMLInputElement,
     descriptionTextarea: HTMLTextAreaElement,
     stateCompanyBranch: HTMLSelectElement,
-    conutryCompanyBranch : HTMLSelectElement,
+    conutryCompanyBranch: HTMLSelectElement,
     phoneInput: HTMLInputElement
   ) {
-    if(this.createBusinessAddressCompanyBranch){
-      if(!this.checkCompanyBranchAddress(stateCompanyBranch,conutryCompanyBranch)){
+    if (this.createBusinessAddressCompanyBranch) {
+      if (!this.checkCompanyBranchAddress(stateCompanyBranch, conutryCompanyBranch)) {
         return;
-      }else{
+      } else {
         this.companyBranchDataStateId = stateCompanyBranch.options.selectedIndex;
         this.companyBranchDataCountryId = conutryCompanyBranch.options.selectedIndex;
       }
-    }else{
+    } else {
       this.companyBranchDetails.value.addressLine = this.businessDetails.value.addressLine;
       this.companyBranchDetails.value.postalCode = this.businessDetails.value.postalCode;
       this.companyBranchDetails.value.city = this.businessDetails.value.city;
       this.companyBranchDataStateId = this.busienssDataStateId;
       this.companyBranchDataCountryId = this.busienssDataCountryId;
     }
-    if(this.createBusinessPhoneCompanyBranch){
+    if (this.createBusinessPhoneCompanyBranch) {
       if (phoneInput.value.length === 0) {
         this.phoneCompanyBranchIsRequiredMessage = true;
       } else {
@@ -1072,12 +1063,12 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       if (
         this.phoneCompanyBranchIsNotValidMessage &&
         this.phoneCompanyBranchIsRequiredMessage
-      ){
+      ) {
         return;
-      }else {
+      } else {
         this.companyBranchDataPhone = phoneInput.value;
       }
-    }else {
+    } else {
       this.companyBranchDataPhone = this.busienssDataPhoneFirst;
     }
 
@@ -1329,23 +1320,23 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
       );
   }
 
-  companyBranchAddressVisable(htmlInput : HTMLInputElement){
-    if(htmlInput.value === 'false'){
+  companyBranchAddressVisable(htmlInput: HTMLInputElement) {
+    if (htmlInput.value === 'false') {
       this.createBusinessAddressCompanyBranch = false;
-    }else {
+    } else {
       this.companyBranchDetails.setValue({
-        addressLine : '',
-        city : '',
-        postalCode : ''
+        addressLine: '',
+        city: '',
+        postalCode: ''
       })
       this.createBusinessAddressCompanyBranch = true;
     }
   }
 
-  companyBranchPhoneVisable(htmlInput : HTMLInputElement){
-    if(htmlInput.value === 'false'){
+  companyBranchPhoneVisable(htmlInput: HTMLInputElement) {
+    if (htmlInput.value === 'false') {
       this.createBusinessPhoneCompanyBranch = false;
-    }else {
+    } else {
       this.createBusinessPhoneCompanyBranch = true;
     }
   }
