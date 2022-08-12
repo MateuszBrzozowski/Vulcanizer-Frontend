@@ -29,11 +29,15 @@ import { AdminManagmentComponent } from './admin-managment/admin-managment.compo
 import { WaitingComponent } from './admin-managment/business/waiting/waiting.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+
 import {
   MatRadioModule,
   MAT_RADIO_DEFAULT_OPTIONS,
 } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MaterialModule } from 'src/material.module';
 
 @NgModule({
   declarations: [
@@ -63,6 +67,9 @@ import { FormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatRadioModule,
     FormsModule,
+    MatIconModule,
+    MatNativeDateModule,
+    // MaterialModule
   ],
   providers: [
     UserService,
@@ -81,7 +88,8 @@ import { FormsModule } from '@angular/forms';
     UserManagmentComponent,
     LoginComponent,
     State,
+    WaitingComponent
   ],
-  bootstrap: [AppComponent, LoginComponent],
+  bootstrap: [AppComponent, LoginComponent, WaitingComponent],
 })
 export class AppModule {}

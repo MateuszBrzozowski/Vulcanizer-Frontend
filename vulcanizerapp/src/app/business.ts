@@ -1,4 +1,5 @@
 import { Address } from './address';
+import { User } from './users';
 
 export interface Business {
   id: number;
@@ -30,4 +31,17 @@ export class UserCompany {
   name: string = 'Nazwa';
   address: Address = new Address();
   phone: string = '';
+}
+
+export class CompanyBranchResponse {
+  noId: number = 1;
+  id: string = '';
+  name: string = '';
+  description: string = '';
+  address: Address = new Address();
+  createdDate: string = '';
+  phone: string = '';
+  companyBranchSize: number = 0;
+  company: UserCompany = new UserCompany();
+  user: User = new User('', '', '');
 }
