@@ -21,6 +21,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   private responseMessageInvalidDate: string =
     'Invalid date or format (YYYY-MM-DD)';
   private responseMessageEmailExist: string = 'Email is exist.';
+  private responseMessageUserHasCompany: string = 'User can not delete personal data because has Company';
 
   public username: string = '';
   public isContentData: boolean = true;
@@ -505,10 +506,12 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
             if (error.error.message === this.responseMessageEmailExist) {
               this.emailExist = true;
             }
-            this.notificationService.notify(
-              NotificationType.ERROR,
-              error.error.message
-            );
+            if (error.error.message === this.responseMessageUserHasCompany) {
+              this.notificationService.notify(
+                NotificationType.ERROR,
+                "Posiadasz biznes, nie możesz usunąć tych danych."
+              );
+            }
           }
         );
     } else {
@@ -1311,17 +1314,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         (response) => {
           this.createBusinessSummary = false;
           this.createBusinessEnd = true;
-          this.busienssDataNIP = '';
-          this.companyBranchDetails.setValue({
-            addressLine: '',
-            city: '',
-            postalCode: ''
-          });
-          this.companyBranchDataStateId = 0;
-          this.companyBranchDataCountryId = 0;
-          this.companyBranchName = '';
-          this.companyBranchDataDescription = '';
-          this.companyBranchDataPhone = '';
+          this.resetInputs();
         },
         (error) => {
           this.notificationService.notify(
@@ -1355,26 +1348,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
           (response) => {
             this.createBusinessSummary = false;
             this.createBusinessEnd = true;
-            this.busienssDataNIP = '',
-              this.businessDetails.setValue({
-                name: '',
-                addressLine: '',
-                city: '',
-                postalCode: ''
-              });
-            this.busienssDataStateId = 0;
-            this.busienssDataCountryId = 0;
-            this.companyBranchDetails.setValue({
-              addressLine: '',
-              city: '',
-              postalCode: ''
-            });
-            this.companyBranchDataStateId = 0;
-            this.companyBranchDataCountryId = 0;
-            this.companyBranchName = '';
-            this.companyBranchDataDescription = '';
-            this.companyBranchDataPhone = '';
-            this.busienssDataPhoneFirst = '';
+            this.resetInputs();
           },
           (error: HttpErrorResponse) => {
             this.notificationService.notify(
@@ -1384,6 +1358,29 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
           }
         );
     }
+  }
+
+  resetInputs() {
+    this.busienssDataNIP = '',
+      this.businessDetails.setValue({
+        name: '',
+        addressLine: '',
+        city: '',
+        postalCode: ''
+      });
+    this.busienssDataStateId = 0;
+    this.busienssDataCountryId = 0;
+    this.companyBranchDetails.setValue({
+      addressLine: '',
+      city: '',
+      postalCode: ''
+    });
+    this.companyBranchDataStateId = 0;
+    this.companyBranchDataCountryId = 0;
+    this.companyBranchName = '';
+    this.companyBranchDataDescription = '';
+    this.companyBranchDataPhone = '';
+    this.busienssDataPhoneFirst = '';
   }
 
   companyBranchAddressVisable(htmlInput: HTMLInputElement) {
