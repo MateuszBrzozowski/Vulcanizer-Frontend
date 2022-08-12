@@ -504,7 +504,7 @@
                   <th mat-header-cell *matHeaderCellDef>Akcja</th>
                   <td mat-cell *matCellDef="let element">
                     <button
-                    #buttonCompany
+                      #buttonCompany
                       class="btn btn-secondary btn-business-managment"
                       value="{{ element.noId }}"
                       (click)="choosedCompany(buttonCompany)"
@@ -529,6 +529,7 @@
               <form action="create-business-nip" class="form">
                 <div class="form-group">
                   <input
+                    [value]="busienssDataNIP"
                     #inputNip
                     type="text"
                     maxlength="13"
@@ -644,7 +645,11 @@
                       id="companyState"
                       #businessState
                     >
-                      <option *ngFor="let state of states" [value]="state.id">
+                      <option
+                        *ngFor="let state of states"
+                        [value]="state.id"
+                        [selected]="state.id == busienssDataStateId"
+                      >
                         {{ state.label }}
                       </option>
                     </select>
@@ -663,7 +668,7 @@
                       <option
                         *ngFor="let country of countries"
                         [value]="country.id"
-                        [selected]="country.id == 1"
+                        [selected]="country.id == busienssDataCountryId"
                       >
                         {{ country.label }}
                       </option>
@@ -698,6 +703,7 @@
               <form action="create-business-phone" class="form">
                 <div class="form-group">
                   <input
+                  [value]="busienssDataPhoneFirst"
                     #businessPhoneFirst
                     type="text"
                     maxlength="15"
@@ -741,6 +747,7 @@
               <form action="create-business-nip" class="form">
                 <div class="form-group">
                   <input
+                  [value]="companyBranchName"
                     #businessDisplayName
                     type="text"
                     class="form-control"
@@ -760,6 +767,7 @@
 
                 <div class="form-group">
                   <textarea
+                  [value]="companyBranchDataDescription"
                     #busienssDescription
                     cols="2"
                     type="textarea"
@@ -879,6 +887,7 @@
                           <option
                             *ngFor="let state of states"
                             [value]="state.id"
+                            [selected]="state.id == companyBranchDataStateId"
                           >
                             {{ state.label }}
                           </option>
@@ -897,7 +906,7 @@
                           <option
                             *ngFor="let country of countries"
                             [value]="country.id"
-                            [selected]="country.id == 1"
+                            [selected]="country.id == companyBranchDataCountryId"
                           >
                             {{ country.label }}
                           </option>
@@ -948,6 +957,7 @@
                   <form action="create-business-phone" class="form">
                     <div class="form-group">
                       <input
+                      [value]="companyBranchDataPhone"
                         #businessPhoneCompanyBranch
                         type="text"
                         maxlength="15"

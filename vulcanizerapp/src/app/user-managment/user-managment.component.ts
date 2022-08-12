@@ -944,7 +944,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
           return;
         }
       }
-      if(!this.nipIsNotValidMessage){
+      if (!this.nipIsNotValidMessage) {
         this.createBusinessNip = false;
         this.createBusinessDetails = true;
         this.isAddOnlyBranch = false;
@@ -1161,15 +1161,15 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
 
   nipControl(nip: string) {
     const weights: number[] = [6, 5, 7, 2, 3, 4, 5, 6, 7];
-    let sum : number = 0;
+    let sum: number = 0;
     for (let index = 0; index < weights.length; index++) {
-      const charInt : number = +nip.charAt(index); 
+      const charInt: number = +nip.charAt(index);
       sum = sum + (weights[index] * charInt);
     }
-    const charLast : number = +nip.charAt(9);
-    if(sum % 11 != charLast){
+    const charLast: number = +nip.charAt(9);
+    if (sum % 11 != charLast) {
       this.nipIsNotValidMessage = true;
-    }else {
+    } else {
       this.nipIsNotValidMessage = false;
     }
   }
@@ -1311,6 +1311,17 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
         (response) => {
           this.createBusinessSummary = false;
           this.createBusinessEnd = true;
+          this.busienssDataNIP = '';
+          this.companyBranchDetails.setValue({
+            addressLine: '',
+            city: '',
+            postalCode: ''
+          });
+          this.companyBranchDataStateId = 0;
+          this.companyBranchDataCountryId = 0;
+          this.companyBranchName = '';
+          this.companyBranchDataDescription = '';
+          this.companyBranchDataPhone = '';
         },
         (error) => {
           this.notificationService.notify(
@@ -1344,6 +1355,26 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
           (response) => {
             this.createBusinessSummary = false;
             this.createBusinessEnd = true;
+            this.busienssDataNIP = '',
+              this.businessDetails.setValue({
+                name: '',
+                addressLine: '',
+                city: '',
+                postalCode: ''
+              });
+            this.busienssDataStateId = 0;
+            this.busienssDataCountryId = 0;
+            this.companyBranchDetails.setValue({
+              addressLine: '',
+              city: '',
+              postalCode: ''
+            });
+            this.companyBranchDataStateId = 0;
+            this.companyBranchDataCountryId = 0;
+            this.companyBranchName = '';
+            this.companyBranchDataDescription = '';
+            this.companyBranchDataPhone = '';
+            this.busienssDataPhoneFirst = '';
           },
           (error: HttpErrorResponse) => {
             this.notificationService.notify(
