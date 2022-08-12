@@ -44,4 +44,6 @@ export class CompanyBranchResponse {
   companyBranchSize: number = 0;
   company: UserCompany = new UserCompany();
   user: User = new User('', '', '');
+  status : string ='Czeka';
+  statusClass : string = '';
 }

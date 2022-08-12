@@ -1,20 +1,26 @@
-table {
-  width: 100%;
-}
 
-tr.example-detail-row {
+tr.detail-row {
   height: 0;
 }
 
-tr.example-element-row:not(.example-expanded-row):hover {
+tr.element-row:not(.expanded-row):hover {
   background: whitesmoke;
 }
 
-tr.example-element-row:not(.example-expanded-row):active {
+tr.element-row:not(.expanded-row):active {
   background: #efefef;
 }
 
-.example-element-row td {
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-form-field-appearance-standard .mat-form-field-underline{
+  background-color: rgba(0,0,0,.0);
+}
+
+.element-row td {
   border-bottom-width: 0;
 }
 
@@ -38,6 +44,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .detail-action button {
   line-height: 1;
+  font-size: 1em;
   margin-right: 1em;
 }
 
@@ -45,7 +52,6 @@ tr.example-element-row:not(.example-expanded-row):active {
   margin: 8px;
   padding: 8px;
   border-right: 1px solid gray;
-  font-weight: lighter;
   max-width: 33%;
 }
 
@@ -53,25 +59,3 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: gray;
 }
 
-.example-element-diagram {
-  min-width: 80px;
-  border: 2px solid black;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
-  height: 104px;
-}
-
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
-}
-
-.example-element-description {
-  padding: 16px;
-}
-
-.example-element-description-attribution {
-  opacity: 0.5;
-}

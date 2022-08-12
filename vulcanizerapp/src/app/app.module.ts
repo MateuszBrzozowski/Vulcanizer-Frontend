@@ -28,7 +28,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AdminManagmentComponent } from './admin-managment/admin-managment.component';
 import { WaitingComponent } from './admin-managment/business/waiting/waiting.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 
 import {
@@ -38,6 +38,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MaterialModule } from 'src/material.module';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { MaterialModule } from 'src/material.module';
     FormsModule,
     MatIconModule,
     MatNativeDateModule,
+    MatInputModule 
     // MaterialModule
   ],
   providers: [
@@ -81,6 +83,7 @@ import { MaterialModule } from 'src/material.module';
       provide: MAT_RADIO_DEFAULT_OPTIONS,
       useValue: { color: 'primary' },
   },
+  {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     AuthenticationGuard,
     NotFoundComponent,
     ConfirmComponent,
@@ -88,7 +91,7 @@ import { MaterialModule } from 'src/material.module';
     UserManagmentComponent,
     LoginComponent,
     State,
-    WaitingComponent
+    WaitingComponent,
   ],
   bootstrap: [AppComponent, LoginComponent, WaitingComponent],
 })
