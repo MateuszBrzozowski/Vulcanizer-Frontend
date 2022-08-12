@@ -50,18 +50,6 @@ export class WaitingComponent implements OnInit {
     
   }
 
-  // @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  // @ViewChild(MatSort) sort: MatSort | undefined;
-
-  // applyFilter(event: Event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource!.filter = filterValue.trim().toLowerCase();
-
-  //   if (this.dataSource!.paginator) {
-  //     this.dataSource!.paginator.firstPage();
-  //   }
-  // }
-
   getAllWaitingBusiness() {
     this.busienssService.getAllWaitnigCompanyBranch().subscribe(
       (response) => {
@@ -116,10 +104,16 @@ export class WaitingComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
 
+  
+
+  applyFilter(input: HTMLInputElement) {
+    this.dataSource.filterPredicate = (data: CompanyBranchResponse, filter) => {
+      const dataStr =JSON.stringify(data).toLowerCase();
+      return dataStr.indexOf(filter) != -1; 
+    }
+    const filterValue = input.value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
