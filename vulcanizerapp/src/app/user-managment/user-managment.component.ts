@@ -21,7 +21,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   private responseMessageInvalidDate: string =
     'Invalid date or format (YYYY-MM-DD)';
   private responseMessageEmailExist: string = 'Email is exist.';
-  private responseMessageUserHasCompany: string = 'User can not delete personal data because has Company';
+  private responseMessageUserHasCompany: string = 'User can not this data because has company';
 
   public username: string = '';
   public isContentData: boolean = true;
@@ -730,10 +730,12 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
             this.updateAddressButtonVisable = false;
           },
           (error: HttpErrorResponse) => {
-            this.notificationService.notify(
-              NotificationType.ERROR,
-              error.error.message
-            );
+            if (error.error.message === this.responseMessageUserHasCompany) {
+              this.notificationService.notify(
+                NotificationType.ERROR,
+                "Posiadasz biznes, nie możesz usunąć tych danych."
+              );
+            }
           }
         );
     }
