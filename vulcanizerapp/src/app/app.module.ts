@@ -39,6 +39,8 @@ import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MaterialModule } from 'src/material.module';
 import { MatInputModule } from '@angular/material/input';
+import { PanelsComponent } from './user-managment/panels/panels.component';
+import { BusinessManagmentComponent } from './business-managment/business-managment.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { MatInputModule } from '@angular/material/input';
     UserManagmentComponent,
     AdminManagmentComponent,
     WaitingComponent,
+    PanelsComponent,
+    BusinessManagmentComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +74,7 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     MatIconModule,
     MatNativeDateModule,
-    MatInputModule 
+    MatInputModule ,
     // MaterialModule
   ],
   providers: [
@@ -92,6 +96,8 @@ import { MatInputModule } from '@angular/material/input';
     LoginComponent,
     State,
     WaitingComponent,
+    PanelsComponent,
+    BusinessManagmentComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

@@ -10,6 +10,7 @@
   --color-background-dark: #1f1f1f;
   --color-background-light: #2f2f2f;
   --color-backgorund-white: #fff;
+  --color-button-menu-noactive: #aaa;
   --color-border-gray: #aaa;
   --color-managment-button-hover: #f1f1f1;
   --color-managment-button-focus: #f8f8f8;
@@ -822,6 +823,24 @@ input {
     margin: 0 auto;
     padding-top: 4vw;
     padding-bottom: 4vw;
+  }
+
+  .btn-menu {
+    border-bottom-left-radius: 0 ;
+    border-bottom-right-radius: 0 ;
+    background-color: var(--color-button-menu-noactive);
+    border-color: var(--color-button-menu-noactive);
+  }
+
+  .btn-menu-active {
+    background-color: var(--color-backgorund-white);
+  }
+
+  .panels {
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
   }
 
   h1 span {

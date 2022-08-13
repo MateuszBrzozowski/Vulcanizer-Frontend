@@ -16,7 +16,7 @@ export class MainComponent implements OnInit {
   constructor(private businessService: BusinessService) {}
 
   ngOnInit(): void {
-    this.getRecommendBusiness();
+    // this.getRecommendBusiness();
   }
 
   /**

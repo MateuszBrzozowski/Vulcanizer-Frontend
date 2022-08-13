@@ -200,6 +200,13 @@ export class UserService {
   }
 
   /**
+   * hasActiveCompanyBranch
+   */
+  public hasActiveCompanyBranch() : Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiServerUrl}/users/company/branch/hasActive`)
+  }
+
+  /**
    * getUsersFromLocalCache
    */
   public getUsersFromLocalCache(): User[] {

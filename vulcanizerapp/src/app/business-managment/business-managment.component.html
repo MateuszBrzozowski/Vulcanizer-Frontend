@@ -1,0 +1,35 @@
+<div class="main">
+  <div class="managment-body">
+    <div class="user-managment-container">
+      <button
+        mat-button
+        [matMenuTriggerFor]="menu"
+        class="btn btn-primary"
+        type="button"
+        style="max-width: 100px"
+      >
+        Menu
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Start</button>
+        <button mat-menu-item [matMenuTriggerFor]="business">Biznes</button>
+      </mat-menu>
+
+      <mat-menu #business="matMenu">
+        <button mat-menu-item>Oczekujące</button>
+      </mat-menu>
+
+      <mat-menu #users="matMenu">
+        <button mat-menu-item>Szukaj</button>
+      </mat-menu>
+
+      <!-- Main page -->
+      <div class="managment-body">
+        Główne informacje o biznesie,
+        tablica - lista biznesów - company branchy
+      </div>
+
+      <div class="managment-body"></div>
+    </div>
+  </div>
+</div>

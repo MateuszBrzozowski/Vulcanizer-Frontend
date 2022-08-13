@@ -12,6 +12,7 @@ import { NotificationType } from '../enum/notification-type.enum';
 import { ResetPasswordService } from '../reset-password.service';
 import { AuthenticationService } from '../service/authentication.service';
 import { NotificationService } from '../service/notification.service';
+import { PanelsComponent } from '../user-managment/panels/panels.component';
 import { UserService } from '../user.service';
 import { User } from '../users';
 
@@ -19,6 +20,7 @@ import { User } from '../users';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
+  providers: [PanelsComponent]
 })
 export class LoginComponent implements OnInit {
   emailPattern: string = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
@@ -75,11 +77,13 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private router: Router,
     private notificationService: NotificationService,
-    private resetPasswordService: ResetPasswordService
+    private resetPasswordService: ResetPasswordService,
+    private panelsComponent: PanelsComponent
   ) {}
 
   ngOnInit(): void {
     this.checkIsUserLogin();
+    
   }
 
   checkIsUserLogin(): void {
@@ -160,6 +164,7 @@ export class LoginComponent implements OnInit {
         this.isUserLogin = true;
         this.username = response.body?.firstName!;
         closeFunction();
+        window.location.reload();
       },
       (errorResponse: HttpErrorResponse) => {
         if (errorResponse.status === 401) {

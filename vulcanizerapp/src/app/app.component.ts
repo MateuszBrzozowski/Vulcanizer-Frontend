@@ -7,6 +7,8 @@ import {
   NgbModalConfig,
 } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthenticationService } from './service/authentication.service';
+import { PanelsComponent } from './user-managment/panels/panels.component';
 import { UserService } from './user.service';
 import { User } from './users';
 
@@ -20,19 +22,21 @@ export class AppComponent implements OnInit {
   title = 'vulcanizerapp';
   public users: User[] = [];
   closeResult = '';
-
+  
 
   constructor(
     private userService: UserService,
     config: NgbModalConfig,
     private modalService: NgbModal,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private authenticationService: AuthenticationService,
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
   ngOnInit(): void {
+    
   }
 
   onKeypress(event: any) {
@@ -40,19 +44,19 @@ export class AppComponent implements OnInit {
     //(keypress)="onKeypress($event)"
   }
 
-    // this.emailForm.valueChanges.subscribe((value) => {
-    //   this.validEmail(value);
-    // });
+  // this.emailForm.valueChanges.subscribe((value) => {
+  //   this.validEmail(value);
+  // });
 
-    // if (this.emailForm.value?.length === 0
-    //   || this.) {
-    //   closeFunction();
-    // } else {
-    //   if (this.emailForm.invalid) {
-    //     console.log('nie moge zamknacc okna bo dane są nie poprawne');
-    //   } else {
-    //     /// TODO - połączyc sie z backendem i niech sie dzieje magia
-    //     closeFunction();
-    //   }
-    // }
-  }
+  // if (this.emailForm.value?.length === 0
+  //   || this.) {
+  //   closeFunction();
+  // } else {
+  //   if (this.emailForm.invalid) {
+  //     console.log('nie moge zamknacc okna bo dane są nie poprawne');
+  //   } else {
+  //     /// TODO - połączyc sie z backendem i niech sie dzieje magia
+  //     closeFunction();
+  //   }
+  // }
+}

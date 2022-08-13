@@ -6,11 +6,13 @@ import { MainComponent } from './main/main.component';
 import { UserManagmentComponent } from './user-managment/user-managment.component';
 import { AdminManagmentComponent } from './admin-managment/admin-managment.component';
 import { WaitingComponent } from './admin-managment/business/waiting/waiting.component';
+import { BusinessManagmentComponent } from './business-managment/business-managment.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent},
   { path: 'users/confirm', component: ConfirmComponent },
   { path: 'user/managment', component: UserManagmentComponent },
+  { path: 'busienss', component: BusinessManagmentComponent },
   { path: 'admin/managment', component: AdminManagmentComponent },
   { path: 'users/resetpass', component: ResetPasswordComponent },
   { path: '**', redirectTo: '' },
