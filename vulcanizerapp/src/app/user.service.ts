@@ -257,8 +257,8 @@ export class UserService {
   /**
    * getSelectedCompanyBranch
    */
-  public getSelectedCompanyBranchId(): string {
-    return localStorage.getItem('selectedCompanyBranch')!;
+  public getSelectedCompanyBranch(): CompanyBranchResponse {
+    return JSON.parse(localStorage.getItem('selectedCompanyBranch')!);
   }
 
   /**

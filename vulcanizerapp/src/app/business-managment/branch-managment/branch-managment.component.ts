@@ -13,7 +13,12 @@ import { UserService } from 'src/app/user.service';
 export class BranchManagmentComponent implements OnInit {
   usersCompanyBranches: CompanyBranchResponse[] = new Array<CompanyBranchResponse>;
   usersCompanyBranch: CompanyBranchResponse = new CompanyBranchResponse;
-  public branchId!: number; 
+  public branchId!: number;
+  viewInfo: boolean = false;
+  viewCallendar: boolean = true;
+  viewOpinion: boolean = false;
+  viewStand: boolean = false;
+  viewServices: boolean = false;
 
   constructor(private authenticationService: AuthenticationService,
     private userService: UserService,
@@ -22,22 +27,17 @@ export class BranchManagmentComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined;
 
   ngOnInit(): void {
+    this.isAvailable();
+  }
+
+  isAvailable() {
     if (this.authenticationService.isLoggedIn()) {
       if (this.userService.isCompanyActive()) {
         this.usersCompanyBranches = this.userService.getOnlyActiveCompanyBranchesFromLocalStorage();
-        if (this.usersCompanyBranches.length > 1){
-          const selectedId = this.userService.getSelectedCompanyBranchId();
-          for (let i = 0; i < this.usersCompanyBranches.length; i++) {
-            const element = this.usersCompanyBranches[i];
-            if(element.id == selectedId){
-              this.usersCompanyBranch = element;
-            }
-          }
-          console.log(this.usersCompanyBranch);
+        if (this.usersCompanyBranches.length > 1) {
+          this.usersCompanyBranch = this.userService.getSelectedCompanyBranch();
         } else if (this.usersCompanyBranches.length === 1) {
           this.usersCompanyBranch = this.usersCompanyBranches[0];
-          console.log(this.usersCompanyBranch);
-          
         } else {
           this.router.navigateByUrl('');
         }
@@ -47,8 +47,36 @@ export class BranchManagmentComponent implements OnInit {
     }
   }
 
-  check(){
-    
+  setViewHidden() {
+    this.viewInfo = false;
+    this.viewCallendar = false;
+    this.viewOpinion = false;
+    this.viewStand = false;
+    this.viewServices = false;
   }
 
+  setViewInfo() {
+    this.setViewHidden();
+    this.viewInfo = true;
+  }
+
+  setViewCallendar() {
+    this.setViewHidden();
+    this.viewCallendar = true;
+  }
+
+  setViewOpinion() {
+    this.setViewHidden();
+    this.viewOpinion = true;
+  }
+
+  setViewStand() {
+    this.setViewHidden();
+    this.viewStand = true;
+  }
+
+  setViewServices() {
+    this.setViewHidden();
+    this.viewServices = true;
+  }
 }
