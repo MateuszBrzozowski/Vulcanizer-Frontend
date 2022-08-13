@@ -20,6 +20,7 @@ import { Business, CompanyBranchResponse, UserCompany, UserCompanyBranch } from 
 })
 export class UserService {
   private apiServerUrl = environment.apiBaseUrl;
+  usersCompanyBranches : CompanyBranchResponse[] = new Array<CompanyBranchResponse>; 
 
   constructor(
     private http: HttpClient,
@@ -192,18 +193,68 @@ export class UserService {
   /**
    * getUserCompanyBranch
    */
-  public getUserCompanyBranch(): Observable<HttpResponse<CompanyBranchResponse[]>> {
-    return this.http.get<CompanyBranchResponse[]>(
+  public getUserCompanyBranch() {
+    this.http.get<CompanyBranchResponse[]>(
       `${this.apiServerUrl}/users/company/branch`,
       { observe: 'response' }
-    );
+    ).subscribe({
+      next: (response) => {
+        if (response.body == null) {
+          return;
+        }
+        for (let index = 0; index < response.body.length; index++) {
+          let userCompanyBranch = response.body[index];
+          userCompanyBranch.noId = index + 1;
+          userCompanyBranch.isPanelDisable = true;
+          if (userCompanyBranch.companyBranchStatus === 'NOT_ACTIVE') {
+            userCompanyBranch.statusClass = 'badge-warning';
+            userCompanyBranch.companyBranchStatus = 'Oczekujący';
+          } else if (userCompanyBranch.companyBranchStatus === 'ACTIVE') {
+            userCompanyBranch.statusClass = 'badge-success';
+            userCompanyBranch.companyBranchStatus = 'Aktywny';
+            userCompanyBranch.isPanelDisable = false;
+          } else if (userCompanyBranch.companyBranchStatus === 'LOCKED') {
+            userCompanyBranch.statusClass = 'badge-danger';
+            userCompanyBranch.companyBranchStatus = 'Zablokowany';
+          } else if (userCompanyBranch.companyBranchStatus === 'CLOSED') {
+            userCompanyBranch.statusClass = 'badge-danger';
+            userCompanyBranch.companyBranchStatus = 'Zamknięty';
+          } else {
+            userCompanyBranch.statusClass = 'badge-danger';
+            userCompanyBranch.companyBranchStatus = 'Odrzucony';
+          }
+        }
+        this.usersCompanyBranches = response.body;
+        
+        if(response.body.length>0){
+          this.addCompanyBranchesToLocalStorage();
+        }
+        window.location.reload();
+      },
+    });;
+  }
+
+  public getCompanyBranchesFromLocalStorage(): CompanyBranchResponse[] {
+    return JSON.parse(localStorage.getItem('compBranches')!);
   }
 
   /**
-   * hasActiveCompanyBranch
+   * isCompanyActive
    */
-  public hasActiveCompanyBranch() : Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiServerUrl}/users/company/branch/hasActive`)
+   public isCompanyActive(): boolean {
+    if (this.authenticationService.isLoggedIn()) {
+      if (this.getCompanyBranchesFromLocalStorage().length>0) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  addCompanyBranchesToLocalStorage(){
+    localStorage.setItem('compBranches',JSON.stringify(this.usersCompanyBranches));
   }
 
   /**

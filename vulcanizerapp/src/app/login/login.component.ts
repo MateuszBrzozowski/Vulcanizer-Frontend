@@ -164,7 +164,7 @@ export class LoginComponent implements OnInit {
         this.isUserLogin = true;
         this.username = response.body?.firstName!;
         closeFunction();
-        window.location.reload();
+        this.userService.getUserCompanyBranch();    
       },
       (errorResponse: HttpErrorResponse) => {
         if (errorResponse.status === 401) {

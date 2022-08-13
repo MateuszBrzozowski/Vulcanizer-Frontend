@@ -397,7 +397,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
 
 
   checkUserCompanieesBranches() {
-    this.companyBranches =  this.authenticationService.getCompanyBranchesFromLocalStorage();
+    this.companyBranches =  this.userService.getCompanyBranchesFromLocalStorage();
     if(this.companyBranches.length>0){
       this.businessList = true;
       this.createBusinessStart = false;

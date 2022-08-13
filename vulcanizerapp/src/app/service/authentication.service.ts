@@ -20,7 +20,6 @@ export class AuthenticationService {
   private scId: string = '';
   private scProperties: string = '';
   private loggedInUsername: string = '';
-  private hasCompany: string = '';
   private jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient) {}
@@ -71,10 +70,6 @@ export class AuthenticationService {
     return JSON.parse(localStorage.getItem('user')!);
   }
 
-  public getCompanyBranchesFromLocalStorage(): CompanyBranchResponse[] {
-    return JSON.parse(localStorage.getItem('compBranches')!);
-  }
-
   public loadToken(): void {
     this.token = localStorage.getItem('token')!;
   }
@@ -87,9 +82,6 @@ export class AuthenticationService {
     this.scProperties = localStorage.getItem('scproperties')!;
   }
 
-  public loadHasCompany(): void {
-    this.hasCompany = localStorage.getItem('isCompany')!;
-  }
 
   public getToken(): string {
     return this.token;
@@ -118,22 +110,6 @@ export class AuthenticationService {
     }
     this.logOut();
     return false;
-  }
-
-  /**
-   * isCompanyActive
-   */
-  public isCompanyActive(): boolean {
-    if (this.isLoggedIn()) {
-      this.loadHasCompany();
-      if (this.hasCompany == 'true') {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
   }
 
   public isAdmin(): boolean {
