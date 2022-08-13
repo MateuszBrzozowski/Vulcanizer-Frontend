@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Business } from '../business';
-import { BusinessService } from '../business.service';
 
 import { NgModule } from '@angular/core';
+import { BusinessService } from '../service/business.service';
 
 @Component({
   selector: 'app-main',

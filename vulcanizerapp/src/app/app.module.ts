@@ -93,6 +93,6 @@ import { MatInputModule } from '@angular/material/input';
     State,
     WaitingComponent,
   ],
-  bootstrap: [AppComponent, LoginComponent, WaitingComponent],
+  bootstrap: [AppComponent, LoginComponent],
 })
 export class AppModule {}

@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
-import { Business, CompanyBranchResponse } from './business';
+import { Business, CompanyBranchResponse } from '../business';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +27,28 @@ export class BusinessService {
     return this.http.get<CompanyBranchResponse[]>(
       `${this.apiServerUrl}/api/v1/company/branch/waiting`,
       { observe: 'response' }
+    );
+  }
+
+  /**
+   * accept
+   */
+  public accept(companyBranchId: string): Observable<HttpResponse<any>> {
+    const body = {};
+    return this.http.put<HttpResponse<any>>(
+      `${this.apiServerUrl}/api/v1/company/branch/${companyBranchId}/accept`,
+      body
+    );
+  }
+
+  /**
+   * decline
+   */
+  public decline(companyBranchId: string): Observable<HttpResponse<any>> {
+    const body = {};
+    return this.http.put<HttpResponse<any>>(
+      `${this.apiServerUrl}/api/v1/company/branch/${companyBranchId}/decline`,
+      body
     );
   }
 

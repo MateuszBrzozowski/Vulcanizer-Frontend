@@ -3,12 +3,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+
 import { CompanyBranchResponse, UserCompanyBranch } from 'src/app/business';
-import { BusinessService } from 'src/app/business.service';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { NotificationService } from 'src/app/service/notification.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { BusinessService } from 'src/app/service/business.service';
 
 @Component({
   selector: 'app-waiting',
@@ -24,7 +25,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 })
 export class WaitingComponent implements OnInit {
 
-  tableIsVisable :boolean = true;
+  tableIsVisable: boolean = true;
 
 
   columnsToDisplay: string[] = ['name'];
@@ -47,7 +48,7 @@ export class WaitingComponent implements OnInit {
       this.router.navigateByUrl('');
     }
     this.getAllWaitingBusiness();
-    
+
   }
 
   getAllWaitingBusiness() {
@@ -59,7 +60,7 @@ export class WaitingComponent implements OnInit {
         }
         for (let index = 0; index < response.body.length; index++) {
           const element = response.body[index];
-          element.noId = index + 1;
+          element.noId = index;
           element.status = "Oczekuje"
           element.statusClass = "badge-warning"
         }
@@ -73,44 +74,66 @@ export class WaitingComponent implements OnInit {
   }
 
   accept(btnAccept: HTMLButtonElement, btnDecline: HTMLButtonElement) {
-    for (let index = 0; index < this.companyBranches.length; index++) {
-      const element = this.companyBranches[index];      
-      if(element.id == btnAccept.value){
-        btnAccept.disabled = true;
-        btnDecline.disabled = true;
-        element.status = 'Zaakceptowany';
-        element.statusClass = 'badge-success';
+    const element = this.companyBranches[+btnAccept.value];
+    this.busienssService.accept(element.id).subscribe(
+      {
+        next: () => {
+          btnAccept.disabled = true;
+          btnDecline.disabled = true;
+          element.status = 'Zaakceptowany';
+          element.statusClass = 'badge-success';
+          this.refreshTable();
+        },
+        error: () => {
+          this.notificationService.notify(NotificationType.ERROR, "Coś poszło nie tak.");
+        }
       }
-    }
-    this.refreshTable();
+    );
   }
 
   decline(btnAccept: HTMLButtonElement, btnDecline: HTMLButtonElement) {
-    this.tableIsVisable = false;
-    for (let index = 0; index < this.companyBranches.length; index++) {
-      const element = this.companyBranches[index];
-      if(element.id == btnDecline.value){
-        btnAccept.disabled = true;
-        btnDecline.disabled = true;
-        element.status = 'Odrzucony';
-        element.statusClass = 'badge-danger';
+    const element = this.companyBranches[+btnAccept.value];
+    this.busienssService.decline(element.id).subscribe(
+      {
+        next: () => {
+          btnAccept.disabled = true;
+          btnDecline.disabled = true;
+          element.status = 'Odrzucony';
+          element.statusClass = 'badge-danger';
+          this.refreshTable();
+        },
+        error: () => {
+          this.notificationService.notify(NotificationType.ERROR, "Coś poszło nie tak.");
+        }
       }
-    }
-    this.tableIsVisable = true;
+    )
+    // this.busienssService.decline(element.id).subscribe(
+    //   (response) => {
+    //     btnAccept.disabled = true;
+    //     btnDecline.disabled = true;
+    //     element.status = 'Odrzucony';
+    //     element.statusClass = 'badge-danger';
+    //     this.refreshTable();
+    //   },
+    //   (error) => {
+    //     this.notificationService.notify(NotificationType.ERROR, "Coś poszło nie tak.");
+    //   }
+    // );
+
   }
 
-  refreshTable(){
+  refreshTable() {
     this.dataSource = new MatTableDataSource(this.companyBranches);
     this.dataSource.paginator = this.paginator;
   }
 
 
-  
+
 
   applyFilter(input: HTMLInputElement) {
     this.dataSource.filterPredicate = (data: CompanyBranchResponse, filter) => {
-      const dataStr =JSON.stringify(data).toLowerCase();
-      return dataStr.indexOf(filter) != -1; 
+      const dataStr = JSON.stringify(data).toLowerCase();
+      return dataStr.indexOf(filter) != -1;
     }
     const filterValue = input.value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
