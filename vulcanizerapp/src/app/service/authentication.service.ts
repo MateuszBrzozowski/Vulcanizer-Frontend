@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { UserLogin, User, UserRegister } from '../users';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoginComponent } from '../login/login.component';
+import { CompanyBranchResponse, UserCompanyBranch } from '../business';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +20,10 @@ export class AuthenticationService {
   private scId: string = '';
   private scProperties: string = '';
   private loggedInUsername: string = '';
+  private hasCompany: string = '';
   private jwtHelper = new JwtHelperService();
 
-  constructor(
-    private http: HttpClient
-  ) {}
+  constructor(private http: HttpClient) {}
 
   public login(user: UserLogin): Observable<HttpResponse<any>> {
     return this.http.post<User>(`${this.apiServerUrl}/users/login`, user, {
@@ -45,6 +45,7 @@ export class AuthenticationService {
     localStorage.removeItem('scid');
     localStorage.removeItem('scproperties');
     localStorage.removeItem('users');
+    localStorage.removeItem('compBranches');
   }
 
   public saveToken(token: string): void {
@@ -70,6 +71,10 @@ export class AuthenticationService {
     return JSON.parse(localStorage.getItem('user')!);
   }
 
+  public getCompanyBranchesFromLocalStorage(): CompanyBranchResponse[] {
+    return JSON.parse(localStorage.getItem('compBranches')!);
+  }
+
   public loadToken(): void {
     this.token = localStorage.getItem('token')!;
   }
@@ -82,6 +87,9 @@ export class AuthenticationService {
     this.scProperties = localStorage.getItem('scproperties')!;
   }
 
+  public loadHasCompany(): void {
+    this.hasCompany = localStorage.getItem('isCompany')!;
+  }
 
   public getToken(): string {
     return this.token;
@@ -112,22 +120,40 @@ export class AuthenticationService {
     return false;
   }
 
-  public isAdmin() : boolean {
-      if(this.isSuperAdmin()) {
+  /**
+   * isCompanyActive
+   */
+  public isCompanyActive(): boolean {
+    if (this.isLoggedIn()) {
+      this.loadHasCompany();
+      if (this.hasCompany == 'true') {
         return true;
-      }else {
-        //TODO in future another auth check 
+      } else {
         return false;
       }
+    } else {
+      return false;
+    }
   }
-  
-  public isSuperAdmin() : boolean {
+
+  public isAdmin(): boolean {
+    if (this.isSuperAdmin()) {
+      return true;
+    } else {
+      //TODO in future another auth check
+      return false;
+    }
+  }
+
+  public isSuperAdmin(): boolean {
     this.loadToken();
-    if(this.token!=null && this.token!== ''){
-      if(this.jwtHelper.decodeToken(this.token).Authorities != null || ''){
-        const auth: string[] = this.jwtHelper.decodeToken(this.token).Authorities
+    if (this.token != null && this.token !== '') {
+      if (this.jwtHelper.decodeToken(this.token).Authorities != null || '') {
+        const auth: string[] = this.jwtHelper.decodeToken(
+          this.token
+        ).Authorities;
         for (let index = 0; index < auth.length; index++) {
-          if(auth[index] === 'super:admin'){
+          if (auth[index] === 'super:admin') {
             return true;
           }
         }

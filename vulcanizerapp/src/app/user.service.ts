@@ -13,7 +13,7 @@ import { NotificationType } from './enum/notification-type.enum';
 import { AuthenticationService } from './service/authentication.service';
 import { Router } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { Business, UserCompany, UserCompanyBranch } from './business';
+import { Business, CompanyBranchResponse, UserCompany, UserCompanyBranch } from './business';
 
 @Injectable({
   providedIn: 'root',
@@ -192,8 +192,8 @@ export class UserService {
   /**
    * getUserCompanyBranch
    */
-  public getUserCompanyBranch(): Observable<HttpResponse<UserCompanyBranch[]>> {
-    return this.http.get<UserCompanyBranch[]>(
+  public getUserCompanyBranch(): Observable<HttpResponse<CompanyBranchResponse[]>> {
+    return this.http.get<CompanyBranchResponse[]>(
       `${this.apiServerUrl}/users/company/branch`,
       { observe: 'response' }
     );

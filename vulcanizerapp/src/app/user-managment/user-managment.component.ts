@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserCompany, UserCompanyBranch } from '../business';
+import { CompanyBranchResponse, UserCompany, UserCompanyBranch } from '../business';
 import { NotificationType } from '../enum/notification-type.enum';
 import { State } from '../enum/states.enum';
 import { LoginComponent } from '../login/login.component';
@@ -194,7 +194,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   ];
 
   columnsToDisplay: string[] = ['position', 'name', 'status'];
-  public companyBranches: UserCompanyBranch[] = new Array<UserCompanyBranch>;
+  public companyBranches: CompanyBranchResponse[] = new Array<CompanyBranchResponse>;
   columnsToDisplayCompany: string[] = ['position', 'name', 'akcja'];
   public companies: UserCompany[] = new Array<UserCompany>;
 
@@ -397,50 +397,11 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
 
 
   checkUserCompanieesBranches() {
-    this.userService.getUserCompanyBranch().subscribe(
-      (response) => {
-        if (response.body == null) {
-          return;
-        }
-        this.businessList = true;
-        this.createBusinessStart = false;
-        for (let index = 0; index < response.body.length; index++) {
-          let userBusiness = response.body[index];
-          userBusiness.noId = index + 1;
-          userBusiness.isPanelDisable = true;
-          if (userBusiness.companyBranchStatus === 'NOT_ACTIVE') {
-            userBusiness.statusClass = 'badge-warning';
-            userBusiness.companyBranchStatus = 'Oczekujący';
-          } else if (userBusiness.companyBranchStatus === 'ACTIVE') {
-            userBusiness.statusClass = 'badge-success';
-            userBusiness.companyBranchStatus = 'Aktywny';
-            userBusiness.isPanelDisable = false;
-          } else if (userBusiness.companyBranchStatus === 'LOCKED') {
-            userBusiness.statusClass = 'badge-danger';
-            userBusiness.companyBranchStatus = 'Zablokowany';
-          } else if (userBusiness.companyBranchStatus === 'CLOSED') {
-            userBusiness.statusClass = 'badge-danger';
-            userBusiness.companyBranchStatus = 'Zamknięty';
-          } else {
-            userBusiness.statusClass = 'badge-danger';
-            userBusiness.companyBranchStatus = 'Odrzucony';
-          }
-          if (userBusiness.position === 'OWNER') {
-            userBusiness.position = 'Właściciel'
-          } else if (userBusiness.position === 'MODERATOR') {
-            userBusiness.position = 'Moderator'
-          } else {
-            userBusiness.position = 'Pracownik'
-          }
-
-        }
-        this.companyBranches = response.body;
-
-      },
-      (error) => {
-        console.log(error.error.message);
-      }
-    );
+    this.companyBranches =  this.authenticationService.getCompanyBranchesFromLocalStorage();
+    if(this.companyBranches.length>0){
+      this.businessList = true;
+      this.createBusinessStart = false;
+    }
   }
 
   accountDetailsValueChanges() {

@@ -1,5 +1,5 @@
 <button
-  *ngIf="hasActiveCompany"
+  [hidden]="!hasActiveCompany"
   id="panel-biz"
   class="btn btn-light btn-menu"
   (click)="openBusinessManagment()"

@@ -61,7 +61,7 @@ export class WaitingComponent implements OnInit {
         for (let index = 0; index < response.body.length; index++) {
           const element = response.body[index];
           element.noId = index;
-          element.status = "Oczekuje"
+          element.companyBranchStatus = "Oczekuje"
           element.statusClass = "badge-warning"
         }
         this.companyBranches = response.body;
@@ -80,7 +80,7 @@ export class WaitingComponent implements OnInit {
         next: () => {
           btnAccept.disabled = true;
           btnDecline.disabled = true;
-          element.status = 'Zaakceptowany';
+          element.companyBranchStatus = 'Zaakceptowany';
           element.statusClass = 'badge-success';
           this.refreshTable();
         },
@@ -98,7 +98,7 @@ export class WaitingComponent implements OnInit {
         next: () => {
           btnAccept.disabled = true;
           btnDecline.disabled = true;
-          element.status = 'Odrzucony';
+          element.companyBranchStatus = 'Odrzucony';
           element.statusClass = 'badge-danger';
           this.refreshTable();
         },
