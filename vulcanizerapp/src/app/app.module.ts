@@ -41,6 +41,7 @@ import { MaterialModule } from 'src/material.module';
 import { MatInputModule } from '@angular/material/input';
 import { PanelsComponent } from './user-managment/panels/panels.component';
 import { BusinessManagmentComponent } from './business-managment/business-managment.component';
+import { BranchManagmentComponent } from './business-managment/branch-managment/branch-managment.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { BusinessManagmentComponent } from './business-managment/business-managm
     AdminManagmentComponent,
     WaitingComponent,
     PanelsComponent,
-    BusinessManagmentComponent
+    BusinessManagmentComponent,
+    BranchManagmentComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +99,8 @@ import { BusinessManagmentComponent } from './business-managment/business-managm
     State,
     WaitingComponent,
     PanelsComponent,
-    BusinessManagmentComponent
+    BusinessManagmentComponent,
+    BranchManagmentComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

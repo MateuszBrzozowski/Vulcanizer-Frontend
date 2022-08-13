@@ -45,6 +45,7 @@ export class AuthenticationService {
     localStorage.removeItem('scproperties');
     localStorage.removeItem('users');
     localStorage.removeItem('compBranches');
+    localStorage.removeItem('selectedCompanyBranch');
   }
 
   public saveToken(token: string): void {

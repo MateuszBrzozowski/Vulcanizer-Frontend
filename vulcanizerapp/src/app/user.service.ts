@@ -239,6 +239,29 @@ export class UserService {
   }
 
   /**
+   * getCompanyBranchesFromLocalStorage
+   */
+  public getOnlyActiveCompanyBranchesFromLocalStorage() : CompanyBranchResponse[] {
+    const companyBranches = this.getCompanyBranchesFromLocalStorage();
+    for (let index = 0; index < companyBranches.length; index++) {
+      const element = companyBranches[index];
+      if(element.companyBranchStatus !== 'Aktywny'){
+        if (index !== -1) {
+          companyBranches.splice(index, 1);
+        }
+      }
+    }
+    return companyBranches;
+  }
+
+  /**
+   * getSelectedCompanyBranch
+   */
+  public getSelectedCompanyBranchId(): string {
+    return localStorage.getItem('selectedCompanyBranch')!;
+  }
+
+  /**
    * isCompanyActive
    */
    public isCompanyActive(): boolean {

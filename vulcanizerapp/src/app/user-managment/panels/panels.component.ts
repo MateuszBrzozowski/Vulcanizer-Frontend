@@ -40,6 +40,12 @@ export class PanelsComponent implements OnInit, AfterViewInit {
   }
 
   openBusinessManagment() {
-    this.router.navigateByUrl('/busienss');
+    if (this.userService.getCompanyBranchesFromLocalStorage().length == 1) {
+      this.router.navigateByUrl('/business/branch');
+    } else if (
+      this.userService.getCompanyBranchesFromLocalStorage().length > 1
+    ) {
+      this.router.navigateByUrl('/busienss');
+    }
   }
 }
