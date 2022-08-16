@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Stanowiska</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>Dodaj stanowisko/a</h3>
+  <input type="number" class="input-number margin-right" [(ngModel)]="value"  (keyup)="checkValue()"/>
+  <mat-slider
+    [min]="standAddMin"
+    [max]="standAddMax"
+    [(ngModel)]="value"
+    aria-label="stand(s)"
+  ></mat-slider>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="btn btn-danger margin-right">
+    Anuluj
+  </button>
+  <button
+    mat-button
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+    class="btn btn-primary"
+    (click)="standAdd()"
+  >
+    Dodaj
+  </button>
+</mat-dialog-actions>

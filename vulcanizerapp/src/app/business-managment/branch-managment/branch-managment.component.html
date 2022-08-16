@@ -31,10 +31,13 @@
           <div class="details-block">
             <h6>Firma:</h6>
             <b>NIP: </b><span>{{ usersCompanyBranch.company.nip }}</span> <br />
-            <b>Nazwa: </b><span>{{ usersCompanyBranch.company.name }}</span> <br />
-            <b>Tel: </b><span>{{ usersCompanyBranch.company.phone }}</span> <br />
+            <b>Nazwa: </b><span>{{ usersCompanyBranch.company.name }}</span>
+            <br />
+            <b>Tel: </b><span>{{ usersCompanyBranch.company.phone }}</span>
+            <br />
             <b>Adres: </b><br />
-            <span>{{ usersCompanyBranch.company.address.addressLine }}</span> <br />
+            <span>{{ usersCompanyBranch.company.address.addressLine }}</span>
+            <br />
             <span
               >{{ usersCompanyBranch.company.address.code }},
               {{ usersCompanyBranch.company.address.city }}</span
@@ -49,27 +52,38 @@
           <div class="details-block">
             <h6>Oddział:</h6>
             <b>Nazwa: </b><span>{{ usersCompanyBranch.name }}</span> <br />
-            <b>Opis: </b><span>{{ usersCompanyBranch.description }}</span> <br />
-            <b>Stworzony: </b><span>{{ usersCompanyBranch.createdDate }}</span> <br />
+            <b>Opis: </b><span>{{ usersCompanyBranch.description }}</span>
+            <br />
+            <b>Stworzony: </b><span>{{ usersCompanyBranch.createdDate }}</span>
+            <br />
             <b>Tel: </b><span>{{ usersCompanyBranch.phone }}</span> <br />
             <b>Adres: </b><br />
             <span>{{ usersCompanyBranch.address.addressLine }}</span> <br />
-            <span>{{ usersCompanyBranch.address.code }}, {{ usersCompanyBranch.address.city }}</span>
+            <span
+              >{{ usersCompanyBranch.address.code }},
+              {{ usersCompanyBranch.address.city }}</span
+            >
             <br />
             <span
-              >{{ usersCompanyBranch.address.state }}, {{ usersCompanyBranch.address.country }}</span
+              >{{ usersCompanyBranch.address.state }},
+              {{ usersCompanyBranch.address.country }}</span
             >
             <br />
           </div>
           <div class="details-block">
             <h6>Uzytkownik:</h6>
-            <b>{{ usersCompanyBranch.user.firstName }} {{ usersCompanyBranch.user.lastName }}</b>
+            <b
+              >{{ usersCompanyBranch.user.firstName }}
+              {{ usersCompanyBranch.user.lastName }}</b
+            >
             <br />
             <span>{{ usersCompanyBranch.user.email }}</span> <br />
             <b>Tel: </b><span>{{ usersCompanyBranch.user.phone }}</span> <br />
-            <b>Ur.: </b><span>{{ usersCompanyBranch.user.birthDate }}</span> <br />
+            <b>Ur.: </b><span>{{ usersCompanyBranch.user.birthDate }}</span>
+            <br />
             <b>Adres: </b><br />
-            <span>{{ usersCompanyBranch.user.address.addressLine }}</span> <br />
+            <span>{{ usersCompanyBranch.user.address.addressLine }}</span>
+            <br />
             <span
               >{{ usersCompanyBranch.user.address.code }},
               {{ usersCompanyBranch.user.address.city }}</span
@@ -94,7 +108,49 @@
 
       <!-- Stand -->
       <div [hidden]="!viewStand" class="managment-body">
-        Lista stanowisk Dodaj usuń stanowisko
+        <div class="managment-body-one">
+          <h4>Stanowiska</h4>
+          <div class="table">
+            <table
+              mat-table
+              [dataSource]="dataSourceStand"
+              class="mat-elevation-z8"
+            >
+              <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="Numer">
+                <th mat-header-cell *matHeaderCellDef>Numer</th>
+                <td mat-cell *matCellDef="let element">
+                  NUMBER
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="Akcja">
+                <th mat-header-cell *matHeaderCellDef>Akcja</th>
+                <td mat-cell *matCellDef="let element">
+                  <Button class="btn btn-primary">Edytuj</Button>
+                  <Button class="btn btn-danger">Usuń</Button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayColumnsStand"></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayColumnsStand"
+              ></tr>
+            </table>
+          </div>
+          <button
+          mat-button (click)="standAdd()"
+          type="button"
+          class="btn btn-primary"
+        >
+          Dodaj
+        </button>
+        </div>
       </div>
 
       <!-- Services -->

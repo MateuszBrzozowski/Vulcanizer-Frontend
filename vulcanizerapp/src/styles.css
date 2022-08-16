@@ -31,6 +31,8 @@
   --color-badge-success: #28a745;
   --color-badge-danger: #dc3545;
   --color-badge-secondary: #6c757d;
+  --color-input-text : #212529;
+  --color-input-border: #ced4da;
 }
 
 * {
@@ -206,7 +208,7 @@ hypertext:focus {
 }
 
 .ng-untouched {
-  border: var(--color-form-start-border);
+  /* border: var(--color-form-start-border); */
 }
 
 #form-register {
@@ -551,6 +553,14 @@ small {
   margin-top: 2em;
 }
 
+.margin-right {
+  margin-right: 0.5em;
+}
+
+mat-slider {
+  border: none;
+}
+
 
 .btn-business-managment {
   line-height: 1;
@@ -562,6 +572,23 @@ small {
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
+}
+
+.managment-body-one{
+  width: 100%;
+}
+
+mat-slider {
+  width: 300px;
+}
+
+.input-number {
+  width: 52px;
+  border-radius: 0.25rem;
+  color: var(--color-input-text);
+  background-color: white;
+  border: 1px solid #ced4da;
+  padding-left: 8px;
 }
 
 .grid-border {

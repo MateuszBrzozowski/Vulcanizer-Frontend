@@ -262,6 +262,13 @@ export class UserService {
   }
 
   /**
+   * setSelectedCompanyBranch
+   */
+  public setSelectedCompanyBranch(companyBranch : CompanyBranchResponse) {
+    localStorage.setItem('selectedCompanyBranch',JSON.stringify(companyBranch));
+  }
+
+  /**
    * isCompanyActive
    */
    public isCompanyActive(): boolean {

@@ -61,7 +61,7 @@ export class BusinessManagmentComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < this.companyBranches.length; i++) {
       const element = this.companyBranches[i];
       if(element.id == button.value){
-        localStorage.setItem('selectedCompanyBranch',JSON.stringify(element));
+        this.userService.setSelectedCompanyBranch(element);
       }
     }
     this.router.navigateByUrl('/business/branch');

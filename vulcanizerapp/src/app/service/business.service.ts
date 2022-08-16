@@ -52,6 +52,17 @@ export class BusinessService {
     );
   }
 
+  /**
+   * standAdd
+   */
+  public standAdd(branchId: string, count: string) {
+    const body = { branchId: branchId, count: count };
+    this.http.post(
+      `${this.apiServerUrl}/api/v1/company/branch/stand/add`,
+      body
+    );
+  }
+
   // public getUsers(): Observable<Business[]> {
   //   return this.http.get<Business[]>(`${this.apiServerUrl}/users`);
   // }

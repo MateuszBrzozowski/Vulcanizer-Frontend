@@ -42,6 +42,8 @@ import { MatInputModule } from '@angular/material/input';
 import { PanelsComponent } from './user-managment/panels/panels.component';
 import { BusinessManagmentComponent } from './business-managment/business-managment.component';
 import { BranchManagmentComponent } from './business-managment/branch-managment/branch-managment.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { StandAddComponent } from './business-managment/branch-managment/stand/stand-add/stand-add.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { BranchManagmentComponent } from './business-managment/branch-managment/
     WaitingComponent,
     PanelsComponent,
     BusinessManagmentComponent,
-    BranchManagmentComponent
+    BranchManagmentComponent,
+    StandAddComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +80,7 @@ import { BranchManagmentComponent } from './business-managment/branch-managment/
     MatIconModule,
     MatNativeDateModule,
     MatInputModule ,
+    MatDialogModule
     // MaterialModule
   ],
   providers: [
@@ -100,7 +104,8 @@ import { BranchManagmentComponent } from './business-managment/branch-managment/
     WaitingComponent,
     PanelsComponent,
     BusinessManagmentComponent,
-    BranchManagmentComponent
+    BranchManagmentComponent,
+    StandAddComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })
