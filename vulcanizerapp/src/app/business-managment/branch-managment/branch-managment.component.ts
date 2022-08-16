@@ -14,8 +14,8 @@ export class BranchManagmentComponent implements OnInit {
   usersCompanyBranches: CompanyBranchResponse[] = new Array<CompanyBranchResponse>;
   usersCompanyBranch: CompanyBranchResponse = new CompanyBranchResponse;
   public branchId!: number;
-  viewInfo: boolean = false;
-  viewCallendar: boolean = true;
+  viewInfo: boolean = true;
+  viewCallendar: boolean = false;
   viewOpinion: boolean = false;
   viewStand: boolean = false;
   viewServices: boolean = false;

@@ -557,6 +557,13 @@ small {
   font-size: smaller;
 }
 
+.branch-details {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
 .grid-border {
   height: 100%;
   border-top: 1px var(--color-border-gray) solid;

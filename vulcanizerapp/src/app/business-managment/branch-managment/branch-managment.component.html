@@ -11,26 +11,81 @@
         Menu
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="setViewInfo()">Informacje</button>
         <button mat-menu-item (click)="setViewCallendar()">Kalendarz</button>
         <button mat-menu-item (click)="setViewOpinion()">Opinie</button>
         <button mat-menu-item [matMenuTriggerFor]="settings">Ustawienia</button>
+        <button mat-menu-item (click)="setViewInfo()">Informacje</button>
       </mat-menu>
 
       <mat-menu #settings="matMenu">
         <button mat-menu-item (click)="setViewStand()">Stanowiska</button>
         <button mat-menu-item (click)="setViewServices()">Usługi</button>
+        <button mat-menu-item (click)="setViewServices()">
+          Godziny otwarcia
+        </button>
       </mat-menu>
 
       <!-- Info -->
       <div [hidden]="!viewInfo" class="managment-body">
-        Główne informacje o biznesie, tablica - lista biznesów - company branchy
+        <div class="branch-details">
+          <div class="details-block">
+            <h6>Firma:</h6>
+            <b>NIP: </b><span>{{ usersCompanyBranch.company.nip }}</span> <br />
+            <b>Nazwa: </b><span>{{ usersCompanyBranch.company.name }}</span> <br />
+            <b>Tel: </b><span>{{ usersCompanyBranch.company.phone }}</span> <br />
+            <b>Adres: </b><br />
+            <span>{{ usersCompanyBranch.company.address.addressLine }}</span> <br />
+            <span
+              >{{ usersCompanyBranch.company.address.code }},
+              {{ usersCompanyBranch.company.address.city }}</span
+            >
+            <br />
+            <span
+              >{{ usersCompanyBranch.company.address.state }},
+              {{ usersCompanyBranch.company.address.country }}</span
+            >
+            <br />
+          </div>
+          <div class="details-block">
+            <h6>Oddział:</h6>
+            <b>Nazwa: </b><span>{{ usersCompanyBranch.name }}</span> <br />
+            <b>Opis: </b><span>{{ usersCompanyBranch.description }}</span> <br />
+            <b>Stworzony: </b><span>{{ usersCompanyBranch.createdDate }}</span> <br />
+            <b>Tel: </b><span>{{ usersCompanyBranch.phone }}</span> <br />
+            <b>Adres: </b><br />
+            <span>{{ usersCompanyBranch.address.addressLine }}</span> <br />
+            <span>{{ usersCompanyBranch.address.code }}, {{ usersCompanyBranch.address.city }}</span>
+            <br />
+            <span
+              >{{ usersCompanyBranch.address.state }}, {{ usersCompanyBranch.address.country }}</span
+            >
+            <br />
+          </div>
+          <div class="details-block">
+            <h6>Uzytkownik:</h6>
+            <b>{{ usersCompanyBranch.user.firstName }} {{ usersCompanyBranch.user.lastName }}</b>
+            <br />
+            <span>{{ usersCompanyBranch.user.email }}</span> <br />
+            <b>Tel: </b><span>{{ usersCompanyBranch.user.phone }}</span> <br />
+            <b>Ur.: </b><span>{{ usersCompanyBranch.user.birthDate }}</span> <br />
+            <b>Adres: </b><br />
+            <span>{{ usersCompanyBranch.user.address.addressLine }}</span> <br />
+            <span
+              >{{ usersCompanyBranch.user.address.code }},
+              {{ usersCompanyBranch.user.address.city }}</span
+            >
+            <br />
+            <span
+              >{{ usersCompanyBranch.user.address.state }},
+              {{ usersCompanyBranch.user.address.country }}</span
+            >
+            <br />
+          </div>
+        </div>
       </div>
 
       <!-- Callendar -->
-      <div [hidden]="!viewCallendar" class="managment-body">
-        Kalendarz
-    </div>
+      <div [hidden]="!viewCallendar" class="managment-body">Kalendarz</div>
 
       <!-- Opinion -->
       <div [hidden]="!viewOpinion" class="managment-body">
