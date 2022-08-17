@@ -48,6 +48,8 @@ import { BranchManagmentComponent } from './business-managment/branch-managment/
 import { MatDialogModule } from '@angular/material/dialog';
 import { StandAddComponent } from './business-managment/branch-managment/stand/stand-add/stand-add.component';
 import { StandRemoveComponent } from './business-managment/branch-managment/stand/stand-remove/stand-remove.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -86,6 +88,8 @@ import { StandRemoveComponent } from './business-managment/branch-managment/stan
     MatNativeDateModule,
     MatInputModule,
     MatDialogModule,
+    MatSlideToggleModule,
+    MatAutocompleteModule
     // MaterialModule
   ],
   providers: [

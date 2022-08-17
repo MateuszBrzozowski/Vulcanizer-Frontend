@@ -31,8 +31,9 @@
   --color-badge-success: #28a745;
   --color-badge-danger: #dc3545;
   --color-badge-secondary: #6c757d;
-  --color-input-text : #212529;
+  --color-input-text: #212529;
   --color-input-border: #ced4da;
+  --font-family: "Barlow Semi Condensed", sans-serif;
 }
 
 * {
@@ -49,8 +50,12 @@ body {
   background-color: var(--color-backgorund-white);
   min-width: 100vw;
   min-height: 100vh;
-  font-family: "Barlow Semi Condensed", sans-serif;
+  font-family: var(--font-family);
   /* overflow-x: hidden; */
+}
+
+.mat-slide-toggle-content {
+  font-family: var(--font-family);
 }
 
 /* Hide scrollbars
@@ -62,7 +67,7 @@ body {
 /* Hide scrollbar for IE, Edge and Firefox */
 /*body {
   -ms-overflow-style: none;  /* IE and Edge */
-  /*scrollbar-width: none;  /* Firefox */
+/*scrollbar-width: none;  /* Firefox */
 /*}*/
 
 header {
@@ -158,7 +163,7 @@ hypertext:focus {
   top: 50%;
 }
 
-.form-control select{
+.form-control select {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -431,13 +436,12 @@ input[type="number"] {
   border-radius: 1px;
 }
 
-
 .gender .btn {
   border-radius: 0;
   position: relative;
 }
 
-.gender .btn:hover{
+.gender .btn:hover {
   background-color: var(--color-managment-button-hover);
 }
 
@@ -446,25 +450,29 @@ input[type="number"] {
   background-color: var(--color-managment-button-focus);
 }
 
-.gender .btn-left{
+.gender .btn-left {
   border-right: solid 1px var(--color-border-gray);
 }
 
-.gender .btn-right{
+.gender .btn-right {
   border-left: solid 1px var(--color-border-gray);
 }
 
-.gender .btn-selected{
+.gender .btn-selected {
   background-color: var(--color-button-selected);
 }
 
-.gender .btn-selected:hover{
+.gender .btn-selected:hover {
   background-color: var(--color-button-selected);
   transition: background 0.4s;
 }
 
-.gender .btn-selected:focus{
+.gender .btn-selected:focus {
   background-color: var(--color-button-selected-focus);
+}
+
+.btn-w-120px{
+  width: 120px;
 }
 
 .gender .btn img {
@@ -480,8 +488,6 @@ small {
 #logout-button:hover {
   color: red;
 }
-
-
 
 .managment-form .form-control {
   background-color: none;
@@ -529,20 +535,19 @@ small {
 }
 
 .badge-warning {
-  background-color: var(--color-badge-warning) ;
+  background-color: var(--color-badge-warning);
 }
 
 .badge-success {
-  background-color: var(--color-badge-success) ;
+  background-color: var(--color-badge-success);
 }
 
 .badge-danger {
-  background-color: var(--color-badge-danger) ;
+  background-color: var(--color-badge-danger);
 }
 
-
 .badge-secondary {
-  background-color: var(--color-badge-secondary) ;
+  background-color: var(--color-badge-secondary);
 }
 
 .margin {
@@ -561,7 +566,6 @@ mat-slider {
   border: none;
 }
 
-
 .btn-business-managment {
   line-height: 1;
   font-size: smaller;
@@ -574,7 +578,7 @@ mat-slider {
   width: 100%;
 }
 
-.managment-body-one{
+.managment-body-one {
   width: 100%;
 }
 
@@ -618,12 +622,12 @@ mat-slider {
   color: gray;
 }
 
-.business-summary{
-  color: var(--color-text-gray) ;
+.business-summary {
+  color: var(--color-text-gray);
 }
 
-.business-summary h5{
-  color: var(--color-text-dark) ;
+.business-summary h5 {
+  color: var(--color-text-dark);
 }
 
 .business-summary .description {
@@ -636,9 +640,14 @@ mat-slider {
   flex-wrap: wrap;
 }
 
-ul {list-style: none}
+ul {
+  list-style: none;
+}
 
-.managment-form li small::before {content: "•  "; color: red}
+.managment-form li small::before {
+  content: "•  ";
+  color: red;
+}
 
 .one-column {
   display: flex;
@@ -687,12 +696,10 @@ ul {list-style: none}
   max-height: 70px;
 }
 
-.table{
+.table {
   display: flex;
   flex-direction: column;
 }
-
-
 
 mat-radio-group {
   display: flex;
@@ -700,10 +707,8 @@ mat-radio-group {
   padding: 1rem 0 1rem 0;
 }
 
-#radio-group-label{
-
+#radio-group-label {
 }
-
 
 input {
   width: 100%;
@@ -711,10 +716,10 @@ input {
   color: var(--color-text-white);
   background: var(--color-search-engine);
   border: none;
-  border-radius: 44px;
   margin: 0 auto;
   padding-left: 40px;
   /* box-shadow: var(--element-shadow-dark); */
+  border-radius: 0.25rem;
 }
 
 .search-icon {
@@ -810,6 +815,67 @@ input {
   color: red;
 }
 
+.table-hours-opening {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-hours-opening .week-day {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.hours-opening {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.hours-opening input {
+  border-radius: 0;
+  border-bottom: 1px solid var(--color-border-gray);
+  color: var(--color-text-dark);
+  padding: 0 16px;
+  width: 100%;
+}
+
+.hours-opening input:focus {
+  outline: none;
+  border-bottom: 1px solid var(--color-button-selected-focus);
+}
+
+.from {
+  width: 30%;
+}
+
+.to {
+  width: 30%;
+}
+
+.input-left {
+  text-align: right;
+}
+
+.hours-opening span {
+  line-height: 44px;
+}
+
+.isOpen {
+  padding: 0 24px;
+  width: 160px;
+}
+
+.week-day-name {
+  width: 100px;
+  font-weight: bolder;
+}
+
+.week-day{
+  padding: 8px 0;
+}
+
 @media (min-width: 320px) {
   /* smartphones, iPhone, portrait 480x320 phones */
   .menu {
@@ -861,8 +927,8 @@ input {
   }
 
   .btn-menu {
-    border-bottom-left-radius: 0 ;
-    border-bottom-right-radius: 0 ;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     background-color: var(--color-button-menu-noactive);
     border-color: var(--color-button-menu-noactive);
   }
@@ -893,7 +959,7 @@ input {
 }
 @media (min-width: 961px) {
   /* tablet, landscape iPad, lo-res laptops ands desktops */
-  
+
   .user-managment-container {
     display: flex;
     justify-self: center;
@@ -914,12 +980,10 @@ input {
     max-width: 250px;
   }
 
-
   .content {
     /* width: 500px; */
     width: calc(100% - 250px - 48px);
   }
-
 }
 @media (min-width: 1025px) {
   /* big landscape tablets, laptops, and desktops */
@@ -928,5 +992,8 @@ input {
   /* hi-res laptops and desktops */
 }
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 /* body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */

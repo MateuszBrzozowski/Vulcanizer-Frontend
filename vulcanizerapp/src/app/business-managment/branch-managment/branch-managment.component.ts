@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { CompanyBranchResponse, Stand } from 'src/app/business';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { AuthenticationService } from 'src/app/service/authentication.service';
@@ -24,8 +28,9 @@ export class BranchManagmentComponent implements OnInit {
   viewInfo: boolean = false;
   viewCallendar: boolean = false;
   viewOpinion: boolean = false;
-  viewStand: boolean = true;
+  viewStand: boolean = false;
   viewServices: boolean = false;
+  viewOpeningHours: boolean = true;
 
   // 
   // List of Stand
@@ -34,6 +39,41 @@ export class BranchManagmentComponent implements OnInit {
   sourceStand: Stand[] = this.businessService.getSavedStands();
   @ViewChild(MatTable) table!: MatTable<Stand>;
   dataSourceStand = new MatTableDataSource(this.sourceStand);
+
+  //
+  // Opening hours
+  //
+  options: string[] = ['0:00', '0:15'];
+  filteredOptions!: Observable<string[]>;
+  monEnabled = true;
+  tueEnabled = true;
+  wedEnabled = true;
+  thuEnabled = true;
+  friEnabled = true;
+  satEnabled = false;
+  sunEnabled = false;
+  monIsOpen: string = 'Otwarte';
+  tueIsOpen: string = 'Otwarte';
+  wedIsOpen: string = 'Otwarte';
+  thuIsOpen: string = 'Otwarte';
+  friIsOpen: string = 'Otwarte';
+  satIsOpen: string = 'Zamknięte';
+  sunIsOpen: string = 'Zamknięte';
+  monFromControl = new FormControl({value : '7:00', disabled: false});
+  monToControl = new FormControl({value : '16:00', disabled: false});
+  tueFromControl = new FormControl({value : '7:00', disabled: false});
+  tueToControl = new FormControl({value : '16:00', disabled: false});
+  wedFromControl = new FormControl({value : '7:00', disabled: false});
+  wedToControl = new FormControl({value : '16:00', disabled: false});
+  thuFromControl = new FormControl({value : '7:00', disabled: false});
+  thuToControl = new FormControl({value : '16:00', disabled: false});
+  friFromControl = new FormControl({value : '7:00', disabled: false});
+  friToControl = new FormControl({value : '16:00', disabled: false});
+  satFromControl = new FormControl({value : '', disabled: true});
+  satToControl = new FormControl({value : '', disabled: true});
+  sunFromControl = new FormControl({value : '', disabled: true});
+  sunToControl = new FormControl({value : '', disabled: true});
+
 
   constructor(private authenticationService: AuthenticationService,
     private userService: UserService,
@@ -46,6 +86,35 @@ export class BranchManagmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAvailable();
+    this.fillHoursOpening();
+    this.filteredOptions = this.monFromControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  fillHoursOpening() {
+    const hoursList = new Array<string>;
+    for (let i = 0; i < 24; i++) {
+      let hour: string = i.toString();
+      hour += ':';
+      for (let j = 0; j < 4; j++) {
+        let time = hour;
+        const min: string = (j * 15).toString();
+        if (j === 0) {
+          time += '00';
+        } else {
+          time += min;
+        }
+        hoursList.push(time);
+      }
+    }
+    this.options = hoursList;
   }
 
   isAvailable() {
@@ -73,6 +142,7 @@ export class BranchManagmentComponent implements OnInit {
     this.viewOpinion = false;
     this.viewStand = false;
     this.viewServices = false;
+    this.viewOpeningHours = false;
   }
 
   setViewInfo() {
@@ -93,6 +163,11 @@ export class BranchManagmentComponent implements OnInit {
   setViewStand() {
     this.setViewHidden();
     this.viewStand = true;
+  }
+
+  setViewOpeningHours() {
+    this.setViewHidden();
+    this.viewOpeningHours = true;
   }
 
   getAllStands() {
@@ -145,11 +220,11 @@ export class BranchManagmentComponent implements OnInit {
     });
   }
 
-  standRemove(btnRemove: HTMLButtonElement){
-    const dialogRef = this.dialog.open(StandRemoveComponent, {data : btnRemove.value});
+  standRemove(btnRemove: HTMLButtonElement) {
+    const dialogRef = this.dialog.open(StandRemoveComponent, { data: btnRemove.value });
     dialogRef.afterClosed().subscribe(result => {
-      if(result === true){
-        this.businessService.standRemove(this.usersCompanyBranch.id,btnRemove.value).subscribe({
+      if (result === true) {
+        this.businessService.standRemove(this.usersCompanyBranch.id, btnRemove.value).subscribe({
           next: (response) => {
             if (response.body === null) {
               return;
@@ -157,7 +232,7 @@ export class BranchManagmentComponent implements OnInit {
             this.sourceStand = response.body;
             this.refreshTable();
           },
-          error : (error) => {
+          error: (error) => {
             this.notification.notify(
               NotificationType.ERROR,
               'Coś poszło nie tak. Spróbuj ponownie później'
@@ -170,5 +245,107 @@ export class BranchManagmentComponent implements OnInit {
 
   refreshTable() {
     this.dataSourceStand = new MatTableDataSource(this.sourceStand);
+  }
+
+  changeFormControl(isEnable : boolean,from: FormControl, to: FormControl){
+    if (isEnable) {
+      from.disable();
+      from.setValue('');
+      to.disable();
+      to.setValue('');
+    } else {
+      from.enable();
+      from.setValue('7:00');
+      to.enable();
+      to.setValue('16:00');
+    }
+  }
+
+  monOpenClick() { 
+    if (this.monEnabled) {
+      this.monEnabled = false;
+      this.monIsOpen = "Zamknięte";
+      this.changeFormControl(true,this.monFromControl, this.monToControl);
+    } else {
+      this.monEnabled = true;
+      this.monIsOpen = "Otwarte";
+      this.changeFormControl(false,this.monFromControl, this.monToControl);
+    }
+  }
+
+  tueOpenClick() { 
+    if (this.tueEnabled) {
+      this.tueEnabled = false;
+      this.tueIsOpen = "Zamknięte";
+      this.changeFormControl(true,this.tueFromControl, this.tueToControl);
+    } else {
+      this.tueEnabled = true;
+      this.tueIsOpen = "Otwarte";
+      this.changeFormControl(false,this.tueFromControl, this.tueToControl);
+    }
+  }
+
+  wedOpenClick() { 
+    if (this.wedEnabled) {
+      this.wedEnabled = false;
+      this.wedIsOpen = "Zamknięte";
+      this.changeFormControl(true,this.wedFromControl, this.wedToControl);
+    } else {
+      this.wedEnabled = true;
+      this.wedIsOpen = "Otwarte";
+      this.changeFormControl(false,this.wedFromControl, this.wedToControl);
+    }
+  }
+
+  thuOpenClick() { 
+    if (this.thuEnabled) {
+      this.thuEnabled = false;
+      this.thuIsOpen = "Zamknięte";
+      this.changeFormControl(true,this.thuFromControl, this.thuToControl);
+    } else {
+      this.thuEnabled = true;
+      this.thuIsOpen = "Otwarte";
+      this.changeFormControl(false,this.thuFromControl, this.thuToControl);
+    }
+  }
+
+  friOpenClick() { 
+    if (this.friEnabled) {
+      this.friEnabled = false;
+      this.friIsOpen = "Zamknięte";
+      this.changeFormControl(true,this.friFromControl, this.friToControl);
+    } else {
+      this.friEnabled = true;
+      this.friIsOpen = "Otwarte";
+      this.changeFormControl(false,this.friFromControl, this.friToControl);
+    }
+  }
+
+  satOpenClick() { 
+    if (this.satEnabled) {
+      this.satEnabled = false;
+      this.satIsOpen = "Zamknięte";
+      this.changeFormControl(true,this.satFromControl, this.satToControl);
+    } else {
+      this.satEnabled = true;
+      this.satIsOpen = "Otwarte";
+      this.changeFormControl(false,this.satFromControl, this.satToControl);
+    }
+  }
+
+  sunOpenClick() { 
+    if (this.sunEnabled) {
+      this.sunEnabled = false;
+      this.sunIsOpen = "Zamknięte";
+      this.changeFormControl(true,this.sunFromControl, this.sunToControl);
+    } else {
+      this.sunEnabled = true;
+      this.sunIsOpen = "Otwarte";
+      this.changeFormControl(false,this.sunFromControl, this.sunToControl);
+    }
+  }
+
+  saveHoursOpening(){
+    
   }
 }

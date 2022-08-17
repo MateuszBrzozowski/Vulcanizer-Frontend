@@ -20,7 +20,7 @@
       <mat-menu #settings="matMenu">
         <button mat-menu-item (click)="setViewStand()">Stanowiska</button>
         <button mat-menu-item (click)="setViewServices()">Usługi</button>
-        <button mat-menu-item (click)="setViewServices()">
+        <button mat-menu-item (click)="setViewOpeningHours()">
           Godziny otwarcia
         </button>
       </mat-menu>
@@ -138,8 +138,9 @@
                     value="{{ element.number }}"
                     class="btn btn-danger btn-business-managment"
                     (click)="standRemove(btnRemove)"
-                    >Usuń</button
                   >
+                    Usuń
+                  </button>
                 </td>
               </ng-container>
 
@@ -164,6 +165,282 @@
       <!-- Services -->
       <div [hidden]="!viewServices" class="managment-body">
         Usług - lista + Konfigurator
+      </div>
+
+      <!-- Opening hours -->
+      <div [hidden]="!viewOpeningHours" class="managment-body">
+        <div class="managment-body-one">
+          <h4>Godziny otwarcia</h4>
+          <div class="table-hours-opening">
+            <div class="week-day">
+              <div class="week-day-name">Poniedziałek</div>
+              <div class="isOpen">
+                <mat-slide-toggle color="primary" [checked]="monEnabled" (change)="monOpenClick()">
+                  {{monIsOpen}}
+                </mat-slide-toggle>
+              </div>
+              <div class="hours-opening">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of options" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div class="from">
+                  <input
+                    id="monFrom"
+                    class="input-left"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [formControl]="monFromControl"
+                    [matAutocomplete]="auto"
+                  />
+                </div>
+                <span>-</span>
+                <div class="to">
+                  <input
+                    id="monTo"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [matAutocomplete]="auto"
+                    [formControl]="monToControl"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="week-day">
+              <div class="week-day-name">Wtorek</div>
+              <div class="isOpen">
+                <mat-slide-toggle color="primary" [checked]="tueEnabled" (change)="tueOpenClick()">
+                  {{tueIsOpen}}
+                </mat-slide-toggle>
+              </div>
+              <div class="hours-opening">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of options" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div class="from">
+                  <input
+                    id="monFrom"
+                    class="input-left"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [formControl]="tueFromControl"
+                    [matAutocomplete]="auto"
+                  />
+                </div>
+                <span>-</span>
+                <div class="to">
+                  <input
+                    id="monTo"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [matAutocomplete]="auto"
+                    [formControl]="tueToControl"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="week-day">
+              <div class="week-day-name">Śrdoa</div>
+              <div class="isOpen">
+                <mat-slide-toggle color="primary" [checked]="wedEnabled" (change)="wedOpenClick()">
+                  {{wedIsOpen}}
+                </mat-slide-toggle>
+              </div>
+              <div class="hours-opening">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of options" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div class="from">
+                  <input
+                    id="monFrom"
+                    class="input-left"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [formControl]="wedFromControl"
+                    [matAutocomplete]="auto"
+                  />
+                </div>
+                <span>-</span>
+                <div class="to">
+                  <input
+                    id="monTo"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [matAutocomplete]="auto"
+                    [formControl]="wedToControl"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="week-day">
+              <div class="week-day-name">Czwartek</div>
+              <div class="isOpen">
+                <mat-slide-toggle color="primary" [checked]="thuEnabled" (change)="thuOpenClick()">
+                  {{thuIsOpen}}
+                </mat-slide-toggle>
+              </div>
+              <div class="hours-opening">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of options" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div class="from">
+                  <input
+                    id="monFrom"
+                    class="input-left"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [formControl]="thuFromControl"
+                    [matAutocomplete]="auto"
+                  />
+                </div>
+                <span>-</span>
+                <div class="to">
+                  <input
+                    id="monTo"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [matAutocomplete]="auto"
+                    [formControl]="thuToControl"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="week-day">
+              <div class="week-day-name">Piątek</div>
+              <div class="isOpen">
+                <mat-slide-toggle color="primary" [checked]="friEnabled" (change)="friOpenClick()">
+                  {{friIsOpen}}
+                </mat-slide-toggle>
+              </div>
+              <div class="hours-opening">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of options" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div class="from">
+                  <input
+                    id="monFrom"
+                    class="input-left"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [formControl]="friFromControl"
+                    [matAutocomplete]="auto"
+                  />
+                </div>
+                <span>-</span>
+                <div class="to">
+                  <input
+                    id="monTo"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [matAutocomplete]="auto"
+                    [formControl]="friToControl"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="week-day">
+              <div class="week-day-name">Sobota</div>
+              <div class="isOpen">
+                <mat-slide-toggle color="primary" [checked]="satEnabled" (change)="satOpenClick()">
+                  {{satIsOpen}}
+                </mat-slide-toggle>
+              </div>
+              <div class="hours-opening">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of options" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div class="from">
+                  <input
+                    id="monFrom"
+                    class="input-left"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [formControl]="satFromControl"
+                    [matAutocomplete]="auto"
+                  />
+                </div>
+                <span>-</span>
+                <div class="to">
+                  <input
+                    id="monTo"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [matAutocomplete]="auto"
+                    [formControl]="satToControl"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="week-day">
+              <div class="week-day-name">Niedziela</div>
+              <div class="isOpen">
+                <mat-slide-toggle color="primary" [checked]="sunEnabled" (change)="sunOpenClick()">
+                  {{sunIsOpen}}
+                </mat-slide-toggle>
+              </div>
+              <div class="hours-opening">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of options" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+                <div class="from">
+                  <input
+                    id="monFrom"
+                    class="input-left"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [formControl]="sunFromControl"
+                    [matAutocomplete]="auto"
+                  />
+                </div>
+                <span>-</span>
+                <div class="to">
+                  <input
+                    id="monTo"
+                    type="text"
+                    maxlength="5"
+                    placeholder="HH:MM"
+                    [matAutocomplete]="auto"
+                    [formControl]="sunToControl"
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+            mat-button
+            (click)="saveHoursOpening()"
+            type="button"
+            class="btn btn-primary btn-w-120px"
+          >
+            Zapisz
+          </button>
+          </div>
+        </div>
       </div>
 
       <div class="managment-body"></div>
