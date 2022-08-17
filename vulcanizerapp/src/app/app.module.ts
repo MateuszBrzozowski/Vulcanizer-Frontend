@@ -28,8 +28,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AdminManagmentComponent } from './admin-managment/admin-managment.component';
 import { WaitingComponent } from './admin-managment/business/waiting/waiting.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
+import {
+  MatFormFieldModule,
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+} from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 import {
   MatRadioModule,
@@ -44,6 +47,7 @@ import { BusinessManagmentComponent } from './business-managment/business-managm
 import { BranchManagmentComponent } from './business-managment/branch-managment/branch-managment.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { StandAddComponent } from './business-managment/branch-managment/stand/stand-add/stand-add.component';
+import { StandRemoveComponent } from './business-managment/branch-managment/stand/stand-remove/stand-remove.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +62,8 @@ import { StandAddComponent } from './business-managment/branch-managment/stand/s
     PanelsComponent,
     BusinessManagmentComponent,
     BranchManagmentComponent,
-    StandAddComponent
+    StandAddComponent,
+    StandRemoveComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,8 +84,8 @@ import { StandAddComponent } from './business-managment/branch-managment/stand/s
     FormsModule,
     MatIconModule,
     MatNativeDateModule,
-    MatInputModule ,
-    MatDialogModule
+    MatInputModule,
+    MatDialogModule,
     // MaterialModule
   ],
   providers: [
@@ -92,8 +97,11 @@ import { StandAddComponent } from './business-managment/branch-managment/stand/s
     {
       provide: MAT_RADIO_DEFAULT_OPTIONS,
       useValue: { color: 'primary' },
-  },
-  {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
+    },
     AuthenticationGuard,
     NotFoundComponent,
     ConfirmComponent,
@@ -105,7 +113,8 @@ import { StandAddComponent } from './business-managment/branch-managment/stand/s
     PanelsComponent,
     BusinessManagmentComponent,
     BranchManagmentComponent,
-    StandAddComponent
+    StandAddComponent,
+    StandRemoveComponent,
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

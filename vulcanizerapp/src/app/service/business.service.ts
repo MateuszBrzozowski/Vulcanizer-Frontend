@@ -2,15 +2,16 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
-import { Business, CompanyBranchResponse } from '../business';
+import { Business, CompanyBranchResponse, Stand } from '../business';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BusinessService {
   private apiServerUrl = environment.apiBaseUrl;
+  private dataSourceStand: Stand[] = new Array<Stand>;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public getRecommendBusiness(): Observable<Business[]> {
     return this.http.get<Business[]>(
@@ -55,11 +56,44 @@ export class BusinessService {
   /**
    * standAdd
    */
-  public standAdd(branchId: string, count: string) {
-    const body = { branchId: branchId, count: count };
-    this.http.post(
-      `${this.apiServerUrl}/api/v1/company/branch/stand/add`,
-      body
+  public standAdd(branchId: string, count: string): Observable<HttpResponse<Stand[]>> {
+    const body = {};
+    return this.http.post<Stand[]>(
+      `${this.apiServerUrl}/api/v1/company/branch/${branchId}/stand/${count}`,
+      body, { observe: 'response' }
+    );
+  }
+
+  /**
+   * standRemove
+   */
+  public standRemove(branchId: string, number: string): Observable<HttpResponse<Stand[]>> {
+    return this.http.delete<Stand[]>(
+      `${this.apiServerUrl}/api/v1/company/branch/${branchId}/stand/${number}`, { observe: 'response' }
+    );
+  }
+
+  /**
+   * saveStands
+   */
+  public saveStands(body: Stand[]) {
+    this.dataSourceStand = body;
+  }
+
+  /**
+   * getSavedStands
+   */
+  public getSavedStands(): Stand[] {
+    return this.dataSourceStand;
+  }
+
+  /**
+   * standsFindAll
+   */
+  public getAllStands(branchId: string): Observable<HttpResponse<Stand[]>> {
+    return this.http.get<Stand[]>(
+      `${this.apiServerUrl}/api/v1/company/branch/${branchId}/stand`,
+      { observe: 'response' }
     );
   }
 

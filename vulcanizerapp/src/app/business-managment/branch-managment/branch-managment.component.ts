@@ -1,11 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { CompanyBranchResponse } from 'src/app/business';
+import { CompanyBranchResponse, Stand } from 'src/app/business';
+import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { BusinessService } from 'src/app/service/business.service';
+import { NotificationService } from 'src/app/service/notification.service';
 import { UserService } from 'src/app/user.service';
 import { StandAddComponent } from './stand/stand-add/stand-add.component';
+import { StandRemoveComponent } from './stand/stand-remove/stand-remove.component';
 
 @Component({
   selector: 'app-branch-managment',
@@ -25,14 +30,17 @@ export class BranchManagmentComponent implements OnInit {
   // 
   // List of Stand
   // 
-  displayColumnsStand = ['Numer','Akcja'];
-  dataSourceStand = new Array<any>;
-  
+  displayColumnsStand = ['Numer', 'Akcja'];
+  sourceStand: Stand[] = this.businessService.getSavedStands();
+  @ViewChild(MatTable) table!: MatTable<Stand>;
+  dataSourceStand = new MatTableDataSource(this.sourceStand);
 
   constructor(private authenticationService: AuthenticationService,
     private userService: UserService,
     private router: Router,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private businessService: BusinessService,
+    private notification: NotificationService) { }
 
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined;
 
@@ -52,6 +60,7 @@ export class BranchManagmentComponent implements OnInit {
         } else {
           this.router.navigateByUrl('');
         }
+        this.getAllStands();
       } else {
         this.router.navigateByUrl('');
       }
@@ -86,16 +95,80 @@ export class BranchManagmentComponent implements OnInit {
     this.viewStand = true;
   }
 
+  getAllStands() {
+    this.businessService.getAllStands(this.usersCompanyBranch.id).subscribe({
+      next: (response) => {
+        if (response.body === null) {
+          return;
+        }
+        this.sourceStand = response.body;
+        this.businessService.saveStands(response.body);
+        this.refreshTable();
+      },
+      error: (error) => {
+        this.notification.notify(NotificationType.ERROR, "Coś poszło nie tak. Spróbuj ponownie później");
+      }
+    })
+  }
+
   setViewServices() {
     this.setViewHidden();
     this.viewServices = true;
   }
 
-  standAdd(){
-    const dialogRef = this.dialog.open(StandAddComponent);
-
+  standAdd() {
+    const dialogRef = this.dialog.open(StandAddComponent, { data: 1 });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result > 0 && result <= 10) {
+        this.businessService
+          .standAdd(this.usersCompanyBranch.id, result)
+          .subscribe({
+            next: (response) => {
+              if (response.body === null) {
+                return;
+              }
+              this.sourceStand = response.body;
+              this.refreshTable();
+            },
+            error: (error) => {
+              if (error.error.message === "Max count of stands") {
+                this.notification.notify(NotificationType.ERROR, "Łączna maksymalna liczba stanowisk - 10");
+                return;
+              }
+              this.notification.notify(
+                NotificationType.ERROR,
+                'Coś poszło nie tak. Spróbuj ponownie później'
+              );
+            },
+          });
+      }
     });
+  }
+
+  standRemove(btnRemove: HTMLButtonElement){
+    const dialogRef = this.dialog.open(StandRemoveComponent, {data : btnRemove.value});
+    dialogRef.afterClosed().subscribe(result => {
+      if(result === true){
+        this.businessService.standRemove(this.usersCompanyBranch.id,btnRemove.value).subscribe({
+          next: (response) => {
+            if (response.body === null) {
+              return;
+            }
+            this.sourceStand = response.body;
+            this.refreshTable();
+          },
+          error : (error) => {
+            this.notification.notify(
+              NotificationType.ERROR,
+              'Coś poszło nie tak. Spróbuj ponownie później'
+            );
+          }
+        })
+      }
+    })
+  }
+
+  refreshTable() {
+    this.dataSourceStand = new MatTableDataSource(this.sourceStand);
   }
 }

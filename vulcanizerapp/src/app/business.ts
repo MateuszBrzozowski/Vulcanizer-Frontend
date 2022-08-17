@@ -48,3 +48,8 @@ export class CompanyBranchResponse {
   statusClass : string = '';
   isPanelDisable: boolean = true;
 }
+
+export class Stand {
+  id : number = -1;
+  number : number = -1;
+}
