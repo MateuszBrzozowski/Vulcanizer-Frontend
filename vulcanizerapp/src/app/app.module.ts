@@ -51,6 +51,7 @@ import { StandRemoveComponent } from './business-managment/branch-managment/stan
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { PublicHolidaysComponent } from './admin-managment/util/public-holidays/public-holidays.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     BranchManagmentComponent,
     StandAddComponent,
     StandRemoveComponent,
+    PublicHolidaysComponent
   ],
   imports: [
     BrowserModule,
@@ -121,6 +123,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     BranchManagmentComponent,
     StandAddComponent,
     StandRemoveComponent,
+    PublicHolidaysComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })
