@@ -7,7 +7,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { CompanyBranchResponse, Stand } from 'src/app/business';
+import { CompanyBranchResponse, OpeningHours, Stand } from 'src/app/business';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { BusinessService } from 'src/app/service/business.service';
@@ -75,6 +75,20 @@ export class BranchManagmentComponent implements OnInit {
   sunToControl = new FormControl({ value: '', disabled: true });
   customFromControl = new FormControl({ value: '', disabled: true });
   customToControl = new FormControl({ value: '', disabled: true });
+  monFromSavedData: string = '';
+  monToSavedData: string = '';
+  tueFromSavedData: string = '';
+  tueToSavedData: string = '';
+  wedFromSavedData: string = '';
+  wedToSavedData: string = '';
+  thuFromSavedData: string = '';
+  thuToSavedData: string = '';
+  friFromSavedData: string = '';
+  friToSavedData: string = '';
+  satFromSavedData: string = '';
+  satToSavedData: string = '';
+  sunFromSavedData: string = '';
+  sunToSavedData: string = '';
 
   // 
   // Custom hours opening
@@ -359,7 +373,93 @@ export class BranchManagmentComponent implements OnInit {
   }
 
   saveHoursOpening() {
-    //TODO Zapisywanie wybranych dni i godzin defaultowe
+    if(!this.checkHoursOpeningDataIsChanges()){
+      this.notification.notify(NotificationType.INFO,"Nie dokonano żadnej zmiany. Dane zapisane");
+      return;
+    }
+    const hoursOpening = new Array<OpeningHours>
+    const mon = new OpeningHours();
+    mon.day = "MONDAY";
+    const tue = new OpeningHours();
+    tue.day = "TUESDAY";
+    const wed = new OpeningHours();
+    wed.day = "WEDNESDAY";
+    const thu = new OpeningHours();
+    thu.day = "THURSDAY";
+    const fri = new OpeningHours();
+    fri.day = "FRIDAY";
+    const sat = new OpeningHours();
+    sat.day = "SATURDAY";
+    const sun = new OpeningHours();
+    sun.day = "SUNDAY";
+    if (this.monEnabled) {
+      mon.openTime = this.monFromControl.value!;
+      mon.closeTime = this.monToControl.value!;
+    } else {
+      mon.openTime = null;
+      mon.closeTime = null;
+    }
+    if (this.tueEnabled) {
+      tue.openTime = this.tueFromControl.value!;
+      tue.closeTime = this.tueToControl.value!;
+    } else {
+      tue.openTime = null;
+      tue.closeTime = null;
+    }
+    if (this.wedEnabled) {
+      wed.openTime = this.wedFromControl.value!;
+      wed.closeTime = this.wedToControl.value!;
+    } else {
+      wed.openTime = null;
+      wed.closeTime = null;
+    }
+    if (this.thuEnabled) {
+      thu.openTime = this.thuFromControl.value!;
+      thu.closeTime = this.thuToControl.value!;
+    } else {
+      thu.openTime = null;
+      thu.closeTime = null;
+    }
+    if (this.friEnabled) {
+      fri.openTime = this.friFromControl.value!;
+      fri.closeTime = this.friToControl.value!;
+    } else {
+      fri.openTime = null;
+      fri.closeTime = null;
+    }
+    if (this.satEnabled) {
+      sat.openTime = this.satFromControl.value!;
+      sat.closeTime = this.satToControl.value!;
+    } else {
+      sat.openTime = null;
+      sat.closeTime = null;
+    }
+    if (this.sunEnabled) {
+      sun.openTime = this.sunFromControl.value!;
+      sun.closeTime = this.sunToControl.value!;
+    } else {
+      sun.openTime = null;
+      sun.closeTime = null;
+    }
+    hoursOpening.push(mon);
+    hoursOpening.push(tue);
+    hoursOpening.push(wed);
+    hoursOpening.push(thu);
+    hoursOpening.push(fri);
+    hoursOpening.push(sat);
+    hoursOpening.push(sun);
+    this.businessService.pushHoursOpening(this.usersCompanyBranch.id, hoursOpening).subscribe({
+      next: (response) => {
+        this.notification.notify(NotificationType.SUCCESS,
+          "Zmiany zapisane poprawnie");
+          this.setSavedOpeningHoursData();
+      },
+      error: (error) => {
+        this.notification.notify(NotificationType.ERROR,
+          "Coś poszło nie tak. Sprawdź dane i spróbuj ponownie później");
+      }
+    })
+
   }
 
   customOpenClick() {
@@ -385,7 +485,7 @@ export class BranchManagmentComponent implements OnInit {
             }
           }
         }
-
+        this.setSavedOpeningHoursData();
       },
       error: (error) => {
         this.notification.notify(NotificationType.ERROR, "Coś poszło nie tak, spróbuj ponownie później");
@@ -398,6 +498,69 @@ export class BranchManagmentComponent implements OnInit {
     from.setValue(open);
     to.enable();
     to.setValue(close);
+  }
+
+  setSavedOpeningHoursData() {
+    this.monFromSavedData = this.monFromControl.value!;
+    this.monToSavedData = this.monToControl.value!;
+    this.tueFromSavedData = this.tueFromControl.value!;
+    this.tueToSavedData = this.tueToControl.value!;
+    this.wedFromSavedData = this.wedFromControl.value!;
+    this.wedToSavedData = this.wedToControl.value!;
+    this.thuFromSavedData = this.thuFromControl.value!;
+    this.thuToSavedData = this.thuToControl.value!;
+    this.friFromSavedData = this.friFromControl.value!;
+    this.friToSavedData = this.friToControl.value!;
+    this.satFromSavedData = this.satFromControl.value!;
+    this.satToSavedData = this.satToControl.value!;
+    this.sunFromSavedData = this.sunFromControl.value!;
+    this.sunToSavedData = this.sunToControl.value!;
+  }
+
+  checkHoursOpeningDataIsChanges(): boolean{
+    if(this.monFromSavedData != this.monFromControl.value!){
+      return true;
+    }
+    if(this.monToSavedData != this.monToControl.value!){
+      return true;
+    }
+    if(this.tueFromSavedData != this.tueFromControl.value!){
+      return true;
+    }
+    if(this.tueToSavedData != this.tueToControl.value!){
+      return true;
+    }
+    if( this.wedFromSavedData != this.wedFromControl.value!){
+      return true;
+    }
+    if( this.wedToSavedData != this.wedToControl.value!){
+      return true;
+    }
+    if( this.thuFromSavedData != this.thuFromControl.value!){
+      return true;
+    }
+    if( this.thuToSavedData != this.thuToControl.value!){
+      return true;
+    }
+    if( this.friFromSavedData != this.friFromControl.value!){
+      return true;
+    }
+    if( this.friToSavedData != this.friToControl.value!){
+      return true;
+    }
+    if( this.satFromSavedData != this.satFromControl.value!){
+      return true;
+    }
+    if( this.satToSavedData != this.satToControl.value!){
+      return true;
+    }
+    if( this.sunFromSavedData != this.sunFromControl.value!){
+      return true;
+    }
+    if( this.sunToSavedData != this.sunToControl.value!){
+      return true;
+    }
+    return false;
   }
 
   setTimes(dayName: string, open: string, close: string) {

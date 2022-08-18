@@ -56,6 +56,6 @@ export class Stand {
 
 export class OpeningHours {
   day : string ='';
-  openTime : string = '';
-  closeTime : string = '';
+  openTime : string | null = '';
+  closeTime : string | null = '';
 }

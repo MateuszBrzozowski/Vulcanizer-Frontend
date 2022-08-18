@@ -107,6 +107,13 @@ export class BusinessService {
     );
   }
 
+  /**
+   * pushHoursOpening
+   */
+  public pushHoursOpening(branchId: string, openingHours : OpeningHours[]) : Observable<HttpResponse<any>> {
+    return this.http.put<any>(`${this.apiServerUrl}/api/v1/company/branch/${branchId}/hours`, openingHours);
+  }
+
   // public getUsers(): Observable<Business[]> {
   //   return this.http.get<Business[]>(`${this.apiServerUrl}/users`);
   // }
