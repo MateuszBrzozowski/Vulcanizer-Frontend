@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -73,6 +73,16 @@ export class BranchManagmentComponent implements OnInit {
   satToControl = new FormControl({value : '', disabled: true});
   sunFromControl = new FormControl({value : '', disabled: true});
   sunToControl = new FormControl({value : '', disabled: true});
+
+  // 
+  // Custom hours opening
+  // 
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+  customEnabled = false;
+  customIsOpen: string = 'Zamknięte';
 
 
   constructor(private authenticationService: AuthenticationService,
@@ -346,6 +356,10 @@ export class BranchManagmentComponent implements OnInit {
   }
 
   saveHoursOpening(){
-    
+    //TODO Zapisywanie wybranych dni i godzin defaultowe
+  }
+
+  customOpenClick(){
+
   }
 }

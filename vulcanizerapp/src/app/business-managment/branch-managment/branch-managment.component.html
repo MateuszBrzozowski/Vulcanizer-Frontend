@@ -101,6 +101,10 @@
       <!-- Callendar -->
       <div [hidden]="!viewCallendar" class="managment-body">Kalendarz</div>
 
+      <div [hidden]="!viewCallendar" class="managment-body">
+        Wizyty oczekujące na akceptacje
+      </div>
+
       <!-- Opinion -->
       <div [hidden]="!viewOpinion" class="managment-body">
         Opinie - taki manadżer
@@ -175,8 +179,12 @@
             <div class="week-day">
               <div class="week-day-name">Poniedziałek</div>
               <div class="isOpen">
-                <mat-slide-toggle color="primary" [checked]="monEnabled" (change)="monOpenClick()">
-                  {{monIsOpen}}
+                <mat-slide-toggle
+                  color="primary"
+                  [checked]="monEnabled"
+                  (change)="monOpenClick()"
+                >
+                  {{ monIsOpen }}
                 </mat-slide-toggle>
               </div>
               <div class="hours-opening">
@@ -212,16 +220,15 @@
             <div class="week-day">
               <div class="week-day-name">Wtorek</div>
               <div class="isOpen">
-                <mat-slide-toggle color="primary" [checked]="tueEnabled" (change)="tueOpenClick()">
-                  {{tueIsOpen}}
+                <mat-slide-toggle
+                  color="primary"
+                  [checked]="tueEnabled"
+                  (change)="tueOpenClick()"
+                >
+                  {{ tueIsOpen }}
                 </mat-slide-toggle>
               </div>
               <div class="hours-opening">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of options" [value]="option">
-                    {{ option }}
-                  </mat-option>
-                </mat-autocomplete>
                 <div class="from">
                   <input
                     id="monFrom"
@@ -249,16 +256,15 @@
             <div class="week-day">
               <div class="week-day-name">Śrdoa</div>
               <div class="isOpen">
-                <mat-slide-toggle color="primary" [checked]="wedEnabled" (change)="wedOpenClick()">
-                  {{wedIsOpen}}
+                <mat-slide-toggle
+                  color="primary"
+                  [checked]="wedEnabled"
+                  (change)="wedOpenClick()"
+                >
+                  {{ wedIsOpen }}
                 </mat-slide-toggle>
               </div>
               <div class="hours-opening">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of options" [value]="option">
-                    {{ option }}
-                  </mat-option>
-                </mat-autocomplete>
                 <div class="from">
                   <input
                     id="monFrom"
@@ -286,16 +292,15 @@
             <div class="week-day">
               <div class="week-day-name">Czwartek</div>
               <div class="isOpen">
-                <mat-slide-toggle color="primary" [checked]="thuEnabled" (change)="thuOpenClick()">
-                  {{thuIsOpen}}
+                <mat-slide-toggle
+                  color="primary"
+                  [checked]="thuEnabled"
+                  (change)="thuOpenClick()"
+                >
+                  {{ thuIsOpen }}
                 </mat-slide-toggle>
               </div>
               <div class="hours-opening">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of options" [value]="option">
-                    {{ option }}
-                  </mat-option>
-                </mat-autocomplete>
                 <div class="from">
                   <input
                     id="monFrom"
@@ -323,16 +328,15 @@
             <div class="week-day">
               <div class="week-day-name">Piątek</div>
               <div class="isOpen">
-                <mat-slide-toggle color="primary" [checked]="friEnabled" (change)="friOpenClick()">
-                  {{friIsOpen}}
+                <mat-slide-toggle
+                  color="primary"
+                  [checked]="friEnabled"
+                  (change)="friOpenClick()"
+                >
+                  {{ friIsOpen }}
                 </mat-slide-toggle>
               </div>
               <div class="hours-opening">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of options" [value]="option">
-                    {{ option }}
-                  </mat-option>
-                </mat-autocomplete>
                 <div class="from">
                   <input
                     id="monFrom"
@@ -360,16 +364,15 @@
             <div class="week-day">
               <div class="week-day-name">Sobota</div>
               <div class="isOpen">
-                <mat-slide-toggle color="primary" [checked]="satEnabled" (change)="satOpenClick()">
-                  {{satIsOpen}}
+                <mat-slide-toggle
+                  color="primary"
+                  [checked]="satEnabled"
+                  (change)="satOpenClick()"
+                >
+                  {{ satIsOpen }}
                 </mat-slide-toggle>
               </div>
               <div class="hours-opening">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of options" [value]="option">
-                    {{ option }}
-                  </mat-option>
-                </mat-autocomplete>
                 <div class="from">
                   <input
                     id="monFrom"
@@ -397,16 +400,15 @@
             <div class="week-day">
               <div class="week-day-name">Niedziela</div>
               <div class="isOpen">
-                <mat-slide-toggle color="primary" [checked]="sunEnabled" (change)="sunOpenClick()">
-                  {{sunIsOpen}}
+                <mat-slide-toggle
+                  color="primary"
+                  [checked]="sunEnabled"
+                  (change)="sunOpenClick()"
+                >
+                  {{ sunIsOpen }}
                 </mat-slide-toggle>
               </div>
               <div class="hours-opening">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of options" [value]="option">
-                    {{ option }}
-                  </mat-option>
-                </mat-autocomplete>
                 <div class="from">
                   <input
                     id="monFrom"
@@ -432,13 +434,100 @@
               </div>
             </div>
             <button
-            mat-button
-            (click)="saveHoursOpening()"
-            type="button"
-            class="btn btn-primary btn-w-120px"
-          >
-            Zapisz
-          </button>
+              mat-button
+              (click)="saveHoursOpening()"
+              type="button"
+              class="btn btn-primary btn-w-120px margin-top"
+            >
+              Zapisz
+            </button>
+            <h4 class="margin-top">
+              Zbliżające się święta i dni wolne od pracy
+            </h4>
+            <small
+              >W te dni umawianie wizyt automatycznie wyłączone. Jeżli
+              chcesz to zmienić dodaj niestandardowe godziny pracy tego dnia.
+            </small>
+            <span>BRAK dni wolnych od pracy przez najbliższe dwa miesiące</span>
+            <div class="table">TABELA</div>
+            <h4 class="margin-top">Dodaj niestandardowe godziny pracy</h4>
+            <small
+              >Możesz ustawić niestandardowe godziny pracy maksymalnie dwa
+              miesiące w przód</small
+            >
+            <mat-form-field appearance="fill">
+              <mat-label>Wybierz dzień/dni</mat-label>
+              <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <input
+                  matStartDate
+                  formControlName="start"
+                  placeholder="Start date"
+                />
+                <input
+                  matEndDate
+                  formControlName="end"
+                  placeholder="End date"
+                />
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+
+              <mat-error
+                *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+                >Invalid start date</mat-error
+              >
+              <mat-error
+                *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+                >Invalid end date</mat-error
+              >
+            </mat-form-field>
+            <mat-slide-toggle
+              color="primary"
+              [checked]="customEnabled"
+              (change)="customOpenClick()"
+            >
+              {{ customIsOpen }}
+            </mat-slide-toggle>
+
+            <div class="hours-opening hours-opening-custom">
+              <div id="_customFrom">
+                <input
+                  id="customFrom"
+                  class="input-left"
+                  type="text"
+                  maxlength="5"
+                  placeholder="HH:MM"
+                  [formControl]="sunFromControl"
+                  [matAutocomplete]="auto"
+                />
+              </div>
+              <span>-</span>
+              <div id="_customTo">
+                <input
+                  id="customTo"
+                  type="text"
+                  maxlength="5"
+                  placeholder="HH:MM"
+                  [matAutocomplete]="auto"
+                  [formControl]="sunToControl"
+                />
+              </div>
+            </div>
+            <button
+              mat-button
+              (click)="saveHoursOpening()"
+              type="button"
+              class="btn btn-primary btn-w-120px margin-top"
+            >
+              Dodaj
+            </button>
+            <div class="table">
+              TABELA posiadanych zapisanych niestandardowych godzin
+            </div>
           </div>
         </div>
       </div>

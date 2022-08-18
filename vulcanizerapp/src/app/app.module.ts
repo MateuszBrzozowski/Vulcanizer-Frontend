@@ -50,6 +50,7 @@ import { StandAddComponent } from './business-managment/branch-managment/stand/s
 import { StandRemoveComponent } from './business-managment/branch-managment/stand/stand-remove/stand-remove.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatInputModule,
     MatDialogModule,
     MatSlideToggleModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDatepickerModule
     // MaterialModule
   ],
   providers: [
