@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
-import { Business, CompanyBranchResponse, Stand } from '../business';
+import { Business, CompanyBranchResponse, OpeningHours, Stand } from '../business';
 
 @Injectable({
   providedIn: 'root',
@@ -93,6 +93,16 @@ export class BusinessService {
   public getAllStands(branchId: string): Observable<HttpResponse<Stand[]>> {
     return this.http.get<Stand[]>(
       `${this.apiServerUrl}/api/v1/company/branch/${branchId}/stand`,
+      { observe: 'response' }
+    );
+  }
+
+  /**
+   * pullHoursOpening
+   */
+  public pullHoursOpening(branchId: string): Observable<HttpResponse<OpeningHours[]>> {
+    return this.http.get<OpeningHours[]>(
+      `${this.apiServerUrl}/api/v1/company/branch/${branchId}/hours`,
       { observe: 'response' }
     );
   }

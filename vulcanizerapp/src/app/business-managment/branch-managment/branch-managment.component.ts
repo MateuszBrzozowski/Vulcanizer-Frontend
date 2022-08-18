@@ -45,34 +45,36 @@ export class BranchManagmentComponent implements OnInit {
   //
   options: string[] = ['0:00', '0:15'];
   filteredOptions!: Observable<string[]>;
-  monEnabled = true;
-  tueEnabled = true;
-  wedEnabled = true;
-  thuEnabled = true;
-  friEnabled = true;
+  monEnabled = false;
+  tueEnabled = false;
+  wedEnabled = false;
+  thuEnabled = false;
+  friEnabled = false;
   satEnabled = false;
   sunEnabled = false;
-  monIsOpen: string = 'Otwarte';
-  tueIsOpen: string = 'Otwarte';
-  wedIsOpen: string = 'Otwarte';
-  thuIsOpen: string = 'Otwarte';
-  friIsOpen: string = 'Otwarte';
+  monIsOpen: string = 'Zamknięte';
+  tueIsOpen: string = 'Zamknięte';
+  wedIsOpen: string = 'Zamknięte';
+  thuIsOpen: string = 'Zamknięte';
+  friIsOpen: string = 'Zamknięte';
   satIsOpen: string = 'Zamknięte';
   sunIsOpen: string = 'Zamknięte';
-  monFromControl = new FormControl({value : '7:00', disabled: false});
-  monToControl = new FormControl({value : '16:00', disabled: false});
-  tueFromControl = new FormControl({value : '7:00', disabled: false});
-  tueToControl = new FormControl({value : '16:00', disabled: false});
-  wedFromControl = new FormControl({value : '7:00', disabled: false});
-  wedToControl = new FormControl({value : '16:00', disabled: false});
-  thuFromControl = new FormControl({value : '7:00', disabled: false});
-  thuToControl = new FormControl({value : '16:00', disabled: false});
-  friFromControl = new FormControl({value : '7:00', disabled: false});
-  friToControl = new FormControl({value : '16:00', disabled: false});
-  satFromControl = new FormControl({value : '', disabled: true});
-  satToControl = new FormControl({value : '', disabled: true});
-  sunFromControl = new FormControl({value : '', disabled: true});
-  sunToControl = new FormControl({value : '', disabled: true});
+  monFromControl = new FormControl({ value: '', disabled: true });
+  monToControl = new FormControl({ value: '', disabled: true });
+  tueFromControl = new FormControl({ value: '', disabled: true });
+  tueToControl = new FormControl({ value: '', disabled: true });
+  wedFromControl = new FormControl({ value: '', disabled: true });
+  wedToControl = new FormControl({ value: '', disabled: true });
+  thuFromControl = new FormControl({ value: '', disabled: true });
+  thuToControl = new FormControl({ value: '', disabled: true });
+  friFromControl = new FormControl({ value: '', disabled: true });
+  friToControl = new FormControl({ value: '', disabled: true });
+  satFromControl = new FormControl({ value: '', disabled: true });
+  satToControl = new FormControl({ value: '', disabled: true });
+  sunFromControl = new FormControl({ value: '', disabled: true });
+  sunToControl = new FormControl({ value: '', disabled: true });
+  customFromControl = new FormControl({ value: '', disabled: true });
+  customToControl = new FormControl({ value: '', disabled: true });
 
   // 
   // Custom hours opening
@@ -101,6 +103,7 @@ export class BranchManagmentComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value || '')),
     );
+    this.pullHoursOpening();
   }
 
   private _filter(value: string): string[] {
@@ -257,7 +260,7 @@ export class BranchManagmentComponent implements OnInit {
     this.dataSourceStand = new MatTableDataSource(this.sourceStand);
   }
 
-  changeFormControl(isEnable : boolean,from: FormControl, to: FormControl){
+  changeFormControl(isEnable: boolean, from: FormControl, to: FormControl) {
     if (isEnable) {
       from.disable();
       from.setValue('');
@@ -271,95 +274,163 @@ export class BranchManagmentComponent implements OnInit {
     }
   }
 
-  monOpenClick() { 
+  monOpenClick() {
     if (this.monEnabled) {
       this.monEnabled = false;
       this.monIsOpen = "Zamknięte";
-      this.changeFormControl(true,this.monFromControl, this.monToControl);
+      this.changeFormControl(true, this.monFromControl, this.monToControl);
     } else {
       this.monEnabled = true;
       this.monIsOpen = "Otwarte";
-      this.changeFormControl(false,this.monFromControl, this.monToControl);
+      this.changeFormControl(false, this.monFromControl, this.monToControl);
     }
   }
 
-  tueOpenClick() { 
+  tueOpenClick() {
     if (this.tueEnabled) {
       this.tueEnabled = false;
       this.tueIsOpen = "Zamknięte";
-      this.changeFormControl(true,this.tueFromControl, this.tueToControl);
+      this.changeFormControl(true, this.tueFromControl, this.tueToControl);
     } else {
       this.tueEnabled = true;
       this.tueIsOpen = "Otwarte";
-      this.changeFormControl(false,this.tueFromControl, this.tueToControl);
+      this.changeFormControl(false, this.tueFromControl, this.tueToControl);
     }
   }
 
-  wedOpenClick() { 
+  wedOpenClick() {
     if (this.wedEnabled) {
       this.wedEnabled = false;
       this.wedIsOpen = "Zamknięte";
-      this.changeFormControl(true,this.wedFromControl, this.wedToControl);
+      this.changeFormControl(true, this.wedFromControl, this.wedToControl);
     } else {
       this.wedEnabled = true;
       this.wedIsOpen = "Otwarte";
-      this.changeFormControl(false,this.wedFromControl, this.wedToControl);
+      this.changeFormControl(false, this.wedFromControl, this.wedToControl);
     }
   }
 
-  thuOpenClick() { 
+  thuOpenClick() {
     if (this.thuEnabled) {
       this.thuEnabled = false;
       this.thuIsOpen = "Zamknięte";
-      this.changeFormControl(true,this.thuFromControl, this.thuToControl);
+      this.changeFormControl(true, this.thuFromControl, this.thuToControl);
     } else {
       this.thuEnabled = true;
       this.thuIsOpen = "Otwarte";
-      this.changeFormControl(false,this.thuFromControl, this.thuToControl);
+      this.changeFormControl(false, this.thuFromControl, this.thuToControl);
     }
   }
 
-  friOpenClick() { 
+  friOpenClick() {
     if (this.friEnabled) {
       this.friEnabled = false;
       this.friIsOpen = "Zamknięte";
-      this.changeFormControl(true,this.friFromControl, this.friToControl);
+      this.changeFormControl(true, this.friFromControl, this.friToControl);
     } else {
       this.friEnabled = true;
       this.friIsOpen = "Otwarte";
-      this.changeFormControl(false,this.friFromControl, this.friToControl);
+      this.changeFormControl(false, this.friFromControl, this.friToControl);
     }
   }
 
-  satOpenClick() { 
+  satOpenClick() {
     if (this.satEnabled) {
       this.satEnabled = false;
       this.satIsOpen = "Zamknięte";
-      this.changeFormControl(true,this.satFromControl, this.satToControl);
+      this.changeFormControl(true, this.satFromControl, this.satToControl);
     } else {
       this.satEnabled = true;
       this.satIsOpen = "Otwarte";
-      this.changeFormControl(false,this.satFromControl, this.satToControl);
+      this.changeFormControl(false, this.satFromControl, this.satToControl);
     }
   }
 
-  sunOpenClick() { 
+  sunOpenClick() {
     if (this.sunEnabled) {
       this.sunEnabled = false;
       this.sunIsOpen = "Zamknięte";
-      this.changeFormControl(true,this.sunFromControl, this.sunToControl);
+      this.changeFormControl(true, this.sunFromControl, this.sunToControl);
     } else {
       this.sunEnabled = true;
       this.sunIsOpen = "Otwarte";
-      this.changeFormControl(false,this.sunFromControl, this.sunToControl);
+      this.changeFormControl(false, this.sunFromControl, this.sunToControl);
     }
   }
 
-  saveHoursOpening(){
+  saveHoursOpening() {
     //TODO Zapisywanie wybranych dni i godzin defaultowe
   }
 
-  customOpenClick(){
+  customOpenClick() {
 
+  }
+
+  pullHoursOpening() {
+    this.businessService.pullHoursOpening(this.usersCompanyBranch.id).subscribe({
+      next: (response) => {
+        const hoursOpening = response.body;
+        if (hoursOpening === null) {
+          return;
+        }
+        const dayOfWeeks: string[] = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
+        for (let i = 0; i < dayOfWeeks.length; i++) {
+          const dayName = dayOfWeeks[i];
+          for (let j = 0; j < hoursOpening.length; j++) {
+            const element = hoursOpening[j];
+            if (dayName === element.day) {
+              if (element.openTime != null && element.closeTime != null) {
+                this.setTimes(dayName, element.openTime, element.closeTime);
+              }
+            }
+          }
+        }
+
+      },
+      error: (error) => {
+        this.notification.notify(NotificationType.ERROR, "Coś poszło nie tak, spróbuj ponownie później");
+      }
+    })
+  }
+
+  setValueAndEnabledFormControls(from: FormControl, open: string, to: FormControl, close: string) {
+    from.enable();
+    from.setValue(open);
+    to.enable();
+    to.setValue(close);
+  }
+
+  setTimes(dayName: string, open: string, close: string) {
+    open = open.substring(0, 5);
+    close = close.substring(0, 5);
+    if (dayName == "MONDAY") {
+      this.monEnabled = true;
+      this.monIsOpen = "Otwarte";
+      this.setValueAndEnabledFormControls(this.monFromControl, open, this.monToControl, close);
+    } else if (dayName == "TUESDAY") {
+      this.tueEnabled = true;
+      this.tueIsOpen = "Otwarte";
+      this.setValueAndEnabledFormControls(this.tueFromControl, open, this.tueToControl, close);
+    } else if (dayName == "WEDNESDAY") {
+      this.wedEnabled = true;
+      this.wedIsOpen = "Otwarte";
+      this.setValueAndEnabledFormControls(this.wedFromControl, open, this.wedToControl, close);
+    } else if (dayName == "THURSDAY") {
+      this.thuEnabled = true;
+      this.thuIsOpen = "Otwarte";
+      this.setValueAndEnabledFormControls(this.thuFromControl, open, this.thuToControl, close);
+    } else if (dayName == "FRIDAY") {
+      this.friEnabled = true;
+      this.friIsOpen = "Otwarte";
+      this.setValueAndEnabledFormControls(this.friFromControl, open, this.friToControl, close);
+    } else if (dayName == "SATURDAY") {
+      this.satEnabled = true;
+      this.satIsOpen = "Otwarte";
+      this.setValueAndEnabledFormControls(this.satFromControl, open, this.satToControl, close);
+    } else if (dayName == "SUNDAY") {
+      this.sunEnabled = true;
+      this.sunIsOpen = "Otwarte";
+      this.setValueAndEnabledFormControls(this.sunFromControl, open, this.sunToControl, close);
+    }
   }
 }

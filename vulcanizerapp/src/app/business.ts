@@ -53,3 +53,9 @@ export class Stand {
   id : number = -1;
   number : number = -1;
 }
+
+export class OpeningHours {
+  day : string ='';
+  openTime : string = '';
+  closeTime : string = '';
+}
