@@ -1,1 +1,85 @@
-<p>public-holidays works!</p>
+<mat-tab-group mat-align-tabs="start">
+  <mat-tab label="Obecny rok">
+    <table mat-table [dataSource]="currentYearSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Data</th>
+        <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="repeat">
+        <th mat-header-cell *matHeaderCellDef>Co roku?</th>
+        <td mat-cell *matCellDef="let element">{{ element.everyYear }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Akcja</th>
+        <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr></table
+  ></mat-tab>
+  <mat-tab label="Przyszły rok">
+    <table mat-table [dataSource]="nextYearSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Data</th>
+        <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="repeat">
+        <th mat-header-cell *matHeaderCellDef>Co roku?</th>
+        <td mat-cell *matCellDef="let element">{{ element.everyYear }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Akcja</th>
+        <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr></table
+  ></mat-tab>
+</mat-tab-group>
+<div class="one-column">
+  <h4 class="margin-top">Dodaj nowy dzień wolny</h4>
+  <mat-form-field appearance="fill">
+    <mat-label>Wybierz datę</mat-label>
+    <input matInput [matDatepicker]="picker" #date/>
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-slide-toggle
+    color="primary"
+    [checked]="everyYearForNew"
+    (change)="everyYearChange()"
+    >Co roku</mat-slide-toggle
+  >
+  <div class="form-group">
+    <input
+      type="text"
+      maxlength="255"
+      class="form-control"
+      id="InputName"
+      placeholder="Nazwa"
+      required="required"
+      [formControl]="nameControl"
+      (keyup)="checkNameInput()"
+    />
+    <label for="InputName" class="form-label">Nazwa</label>
+    <small *ngIf="nameIsEmpty">Nazwa jest wymagana!</small>
+  </div>
+  <button type="button" class="btn btn-primary btn-w-120px" (click)="addNew(date)">
+    Dodaj
+  </button>
+</div>

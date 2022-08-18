@@ -52,6 +52,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { PublicHolidaysComponent } from './admin-managment/util/public-holidays/public-holidays.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { PublicHolidaysComponent } from './admin-managment/util/public-holidays/
     MatDialogModule,
     MatSlideToggleModule,
     MatAutocompleteModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatTabsModule
     // MaterialModule
   ],
   providers: [
