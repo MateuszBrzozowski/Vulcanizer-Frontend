@@ -24,11 +24,14 @@ export class PanelsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (this.authenticationService.isLoggedIn()) {
-      if (this.userService.getCompanyBranchesFromLocalStorage().length > 0) {
-        this.hasActiveCompany = true;
-      } else {
-        this.hasActiveCompany = false;
+      if(this.userService.getCompanyBranchesFromLocalStorage()!=null){
+        if (this.userService.getCompanyBranchesFromLocalStorage().length > 0) {
+          this.hasActiveCompany = true;
+        } else {
+          this.hasActiveCompany = false;
+        }
       }
+      
     }
   }
 

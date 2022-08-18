@@ -13,6 +13,7 @@
       <button mat-menu-item (click)="startPage()">Start</button>
       <button mat-menu-item [matMenuTriggerFor]="users">Użytkownicy</button>
       <button mat-menu-item [matMenuTriggerFor]="business">Biznes</button>
+      <button mat-menu-item (click)="publicHolidaysPage()">Dni Wolne</button>
     </mat-menu>
 
     <mat-menu #business="matMenu">
@@ -23,13 +24,17 @@
       <button mat-menu-item>Szukaj</button>
     </mat-menu>
 
-    <div class="managment-body" *ngIf="isAdminMain">
+    <div class="managment-body" *ngIf="adminMainView">
         Siemankooo <br>
         Może tu jakieś miesięczne, dzienne statystyki jebniemy?
     </div>
 
-    <div class="managment-body" *ngIf="isWaitingComponent">
+    <div class="managment-body" *ngIf="waitingComponentView">
         <app-waiting style="width: 100%; height: 100%;"></app-waiting>
     </div>
+
+    <div class="managment-body" [hidden]="!publicHolidaysView">
+      Dni wolne od pracy
+  </div>
   </div>
 </div>

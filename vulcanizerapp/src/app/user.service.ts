@@ -20,12 +20,12 @@ import { Business, CompanyBranchResponse, UserCompany, UserCompanyBranch } from 
 })
 export class UserService {
   private apiServerUrl = environment.apiBaseUrl;
-  usersCompanyBranches : CompanyBranchResponse[] = new Array<CompanyBranchResponse>; 
+  usersCompanyBranches: CompanyBranchResponse[] = new Array<CompanyBranchResponse>;
 
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService
-  ) {}
+  ) { }
 
   /**
    * getUsers
@@ -186,8 +186,8 @@ export class UserService {
   /**
    * getUserCompany
    */
-  public getUserCompany() : Observable<HttpResponse<UserCompany[]>> {
-    return this.http.get<UserCompany[]>(`${this.apiServerUrl}/users/company`, {observe : 'response'})
+  public getUserCompany(): Observable<HttpResponse<UserCompany[]>> {
+    return this.http.get<UserCompany[]>(`${this.apiServerUrl}/users/company`, { observe: 'response' })
   }
 
   /**
@@ -225,8 +225,8 @@ export class UserService {
           }
         }
         this.usersCompanyBranches = response.body;
-        
-        if(response.body.length>0){
+
+        if (response.body.length > 0) {
           this.addCompanyBranchesToLocalStorage();
         }
         window.location.reload();
@@ -241,11 +241,11 @@ export class UserService {
   /**
    * getCompanyBranchesFromLocalStorage
    */
-  public getOnlyActiveCompanyBranchesFromLocalStorage() : CompanyBranchResponse[] {
+  public getOnlyActiveCompanyBranchesFromLocalStorage(): CompanyBranchResponse[] {
     const companyBranches = this.getCompanyBranchesFromLocalStorage();
     for (let index = 0; index < companyBranches.length; index++) {
       const element = companyBranches[index];
-      if(element.companyBranchStatus !== 'Aktywny'){
+      if (element.companyBranchStatus !== 'Aktywny') {
         if (index !== -1) {
           companyBranches.splice(index, 1);
         }
@@ -264,17 +264,21 @@ export class UserService {
   /**
    * setSelectedCompanyBranch
    */
-  public setSelectedCompanyBranch(companyBranch : CompanyBranchResponse) {
-    localStorage.setItem('selectedCompanyBranch',JSON.stringify(companyBranch));
+  public setSelectedCompanyBranch(companyBranch: CompanyBranchResponse) {
+    localStorage.setItem('selectedCompanyBranch', JSON.stringify(companyBranch));
   }
 
   /**
    * isCompanyActive
    */
-   public isCompanyActive(): boolean {
+  public isCompanyActive(): boolean {
     if (this.authenticationService.isLoggedIn()) {
-      if (this.getCompanyBranchesFromLocalStorage().length>0) {
-        return true;
+      if (this.getCompanyBranchesFromLocalStorage() != null) {
+        if (this.getCompanyBranchesFromLocalStorage().length > 0) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }
@@ -283,8 +287,8 @@ export class UserService {
     }
   }
 
-  addCompanyBranchesToLocalStorage(){
-    localStorage.setItem('compBranches',JSON.stringify(this.usersCompanyBranches));
+  addCompanyBranchesToLocalStorage() {
+    localStorage.setItem('compBranches', JSON.stringify(this.usersCompanyBranches));
   }
 
   /**

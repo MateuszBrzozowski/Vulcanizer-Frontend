@@ -9,8 +9,9 @@ import { MatMenuTrigger} from '@angular/material/menu';
   styleUrls: ['./admin-managment.component.css'],
 })
 export class AdminManagmentComponent implements OnInit {
-  isAdminMain: boolean = true;
-  isWaitingComponent: boolean = false;
+  adminMainView: boolean = true;
+  publicHolidaysView: boolean = false;
+  waitingComponentView: boolean = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -26,17 +27,23 @@ export class AdminManagmentComponent implements OnInit {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined;
 
   setAllViewsHidden() {
-    this.isAdminMain = false;
-    this.isWaitingComponent = false;
+    this.adminMainView = false;
+    this.waitingComponentView = false;
+    this.publicHolidaysView  =false;
   }
 
   startPage(){
     this.setAllViewsHidden();
-    this.isAdminMain = true;
+    this.adminMainView = true;
   }
 
   viewBusinessWaiting(){
     this.setAllViewsHidden();
-    this.isWaitingComponent = true;
+    this.waitingComponentView = true;
+  }
+
+  publicHolidaysPage(){
+    this.setAllViewsHidden();
+    this.publicHolidaysView  =true;
   }
 }
