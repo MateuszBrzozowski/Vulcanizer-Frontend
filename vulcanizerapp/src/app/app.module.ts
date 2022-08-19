@@ -53,6 +53,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { PublicHolidaysComponent } from './admin-managment/util/public-holidays/public-holidays.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { RemoveDialogComponent } from './admin-managment/util/public-holidays/remove-dialog/remove-dialog.component';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     BranchManagmentComponent,
     StandAddComponent,
     StandRemoveComponent,
-    PublicHolidaysComponent
+    PublicHolidaysComponent,
+    RemoveDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +98,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatSlideToggleModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDividerModule
     // MaterialModule
   ],
   providers: [
@@ -125,7 +129,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     BranchManagmentComponent,
     StandAddComponent,
     StandRemoveComponent,
-    PublicHolidaysComponent
+    PublicHolidaysComponent,
+    RemoveDialogComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

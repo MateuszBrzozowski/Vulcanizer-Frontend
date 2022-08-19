@@ -1,15 +1,35 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { NotificationService } from 'src/app/service/notification.service';
 import { PublicHolidays, PublicHolidaysService } from 'src/app/service/public-holidays.service';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { RemoveDialogComponent } from './remove-dialog/remove-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
 
 @Component({
   selector: 'app-public-holidays',
   templateUrl: './public-holidays.component.html',
-  styleUrls: ['./public-holidays.component.css']
+  styleUrls: ['./public-holidays.component.css'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class PublicHolidaysComponent implements OnInit {
 
@@ -19,7 +39,6 @@ export class PublicHolidaysComponent implements OnInit {
   nextYear: PublicHolidays[] = new Array<PublicHolidays>;
   nextYearSource = new MatTableDataSource(this.nextYear);
 
-  dateForNew !: Date | null;
   nameControl: FormControl = new FormControl('');
   nameIsEmpty: boolean = false;
   everyYearForNew: boolean = false;
@@ -27,7 +46,8 @@ export class PublicHolidaysComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<PublicHolidays> | undefined;
 
   constructor(private holidaysService: PublicHolidaysService,
-    private notificationService: NotificationService) { }
+    public notificationService: NotificationService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.pullCurrentYear();
@@ -59,7 +79,7 @@ export class PublicHolidaysComponent implements OnInit {
           return;
         }
         this.nextYear = response.body;
-        this.refreshTableCurrentYear();
+        this.refreshTableNextYear();
       },
       error: (error) => {
         this.notificationService.notify(
@@ -94,10 +114,10 @@ export class PublicHolidaysComponent implements OnInit {
     }
   }
 
-  addNew(date : HTMLInputElement) {
+  addNew(date: HTMLInputElement) {
     const body = new PublicHolidays();
     body.date = date.value;
-    body.everyYear  = this.everyYearForNew;
+    body.everyYear = this.everyYearForNew;
     body.name = this.nameControl.value;
     this.holidaysService.pushNew(body).subscribe({
       next: (response) => {
@@ -115,6 +135,27 @@ export class PublicHolidaysComponent implements OnInit {
     })
   }
 
+  deletePublicHoliday(id: string, name: string){
+    const dialogRef = this.dialog.open(RemoveDialogComponent, {data: name});
+    dialogRef.afterClosed().subscribe(result => {
+      if(result === true){
+        this.holidaysService.delete(id).subscribe({
+          next: (response) => {
+            this.notificationService.notify(
+              NotificationType.SUCCESS,
+              "Usunięto poprawnie."
+            );
+          },
+          error: (error) => {
+            this.notificationService.notify(
+              NotificationType.ERROR,
+              error.error.message
+            );
+          }
+        });
+      }
+    });
+  }
 }
 
 // [(ngModel)]="dateForNew"

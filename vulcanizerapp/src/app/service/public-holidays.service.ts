@@ -19,6 +19,13 @@ export class PublicHolidaysService {
   }
 
   /**
+   * delete
+   */
+  public delete(id: string) : Observable<HttpResponse<any>> {
+    return this.http.delete<any>(`${this.apiServerUrl}/api/v1/public_holidays/${id}`);
+  }
+
+  /**
    * pullCurentYear
    */
   public pullCurentYear(): Observable<HttpResponse<PublicHolidays[]>> {
@@ -45,6 +52,7 @@ export class PublicHolidaysService {
 }
 
 export class PublicHolidays {
+  id : string = '';
   date: string = '';
   name: string = '';
   everyYear: boolean = false;
