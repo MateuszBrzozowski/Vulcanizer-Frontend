@@ -14,15 +14,20 @@ export class PublicHolidaysService {
   /**
    * pushNew
    */
-  public pushNew(body: PublicHolidays) : Observable<HttpResponse<any>> {
-    return this.http.post<any>(`${this.apiServerUrl}/api/v1/public_holidays`,body);
+  public pushNew(body: PublicHolidays): Observable<HttpResponse<any>> {
+    return this.http.post<any>(
+      `${this.apiServerUrl}/api/v1/public_holidays`,
+      body
+    );
   }
 
   /**
    * delete
    */
-  public delete(id: string) : Observable<HttpResponse<any>> {
-    return this.http.delete<any>(`${this.apiServerUrl}/api/v1/public_holidays/${id}`);
+  public delete(id: string): Observable<HttpResponse<any>> {
+    return this.http.delete<any>(
+      `${this.apiServerUrl}/api/v1/public_holidays/${id}`
+    );
   }
 
   /**
@@ -38,7 +43,7 @@ export class PublicHolidaysService {
   /**
    * pullNextYear
    */
-  public pullNextYear() : Observable<HttpResponse<PublicHolidays[]>> {
+  public pullNextYear(): Observable<HttpResponse<PublicHolidays[]>> {
     return this.http.get<PublicHolidays[]>(
       `${this.apiServerUrl}/api/v1/public_holidays/nextYear`,
       { observe: 'response' }
@@ -48,11 +53,16 @@ export class PublicHolidaysService {
   /**
    * pullNextTwoMonths
    */
-  public pullNextTwoMonths() {}
+  public pullNextTwoMonths(): Observable<HttpResponse<PublicHolidays[]>> {
+    return this.http.get<PublicHolidays[]>(
+      `${this.apiServerUrl}/api/v1/public_holidays/nextMonths`,
+      { observe: 'response' }
+    );
+  }
 }
 
 export class PublicHolidays {
-  id : string = '';
+  id: string = '';
   date: string = '';
   name: string = '';
   everyYear: boolean = false;

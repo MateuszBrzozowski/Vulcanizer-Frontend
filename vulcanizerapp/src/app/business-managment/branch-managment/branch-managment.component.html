@@ -444,12 +444,34 @@
             <h4 class="margin-top">
               Zbliżające się święta i dni wolne od pracy
             </h4>
-            <small
-              >W te dni umawianie wizyt automatycznie wyłączone. Jeżli
-              chcesz to zmienić dodaj niestandardowe godziny pracy tego dnia.
+            <small *ngIf="arePublicHolidays"
+              >W te dni umawianie wizyt automatycznie wyłączone. Jeżli chcesz to
+              zmienić dodaj niestandardowe godziny pracy tego dnia.
             </small>
-            <span>BRAK dni wolnych od pracy przez najbliższe dwa miesiące</span>
-            <div class="table">TABELA</div>
+            <span *ngIf="!arePublicHolidays">BRAK dni wolnych od pracy przez najbliższe dwa miesiące</span>
+            <div class="table" *ngIf="arePublicHolidays">
+              <table
+                mat-table
+                [dataSource]="currentNextPublicHolidaysSource"
+                class="mat-elevation-z8"
+              >
+                <ng-container matColumnDef="date">
+                  <th mat-header-cell *matHeaderCellDef>Data</th>
+                  <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Nazwa</th>
+                  <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsPublicHolidays"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsPublicHolidays"
+                ></tr>
+              </table>
+            </div>
             <h4 class="margin-top">Dodaj niestandardowe godziny pracy</h4>
             <small
               >Możesz ustawić niestandardowe godziny pracy maksymalnie dwa
@@ -461,15 +483,15 @@
                 <input
                   matStartDate
                   formControlName="start"
-                  placeholder="Start date"
+                  placeholder="Początek"
                 />
                 <input
                   matEndDate
                   formControlName="end"
-                  placeholder="End date"
+                  placeholder="Koniec"
                 />
               </mat-date-range-input>
-              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-hint>YYYY-MM-DD – YYYY-MM-DD</mat-hint>
               <mat-datepicker-toggle
                 matSuffix
                 [for]="picker"
@@ -525,8 +547,33 @@
             >
               Dodaj
             </button>
-            <div class="table">
-              TABELA posiadanych zapisanych niestandardowych godzin
+            <div class="table margin-top margin-bootom">
+              <table mat-table [dataSource]="customOpeningHoursource" class="mat-elevation-z8">
+                <ng-container matColumnDef="date">
+                  <th mat-header-cell *matHeaderCellDef>Dzień/dni</th>
+                  <td mat-cell *matCellDef="let element">{{ element.dateStart }} - {{element.dateEnd}}</td>
+                </ng-container>
+          
+                <ng-container matColumnDef="time">
+                  <th mat-header-cell *matHeaderCellDef>Godziny otwarcia / Zamknięte</th>
+                  <td mat-cell *matCellDef="let element">{{ element.timeStart }} - {{ element.timeEnd }}</td>
+                </ng-container>
+                    
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Akcja</th>
+                  <td mat-cell *matCellDef="let element">
+                    <button
+                      value="{{ element.id }}"
+                      class="btn btn-danger btn-business-managment"
+                    >
+                      Usuń
+                    </button>
+                  </td>
+                </ng-container>
+          
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr></table
+            >
             </div>
           </div>
         </div>

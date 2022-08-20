@@ -52,7 +52,7 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Akcja</th>
         <td mat-cell *matCellDef="let element">
-            <button
+          <button
             value="{{ element.id }}"
             class="btn btn-danger btn-business-managment"
             (click)="deletePublicHoliday(element.id, element.name)"

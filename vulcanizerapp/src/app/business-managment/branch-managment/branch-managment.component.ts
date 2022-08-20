@@ -1,25 +1,33 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ThemePalette } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { MY_FORMATS } from 'src/app/admin-managment/util/public-holidays/public-holidays.component';
 import { CompanyBranchResponse, OpeningHours, Stand } from 'src/app/business';
 import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { BusinessService } from 'src/app/service/business.service';
 import { NotificationService } from 'src/app/service/notification.service';
+import { PublicHolidays, PublicHolidaysService } from 'src/app/service/public-holidays.service';
 import { UserService } from 'src/app/user.service';
 import { StandAddComponent } from './stand/stand-add/stand-add.component';
 import { StandRemoveComponent } from './stand/stand-remove/stand-remove.component';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { CustomOpeningHours } from 'src/app/service/customOpeningHours';
 
 @Component({
   selector: 'app-branch-managment',
   templateUrl: './branch-managment.component.html',
-  styleUrls: ['./branch-managment.component.css']
+  styleUrls: ['./branch-managment.component.css'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class BranchManagmentComponent implements OnInit {
   usersCompanyBranches: CompanyBranchResponse[] = new Array<CompanyBranchResponse>;
@@ -91,6 +99,14 @@ export class BranchManagmentComponent implements OnInit {
   sunToSavedData: string = '';
 
   // 
+  // Next Public Holidays
+  // 
+  displayedColumnsPublicHolidays: string[] = ['date', 'name'];
+  currentNextPublicHolidays: PublicHolidays[] = new Array<PublicHolidays>;
+  currentNextPublicHolidaysSource = new MatTableDataSource(this.currentNextPublicHolidays);
+  arePublicHolidays : boolean = false;
+
+  // 
   // Custom hours opening
   // 
   range = new FormGroup({
@@ -99,9 +115,13 @@ export class BranchManagmentComponent implements OnInit {
   });
   customEnabled = false;
   customIsOpen: string = 'Zamknięte';
+  displayedColumns: string[] = ['date', 'time', 'action'];
+  customOpeningHours: CustomOpeningHours[] = new Array<CustomOpeningHours>;
+  customOpeningHoursource = new MatTableDataSource(this.customOpeningHours);
 
 
   constructor(private authenticationService: AuthenticationService,
+    private holidaysService: PublicHolidaysService,
     private userService: UserService,
     private router: Router,
     public dialog: MatDialog,
@@ -118,6 +138,8 @@ export class BranchManagmentComponent implements OnInit {
       map(value => this._filter(value || '')),
     );
     this.pullHoursOpening();
+    this.pullPublicHolidaysNextTwoMonths();
+    this.pullCustomHoursOpening();
   }
 
   private _filter(value: string): string[] {
@@ -595,5 +617,47 @@ export class BranchManagmentComponent implements OnInit {
       this.sunIsOpen = "Otwarte";
       this.setValueAndEnabledFormControls(this.sunFromControl, open, this.sunToControl, close);
     }
+  }
+
+  pullPublicHolidaysNextTwoMonths(){
+    this.holidaysService.pullNextTwoMonths().subscribe({
+      next: (response) => {
+        if(response.body ==null){
+          return;
+        }
+        this.currentNextPublicHolidays = response.body;
+        if(this.currentNextPublicHolidays.length == 0) {
+        }else {
+          this.arePublicHolidays =true;
+          this.refreshTableNextTwoMonthsPublicHolidays();
+        }
+      }
+    })
+  }
+
+  refreshTableNextTwoMonthsPublicHolidays() {
+    this.currentNextPublicHolidaysSource = new MatTableDataSource(this.currentNextPublicHolidays);
+  }
+
+  pullCustomHoursOpening(){
+    this.businessService.pullCustomHoursOpening(this.usersCompanyBranch.id).subscribe({
+      next: (response) => {
+          if(response.body ==null) {
+            return;
+          }
+          this.customOpeningHours = response.body;
+          console.log(this.customOpeningHours);
+          
+          this.refreshTableCustomOpeningHours();
+      },
+      error: (error) => {
+        this.notification.notify(NotificationType.ERROR,
+          error.error.message)
+      }
+    })
+  }
+
+  refreshTableCustomOpeningHours(){
+    this.customOpeningHoursource = new MatTableDataSource(this.customOpeningHours);
   }
 }

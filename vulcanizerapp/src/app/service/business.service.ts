@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 import { Business, CompanyBranchResponse, OpeningHours, Stand } from '../business';
+import { CustomOpeningHours } from './customOpeningHours';
 
 @Injectable({
   providedIn: 'root',
@@ -110,8 +111,17 @@ export class BusinessService {
   /**
    * pushHoursOpening
    */
-  public pushHoursOpening(branchId: string, openingHours : OpeningHours[]) : Observable<HttpResponse<any>> {
+  public pushHoursOpening(branchId: string, openingHours: OpeningHours[]): Observable<HttpResponse<any>> {
     return this.http.put<any>(`${this.apiServerUrl}/api/v1/company/branch/${branchId}/hours`, openingHours);
+  }
+
+  /**
+   * pullCustomHoursOpening
+   */
+  public pullCustomHoursOpening(branchId: string): Observable<HttpResponse<CustomOpeningHours[]>> {
+    return this.http.get<CustomOpeningHours[]>(
+      `${this.apiServerUrl}/api/v1/company/branch/${branchId}/hours/custom`,
+      { observe: 'response' });
   }
 
   // public getUsers(): Observable<Business[]> {
