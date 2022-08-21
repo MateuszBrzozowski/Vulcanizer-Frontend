@@ -53,7 +53,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { PublicHolidaysComponent } from './admin-managment/util/public-holidays/public-holidays.component';
 import {MatTabsModule} from '@angular/material/tabs';
-import { RemoveDialogComponent } from './admin-managment/util/public-holidays/remove-dialog/remove-dialog.component';
+import { RemoveDialogComponent } from './dialog/remove-dialog/remove-dialog.component';
 import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({

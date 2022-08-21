@@ -1,4 +1,5 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { ThisReceiver } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
@@ -121,6 +122,17 @@ export class BusinessService {
   public pullCustomHoursOpening(branchId: string): Observable<HttpResponse<CustomOpeningHours[]>> {
     return this.http.get<CustomOpeningHours[]>(
       `${this.apiServerUrl}/api/v1/company/branch/${branchId}/hours/custom`,
+      { observe: 'response' });
+  }
+
+  /**
+   * removeCustomOpeningHours
+   */
+  public removeCustomOpeningHours(
+    companyBranchId: string,
+    custOpeningHoursId: string): Observable<HttpResponse<CustomOpeningHours[]>> {
+    return this.http.delete<CustomOpeningHours[]>(
+      `${this.apiServerUrl}/api/v1/company/branch/${companyBranchId}/hours/custom/${custOpeningHoursId}`,
       { observe: 'response' });
   }
 

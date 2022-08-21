@@ -507,7 +507,7 @@
                 >Invalid end date</mat-error
               >
             </mat-form-field>
-            <mat-slide-toggle
+            <mat-slide-toggle 
               color="primary"
               [checked]="customEnabled"
               (change)="customOpenClick()"
@@ -541,13 +541,13 @@
             </div>
             <button
               mat-button
-              (click)="saveHoursOpening()"
+              (click)="saveCustomHoursOpening()"
               type="button"
               class="btn btn-primary btn-w-120px margin-top"
             >
               Dodaj
             </button>
-            <div class="table margin-top margin-bootom">
+            <div class="table margin-top margin-bootom" [hidden]="!customOpeningHoursTableView">
               <table mat-table [dataSource]="customOpeningHoursource" class="mat-elevation-z8">
                 <ng-container matColumnDef="date">
                   <th mat-header-cell *matHeaderCellDef>Dzień/dni</th>
@@ -563,8 +563,10 @@
                   <th mat-header-cell *matHeaderCellDef>Akcja</th>
                   <td mat-cell *matCellDef="let element">
                     <button
+                    #btnRemove
                       value="{{ element.id }}"
                       class="btn btn-danger btn-business-managment"
+                      (click)="removeCustomOpeningHours(btnRemove)"
                     >
                       Usuń
                     </button>

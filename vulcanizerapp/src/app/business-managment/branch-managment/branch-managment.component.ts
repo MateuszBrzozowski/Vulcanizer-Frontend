@@ -19,6 +19,7 @@ import { StandAddComponent } from './stand/stand-add/stand-add.component';
 import { StandRemoveComponent } from './stand/stand-remove/stand-remove.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CustomOpeningHours } from 'src/app/service/customOpeningHours';
+import { RemoveDialogComponent } from 'src/app/dialog/remove-dialog/remove-dialog.component';
 
 @Component({
   selector: 'app-branch-managment',
@@ -104,7 +105,7 @@ export class BranchManagmentComponent implements OnInit {
   displayedColumnsPublicHolidays: string[] = ['date', 'name'];
   currentNextPublicHolidays: PublicHolidays[] = new Array<PublicHolidays>;
   currentNextPublicHolidaysSource = new MatTableDataSource(this.currentNextPublicHolidays);
-  arePublicHolidays : boolean = false;
+  arePublicHolidays: boolean = false;
 
   // 
   // Custom hours opening
@@ -118,6 +119,7 @@ export class BranchManagmentComponent implements OnInit {
   displayedColumns: string[] = ['date', 'time', 'action'];
   customOpeningHours: CustomOpeningHours[] = new Array<CustomOpeningHours>;
   customOpeningHoursource = new MatTableDataSource(this.customOpeningHours);
+  customOpeningHoursTableView: boolean = false;
 
 
   constructor(private authenticationService: AuthenticationService,
@@ -395,8 +397,8 @@ export class BranchManagmentComponent implements OnInit {
   }
 
   saveHoursOpening() {
-    if(!this.checkHoursOpeningDataIsChanges()){
-      this.notification.notify(NotificationType.INFO,"Nie dokonano żadnej zmiany. Dane zapisane");
+    if (!this.checkHoursOpeningDataIsChanges()) {
+      this.notification.notify(NotificationType.INFO, "Nie dokonano żadnej zmiany. Dane zapisane");
       return;
     }
     const hoursOpening = new Array<OpeningHours>
@@ -474,7 +476,7 @@ export class BranchManagmentComponent implements OnInit {
       next: (response) => {
         this.notification.notify(NotificationType.SUCCESS,
           "Zmiany zapisane poprawnie");
-          this.setSavedOpeningHoursData();
+        this.setSavedOpeningHoursData();
       },
       error: (error) => {
         this.notification.notify(NotificationType.ERROR,
@@ -486,6 +488,10 @@ export class BranchManagmentComponent implements OnInit {
 
   customOpenClick() {
 
+  }
+
+  saveCustomHoursOpening(){
+    
   }
 
   pullHoursOpening() {
@@ -539,47 +545,47 @@ export class BranchManagmentComponent implements OnInit {
     this.sunToSavedData = this.sunToControl.value!;
   }
 
-  checkHoursOpeningDataIsChanges(): boolean{
-    if(this.monFromSavedData != this.monFromControl.value!){
+  checkHoursOpeningDataIsChanges(): boolean {
+    if (this.monFromSavedData != this.monFromControl.value!) {
       return true;
     }
-    if(this.monToSavedData != this.monToControl.value!){
+    if (this.monToSavedData != this.monToControl.value!) {
       return true;
     }
-    if(this.tueFromSavedData != this.tueFromControl.value!){
+    if (this.tueFromSavedData != this.tueFromControl.value!) {
       return true;
     }
-    if(this.tueToSavedData != this.tueToControl.value!){
+    if (this.tueToSavedData != this.tueToControl.value!) {
       return true;
     }
-    if( this.wedFromSavedData != this.wedFromControl.value!){
+    if (this.wedFromSavedData != this.wedFromControl.value!) {
       return true;
     }
-    if( this.wedToSavedData != this.wedToControl.value!){
+    if (this.wedToSavedData != this.wedToControl.value!) {
       return true;
     }
-    if( this.thuFromSavedData != this.thuFromControl.value!){
+    if (this.thuFromSavedData != this.thuFromControl.value!) {
       return true;
     }
-    if( this.thuToSavedData != this.thuToControl.value!){
+    if (this.thuToSavedData != this.thuToControl.value!) {
       return true;
     }
-    if( this.friFromSavedData != this.friFromControl.value!){
+    if (this.friFromSavedData != this.friFromControl.value!) {
       return true;
     }
-    if( this.friToSavedData != this.friToControl.value!){
+    if (this.friToSavedData != this.friToControl.value!) {
       return true;
     }
-    if( this.satFromSavedData != this.satFromControl.value!){
+    if (this.satFromSavedData != this.satFromControl.value!) {
       return true;
     }
-    if( this.satToSavedData != this.satToControl.value!){
+    if (this.satToSavedData != this.satToControl.value!) {
       return true;
     }
-    if( this.sunFromSavedData != this.sunFromControl.value!){
+    if (this.sunFromSavedData != this.sunFromControl.value!) {
       return true;
     }
-    if( this.sunToSavedData != this.sunToControl.value!){
+    if (this.sunToSavedData != this.sunToControl.value!) {
       return true;
     }
     return false;
@@ -619,16 +625,16 @@ export class BranchManagmentComponent implements OnInit {
     }
   }
 
-  pullPublicHolidaysNextTwoMonths(){
+  pullPublicHolidaysNextTwoMonths() {
     this.holidaysService.pullNextTwoMonths().subscribe({
       next: (response) => {
-        if(response.body ==null){
+        if (response.body == null) {
           return;
         }
         this.currentNextPublicHolidays = response.body;
-        if(this.currentNextPublicHolidays.length == 0) {
-        }else {
-          this.arePublicHolidays =true;
+        if (this.currentNextPublicHolidays.length == 0) {
+        } else {
+          this.arePublicHolidays = true;
           this.refreshTableNextTwoMonthsPublicHolidays();
         }
       }
@@ -639,16 +645,14 @@ export class BranchManagmentComponent implements OnInit {
     this.currentNextPublicHolidaysSource = new MatTableDataSource(this.currentNextPublicHolidays);
   }
 
-  pullCustomHoursOpening(){
+  pullCustomHoursOpening() {
     this.businessService.pullCustomHoursOpening(this.usersCompanyBranch.id).subscribe({
       next: (response) => {
-          if(response.body ==null) {
-            return;
-          }
-          this.customOpeningHours = response.body;
-          console.log(this.customOpeningHours);
-          
-          this.refreshTableCustomOpeningHours();
+        if (response.body == null) {
+          return;
+        }
+        this.customOpeningHours = response.body;
+        this.refreshTableCustomOpeningHours();
       },
       error: (error) => {
         this.notification.notify(NotificationType.ERROR,
@@ -657,7 +661,36 @@ export class BranchManagmentComponent implements OnInit {
     })
   }
 
-  refreshTableCustomOpeningHours(){
+  refreshTableCustomOpeningHours() {
     this.customOpeningHoursource = new MatTableDataSource(this.customOpeningHours);
+    if (this.customOpeningHours.length > 0) {
+      this.customOpeningHoursTableView = true;
+    } else {
+      this.customOpeningHoursTableView = false;
+    }
+  }
+
+  removeCustomOpeningHours(button: HTMLButtonElement) {
+    const dialogRef = this.dialog.open(RemoveDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.businessService.removeCustomOpeningHours(
+          this.usersCompanyBranch.id,
+          button.value
+        ).subscribe({
+          next: (response) => {
+            if (response.body == null) {
+              return;
+            }
+            this.customOpeningHours = response.body;
+            this.refreshTableCustomOpeningHours();
+          },
+          error: (error) => {
+            this.notification.notify(NotificationType.ERROR,
+              error.error.message)
+          }
+        });
+      }
+    })
   }
 }

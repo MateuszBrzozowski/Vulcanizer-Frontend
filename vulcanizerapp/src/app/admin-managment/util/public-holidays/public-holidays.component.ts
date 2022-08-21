@@ -7,7 +7,7 @@ import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { NotificationService } from 'src/app/service/notification.service';
 import { PublicHolidays, PublicHolidaysService } from 'src/app/service/public-holidays.service';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { RemoveDialogComponent } from './remove-dialog/remove-dialog.component';
+import { RemoveDialogComponent } from '../../../dialog/remove-dialog/remove-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 export const MY_FORMATS = {
