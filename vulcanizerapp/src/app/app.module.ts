@@ -55,6 +55,7 @@ import { PublicHolidaysComponent } from './admin-managment/util/public-holidays/
 import {MatTabsModule} from '@angular/material/tabs';
 import { RemoveDialogComponent } from './dialog/remove-dialog/remove-dialog.component';
 import {MatDividerModule} from '@angular/material/divider';
+import { InfoDialogComponent } from './dialog/info/info-dialog/info-dialog.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import {MatDividerModule} from '@angular/material/divider';
     StandAddComponent,
     StandRemoveComponent,
     PublicHolidaysComponent,
-    RemoveDialogComponent
+    RemoveDialogComponent,
+    InfoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -130,7 +132,8 @@ import {MatDividerModule} from '@angular/material/divider';
     StandAddComponent,
     StandRemoveComponent,
     PublicHolidaysComponent,
-    RemoveDialogComponent
+    RemoveDialogComponent,
+    InfoDialogComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

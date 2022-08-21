@@ -136,6 +136,18 @@ export class BusinessService {
       { observe: 'response' });
   }
 
+  /**
+   * pushNewCustomOpeningHours
+   */
+  public pushNewCustomOpeningHours(
+    companyBranchId : string, 
+    body : CustomOpeningHours) : Observable<HttpResponse<CustomOpeningHours[]>> {
+      return this.http.post<CustomOpeningHours[]>(
+        `${this.apiServerUrl}/api/v1/company/branch/${companyBranchId}/hours/custom`,
+        body, 
+        {observe : 'response'});
+  }
+
   // public getUsers(): Observable<Business[]> {
   //   return this.http.get<Business[]>(`${this.apiServerUrl}/users`);
   // }

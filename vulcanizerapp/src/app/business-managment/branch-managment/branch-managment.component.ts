@@ -20,6 +20,8 @@ import { StandRemoveComponent } from './stand/stand-remove/stand-remove.componen
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CustomOpeningHours } from 'src/app/service/customOpeningHours';
 import { RemoveDialogComponent } from 'src/app/dialog/remove-dialog/remove-dialog.component';
+import { InfoDialogComponent } from 'src/app/dialog/info/info-dialog/info-dialog.component';
+import { DialogInfo, DialogInfoType } from 'src/app/dialog/info/info-dialog/dialogInfo';
 
 @Component({
   selector: 'app-branch-managment',
@@ -82,8 +84,8 @@ export class BranchManagmentComponent implements OnInit {
   satToControl = new FormControl({ value: '', disabled: true });
   sunFromControl = new FormControl({ value: '', disabled: true });
   sunToControl = new FormControl({ value: '', disabled: true });
-  customFromControl = new FormControl({ value: '', disabled: true });
-  customToControl = new FormControl({ value: '', disabled: true });
+  customFromControl = new FormControl('');
+  customToControl = new FormControl('');
   monFromSavedData: string = '';
   monToSavedData: string = '';
   tueFromSavedData: string = '';
@@ -120,6 +122,13 @@ export class BranchManagmentComponent implements OnInit {
   customOpeningHours: CustomOpeningHours[] = new Array<CustomOpeningHours>;
   customOpeningHoursource = new MatTableDataSource(this.customOpeningHours);
   customOpeningHoursTableView: boolean = false;
+  customSlideVisable: boolean = false;
+  customHoursVisable: boolean = false;
+  dateNotValidMessage: boolean = false;
+  timeIsRequiredMessage: boolean = false;
+  timeIsNotValidMessage: boolean = false;
+  dateHronologyMessage: boolean = false;
+  timeNotLogicMessage: boolean = false;
 
 
   constructor(private authenticationService: AuthenticationService,
@@ -487,11 +496,107 @@ export class BranchManagmentComponent implements OnInit {
   }
 
   customOpenClick() {
-
+    if (this.customEnabled) {
+      this.customEnabled = false;
+      this.customIsOpen = 'Zamknięte';
+      this.customHoursVisable = false;
+      this.customFromControl.setValue('');
+      this.customToControl.setValue('');
+    } else {
+      this.customEnabled = true;
+      this.customIsOpen = 'Otwarte';
+      this.customHoursVisable = true;
+    }
   }
 
-  saveCustomHoursOpening(){
-    
+  isDateFill() {
+    if (this.range.value.start != null && this.range.value.end != null) {
+      this.customSlideVisable = true;
+      this.dateNotValidMessage = false;
+    }
+  }
+
+  saveCustomHoursOpening(dateStartInput: HTMLInputElement, dateEndInput: HTMLInputElement) {
+    this.dateHronologyMessage = false;
+    this.timeNotLogicMessage = false;
+    const customOpeningHour = new CustomOpeningHours();
+    if (this.range.value.start == null || this.range.value.end == null) {
+      this.dateNotValidMessage = true;
+      this.customSlideVisable = false;
+      this.customHoursVisable = false;
+      return;
+    } else {
+      this.dateNotValidMessage = false;
+    }
+    customOpeningHour.dateStart = dateStartInput.value;
+    customOpeningHour.dateEnd = dateEndInput.value;
+    if (!this.customHoursVisable) {
+      this.timeIsRequiredMessage = false;
+      this.timeIsNotValidMessage = false;
+      customOpeningHour.timeStart = null;
+      customOpeningHour.timeEnd = null;
+    } else {
+      if (this.customFromControl.value?.length == 0 || this.customToControl.value?.length == 0) {
+        this.timeIsRequiredMessage = true;
+        return;
+      } else {
+        this.timeIsRequiredMessage = false;
+      }
+      if (this.customFromControl.value?.length! >= 4 && this.customToControl.value?.length! <= 5
+        && this.customToControl.value?.length! >= 4 && this.customToControl.value?.length! <= 5) {
+        this.timeIsNotValidMessage = false;
+        customOpeningHour.timeStart = this.customFromControl.value;
+        customOpeningHour.timeEnd = this.customToControl.value;
+      } else {
+        this.timeIsNotValidMessage = true;
+        return;
+      }
+    }
+
+    this.businessService.pushNewCustomOpeningHours(this.usersCompanyBranch.id, customOpeningHour).subscribe({
+      next: (response) => {
+        if (response.body == null) {
+          return;
+        }
+        this.customOpeningHours = response.body;
+        this.refreshTableCustomOpeningHours();
+        const message = new DialogInfo(DialogInfoType.SUCCESS,
+          'Zapisano poprawnie nowe niestandardowe godziny pracy.');
+        const dialogRef = this.dialog.open(InfoDialogComponent, { data: message });
+        this.resetInputsCustomOpeningHours();
+      },
+      error: (error) => {
+        if (error.error.message == 'Max in next two months') {
+          const message = new DialogInfo(DialogInfoType.ERROR,
+            'Operacja niemożliwa. Data musi być z zakresu od dnia jutrzejszego do max 2 miesięcy!');
+          this.dialog.open(InfoDialogComponent, { data: message });
+        } else if (error.error.message == 'Date start is after date end') {
+          this.dateHronologyMessage = true;
+        } else if (error.error.message == 'Close time is before than open time. Not logic.') {
+          this.timeNotLogicMessage = true;
+        } else if (error.error.message == 'Date is exists') {
+          const message = new DialogInfo(DialogInfoType.ERROR,
+            'Godziny z taką datą już istnieją. Jeżeli chcesz je zmienić usuń istniejący wpis!');
+          this.dialog.open(InfoDialogComponent, { data: message });
+        } else {
+          this.notification.notify(NotificationType.ERROR,
+            "Coś poszło nie tak, spróbuj ponownie później");
+        }
+      }
+    })
+  }
+
+  resetInputsCustomOpeningHours() {
+    this.range.setValue({ start: null, end: null });
+    this.customSlideVisable = false;
+    this.dateNotValidMessage = false;
+    this.customEnabled = false;
+    this.customIsOpen = 'Zamknięte';
+    this.customHoursVisable = false;
+    this.customFromControl.setValue('');
+    this.customToControl.setValue('');
+    this.timeIsRequiredMessage = false;
+    this.timeIsNotValidMessage = false;
   }
 
   pullHoursOpening() {
@@ -516,7 +621,8 @@ export class BranchManagmentComponent implements OnInit {
         this.setSavedOpeningHoursData();
       },
       error: (error) => {
-        this.notification.notify(NotificationType.ERROR, "Coś poszło nie tak, spróbuj ponownie później");
+        this.notification.notify(NotificationType.ERROR,
+          "Coś poszło nie tak, spróbuj ponownie później");
       }
     })
   }
