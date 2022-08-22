@@ -12,15 +12,13 @@ import { NotificationType } from '../enum/notification-type.enum';
 import { ResetPasswordService } from '../reset-password.service';
 import { AuthenticationService } from '../service/authentication.service';
 import { NotificationService } from '../service/notification.service';
-import { PanelsComponent } from '../user-managment/panels/panels.component';
 import { UserService } from '../user.service';
 import { User } from '../users';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers: [PanelsComponent]
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   emailPattern: string = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
@@ -78,7 +76,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private notificationService: NotificationService,
     private resetPasswordService: ResetPasswordService,
-    private panelsComponent: PanelsComponent
   ) {}
 
   ngOnInit(): void {

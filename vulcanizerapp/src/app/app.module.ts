@@ -42,7 +42,6 @@ import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MaterialModule } from 'src/material.module';
 import { MatInputModule } from '@angular/material/input';
-import { PanelsComponent } from './user-managment/panels/panels.component';
 import { BusinessManagmentComponent } from './business-managment/business-managment.component';
 import { BranchManagmentComponent } from './business-managment/branch-managment/branch-managment.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -68,7 +67,6 @@ import { ServiceManagmentComponent } from './business-managment/branch-managment
     UserManagmentComponent,
     AdminManagmentComponent,
     WaitingComponent,
-    PanelsComponent,
     BusinessManagmentComponent,
     BranchManagmentComponent,
     StandAddComponent,
@@ -128,7 +126,6 @@ import { ServiceManagmentComponent } from './business-managment/branch-managment
     LoginComponent,
     State,
     WaitingComponent,
-    PanelsComponent,
     BusinessManagmentComponent,
     BranchManagmentComponent,
     StandAddComponent,

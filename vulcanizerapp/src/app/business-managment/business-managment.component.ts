@@ -5,7 +5,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { CompanyBranchResponse } from '../business';
 import { AuthenticationService } from '../service/authentication.service';
-import { PanelsComponent } from '../user-managment/panels/panels.component';
 import { UserService } from '../user.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BranchManagmentComponent } from './branch-managment/branch-managment.component';

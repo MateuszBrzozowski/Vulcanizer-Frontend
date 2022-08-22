@@ -30,6 +30,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
   public isContentBusiness: boolean = false;
   public isAdmin: boolean = false;
   public passTouched: boolean = false;
+  public hasActiveCompany: boolean = false;
 
   //account details validation message controls below inputs
   public accountDetailsIsChanged: boolean = false;
@@ -221,6 +222,7 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     this.saveSavedData();
     this.setFields();
     this.isAdmin = this.authenticationService.isAdmin();
+    this.setActiveBtnBusinessPanel();
   }
 
   fillStateFiled() {
@@ -236,6 +238,28 @@ export class UserManagmentComponent implements OnInit, AfterViewInit {
     }
     if (this.genderNull) {
       btnGenderNull?.classList.add('btn-selected');
+    }
+  }
+
+  openBusinessManagment() {
+    if (this.userService.getCompanyBranchesFromLocalStorage().length == 1) {
+      this.router.navigateByUrl('/business/branch');
+    } else if (
+      this.userService.getCompanyBranchesFromLocalStorage().length > 1
+    ) {
+      this.router.navigateByUrl('/busienss');
+    }
+  }
+
+  setActiveBtnBusinessPanel() {
+    if (this.authenticationService.isLoggedIn()) {
+      if(this.userService.getCompanyBranchesFromLocalStorage()!=null){
+        if (this.userService.getCompanyBranchesFromLocalStorage().length > 0) {
+          this.hasActiveCompany = true;
+        } else {
+          this.hasActiveCompany = false;
+        }
+      }
     }
   }
 

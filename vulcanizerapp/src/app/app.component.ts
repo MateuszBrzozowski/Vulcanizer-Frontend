@@ -8,7 +8,6 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from './service/authentication.service';
-import { PanelsComponent } from './user-managment/panels/panels.component';
 import { UserService } from './user.service';
 import { User } from './users';
 

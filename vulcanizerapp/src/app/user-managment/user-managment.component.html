@@ -20,6 +20,9 @@
         <button *ngIf="isAdmin" (click)="adminManagment()">
           <span>Panel Administracyjny</span>
         </button>
+        <button *ngIf="hasActiveCompany" (click)="openBusinessManagment()">
+          <span>Biznes Panel</span>
+        </button>
         <button id="logout-button" (click)="logout()">
           <span>Wyloguj</span>
         </button>
