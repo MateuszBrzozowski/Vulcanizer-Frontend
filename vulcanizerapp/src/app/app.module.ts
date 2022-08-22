@@ -56,6 +56,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { RemoveDialogComponent } from './dialog/remove-dialog/remove-dialog.component';
 import {MatDividerModule} from '@angular/material/divider';
 import { InfoDialogComponent } from './dialog/info/info-dialog/info-dialog.component';
+import { ServiceManagmentComponent } from './business-managment/branch-managment/services/service-managment/service-managment.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { InfoDialogComponent } from './dialog/info/info-dialog/info-dialog.compo
     StandRemoveComponent,
     PublicHolidaysComponent,
     RemoveDialogComponent,
-    InfoDialogComponent
+    InfoDialogComponent,
+    ServiceManagmentComponent
   ],
   imports: [
     BrowserModule,
@@ -133,7 +135,8 @@ import { InfoDialogComponent } from './dialog/info/info-dialog/info-dialog.compo
     StandRemoveComponent,
     PublicHolidaysComponent,
     RemoveDialogComponent,
-    InfoDialogComponent
+    InfoDialogComponent,
+    ServiceManagmentComponent
   ],
   bootstrap: [AppComponent, LoginComponent],
 })

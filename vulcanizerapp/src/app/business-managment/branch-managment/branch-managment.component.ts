@@ -40,8 +40,8 @@ export class BranchManagmentComponent implements OnInit {
   viewCallendar: boolean = false;
   viewOpinion: boolean = false;
   viewStand: boolean = false;
-  viewServices: boolean = false;
-  viewOpeningHours: boolean = true;
+  viewServices: boolean = true;
+  viewOpeningHours: boolean = false;
 
   // 
   // List of Stand
