@@ -4,11 +4,11 @@
       <button
         mat-button
         [matMenuTriggerFor]="menu"
-        class="btn btn-primary"
+        class="btn btn-outline-dark"
         type="button"
-        style="max-width: 100px"
+        style="max-width: 48px;"
       >
-        Menu
+        <i class="bx bx-menu"></i>
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="setViewCallendar()">Kalendarz</button>
@@ -168,7 +168,7 @@
 
       <!-- Services -->
       <div [hidden]="!viewServices" class="managment-body">
-          <app-service-managment style="width: 100%;"></app-service-managment>
+        <app-service-managment style="width: 100%"></app-service-managment>
       </div>
 
       <!-- Opening hours -->

@@ -2,9 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@100;300;400;600;700&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.css");
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+@import url("https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css");
 @import "~angular-notifier/styles";
-
 :root {
   --color-text-white: #fdfdfd;
   --color-background-dark: #1f1f1f;
@@ -24,6 +24,7 @@
   --text-white-shadow: 2px 2px 10px RGBA(0, 0, 0, 0.5);
   --element-shadow-dark: 0px 0px 16px RGBA(0, 0, 0, 0.5);
   --color-form-focus: #0d6efd;
+  --color-primary: #3f51b5;
   --color-form-gray: #4f4f4f;
   --color-form-inactive: #212529;
   --color-form-start-border: 1px solid #ced4da;
@@ -226,6 +227,36 @@ hypertext:focus {
 
 .form {
   border: none;
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.save-icon {
+  font-family: 'Material Icons';
+  width: 55px;
+  height: 55px;
+  background-color: var(--color-button-selected);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+  color: white;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 55px;
+  font-size: 55px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.save-icon span {
+  font-size: 40px;
+}
+
+.save-icon:hover {
+  cursor: pointer;
+}
+
+.form-full-width {
   width: 100%;
 }
 
@@ -472,7 +503,7 @@ input[type="number"] {
   background-color: var(--color-button-selected-focus);
 }
 
-.btn-w-120px{
+.btn-w-120px {
   width: 120px;
 }
 
@@ -623,8 +654,12 @@ mat-slider {
 }
 
 .text-gray {
-  padding-top: 0.5em;
+  /* padding-top: 0.5em; */
   color: gray;
+}
+
+.margin-left-16px {
+  margin-left: 16px;
 }
 
 .business-summary {
@@ -718,13 +753,29 @@ mat-radio-group {
 input {
   width: 100%;
   height: 44px;
-  color: var(--color-text-white);
+  color: var(--color-text-dark);
   background: var(--color-search-engine);
-  border: none;
+  border: 1px solid var(--color-input-border);
   margin: 0 auto;
   padding-left: 40px;
   /* box-shadow: var(--element-shadow-dark); */
   border-radius: 0.25rem;
+}
+
+/* #services input {
+  float: left;
+  margin-top: 1em;
+  margin-left: 0.4em;
+  padding-left: 8px;
+  max-width: 200px;
+} */
+
+#services {
+  position: relative;
+}
+
+.flex-align-start {
+  align-items: flex-start;
 }
 
 .search-icon {
@@ -755,6 +806,10 @@ input {
   justify-content: space-between;
   flex-wrap: nowrap;
   overflow: hidden;
+}
+
+.font-larger {
+  font-size: larger;
 }
 
 .popular-business-container {
@@ -840,6 +895,7 @@ input {
 }
 .hours-opening input {
   border-radius: 0;
+  border: none;
   border-bottom: 1px solid var(--color-border-gray);
   color: var(--color-text-dark);
   padding: 0 16px;
@@ -851,15 +907,15 @@ input {
   border-bottom: 1px solid var(--color-button-selected-focus);
 }
 
-.hours-opening-custom{
+.hours-opening-custom {
   max-width: 320px;
 }
 
-#_customFrom{
+#_customFrom {
   max-width: 50%;
 }
 
-#_customTo{
+#_customTo {
   max-width: 50%;
 }
 
@@ -889,12 +945,28 @@ input {
   font-weight: bolder;
 }
 
-.week-day{
+.week-day {
   padding: 8px 0;
 }
 
+.material-symbols-outlined {
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 200,
+  'GRAD' 0,
+  'opsz' 48
+}
+
 mat-form-field input {
-  height: 100%
+  height: 100%;
 }
 
 mat-form-field {
@@ -1022,3 +1094,5 @@ body {
   height: 100%;
 }
 /* body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+
+

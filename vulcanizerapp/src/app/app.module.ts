@@ -56,6 +56,7 @@ import { RemoveDialogComponent } from './dialog/remove-dialog/remove-dialog.comp
 import {MatDividerModule} from '@angular/material/divider';
 import { InfoDialogComponent } from './dialog/info/info-dialog/info-dialog.component';
 import { ServiceManagmentComponent } from './business-managment/branch-managment/services/service-managment/service-managment.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,8 @@ import { ServiceManagmentComponent } from './business-managment/branch-managment
     MatAutocompleteModule,
     MatDatepickerModule,
     MatTabsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatCheckboxModule
     // MaterialModule
   ],
   providers: [

@@ -1,4 +1,154 @@
-<div class="managment-body-one">
-    <h4>Usługi</h4>
-    <h5>Konfigurowanie</h5>
+<div id="services" class="managment-body-one">
+  <!-- <div class="save-icon">
+    <span class="material-symbols-outlined"> save </span>
+  </div> -->
+  <h4>Usługi</h4>
+  <div class="one-column">
+    <mat-tab-group>
+      <mat-tab label="Wymiana opon"
+        ><mat-checkbox
+          class="margin-top font-larger"
+          [(ngModel)]="tiresSwapChecked"
+          color="primary"
+          >Wymiana opon</mat-checkbox
+        >
+        <div class="one-column">
+          <form class="form">
+            <mat-form-field class="form-full-width" appearance="fill">
+              <mat-label>Cena</mat-label>
+              <input matInput maxlength="4" placeholder="Cena w PLN" value="" />
+            </mat-form-field>
+            <mat-form-field class="form-full-width" appearance="fill">
+              <mat-label>Czas wykonania usługi</mat-label>
+              <input matInput maxlength="5" placeholder="Czas HH:MM" value="" />
+            </mat-form-field>
+          </form>
+          <small class="text-gray margin-bootom"
+            >Jeżeli cena lub czas jest zależny od rodzaju lub wielkości felgi
+            dodaj poniższe warianty.</small
+          >
+          <div class="one-column margin-left-16px">
+            <mat-checkbox [(ngModel)]="tiresSwapAluChecked" color="primary"
+              >Felgi aluminiowe</mat-checkbox
+            >
+            <div class="one-column">
+              <form class="form">
+                <mat-form-field class="form-full-width" appearance="fill">
+                  <mat-label>Cena</mat-label>
+                  <input
+                    matInput
+                    maxlength="4"
+                    placeholder="Cena w PLN"
+                    value=""
+                  />
+                </mat-form-field>
+                <mat-form-field class="form-full-width" appearance="fill">
+                  <mat-label>Czas wykonania usługi</mat-label>
+                  <input
+                    matInput
+                    maxlength="5"
+                    placeholder="Czas HH:MM"
+                    value=""
+                  />
+                </mat-form-field>
+              </form>
+              <div class="one-column margin-bootom">
+                <mat-checkbox
+                  [(ngModel)]="tiresSwapAluSizeChecked"
+                  color="primary"
+                  >Zależne od rozmiaru</mat-checkbox
+                >
+                <div class="one-column margin-top">
+                  <div>
+                    <button class="btn btn-primary btn-business-managment">
+                      Dodaj
+                    </button>
+                  </div>
+
+                  <div
+                    *ngFor="let size of tiresSwapAluSizeList"
+                    class="one-column"
+                  >
+                    <form class="form">
+                      <mat-form-field class="form-full-width" appearance="fill">
+                        <mat-label>Cena</mat-label>
+                        <input
+                          matInput
+                          maxlength="4"
+                          placeholder="Cena w PLN"
+                          value=""
+                        />
+                      </mat-form-field>
+                      <mat-form-field class="form-full-width" appearance="fill">
+                        <mat-label>Czas wykonania usługi</mat-label>
+                        <input
+                          matInput
+                          maxlength="5"
+                          placeholder="Czas HH:MM"
+                          value=""
+                        />
+                      </mat-form-field>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-checkbox [(ngModel)]="tiresSwapSteelChecked" color="primary"
+              >Felgi stalowe</mat-checkbox
+            >
+            <div class="one-column">
+              <form class="form">
+                <mat-form-field class="form-full-width" appearance="fill">
+                  <mat-label>Cena</mat-label>
+                  <input
+                    matInput
+                    maxlength="4"
+                    placeholder="Cena w PLN"
+                    value=""
+                  />
+                </mat-form-field>
+                <mat-form-field class="form-full-width" appearance="fill">
+                  <mat-label>Czas wykonania usługi</mat-label>
+                  <input
+                    matInput
+                    maxlength="5"
+                    placeholder="Czas HH:MM"
+                    value=""
+                  />
+                </mat-form-field>
+              </form>
+            </div>
+          </div></div
+      ></mat-tab>
+      <mat-tab label="Przełożenie kół">
+        <mat-checkbox
+          class="margin-top font-larger"
+          [(ngModel)]="wheelSwapChecked"
+          color="primary"
+          >Przełożenie kół</mat-checkbox
+        >
+      </mat-tab>
+      <mat-tab label="Wyważenie kół">
+        <mat-checkbox
+          class="margin-top font-larger"
+          [(ngModel)]="wheelBalanceChecked"
+          color="primary"
+          >Wyważanie kół</mat-checkbox
+        >
+      </mat-tab>
+      <mat-tab label="Prostowanie felg">
+        <mat-checkbox
+          class="margin-top font-larger"
+          [(ngModel)]="straighteningRimsChecked"
+          color="primary"
+          >Prostowanie felg aluminiowych</mat-checkbox
+        >
+      </mat-tab>
+      <mat-tab label="Usługi niestandardowe">
+        <h5 class="margin-top font-larger">Usługi niestandardowe</h5>
+        <span>Dodawanie</span>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>
