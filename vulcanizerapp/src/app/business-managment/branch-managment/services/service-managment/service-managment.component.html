@@ -52,24 +52,43 @@
                   />
                 </mat-form-field>
               </form>
-              <div class="one-column margin-bootom">
+              <div class="one-column margin-bootom ">
                 <mat-checkbox
+                class="font-smaller"
                   [(ngModel)]="tiresSwapAluSizeChecked"
                   color="primary"
                   >Zależne od rozmiaru</mat-checkbox
                 >
-                <div class="one-column margin-top">
+                <div class="one-column margin-top margin-left-16px">
                   <div>
-                    <button class="btn btn-primary btn-business-managment">
+                    <button class="btn btn-primary btn-business-managment" (click)="addTiresSwapAluSize()">
                       Dodaj
                     </button>
                   </div>
 
                   <div
-                    *ngFor="let size of tiresSwapAluSizeList"
+                    *ngFor="let element of tiresSwapAluSizeList"
                     class="one-column"
                   >
-                    <form class="form">
+                    <form class="form margin-top">
+                      <mat-form-field class="form-full-width" appearance="fill">
+                        <mat-label>Od</mat-label>
+                        <input
+                          matInput
+                          maxlength="2"
+                          placeholder="″"
+                          value=""
+                        />
+                      </mat-form-field>
+                      <mat-form-field class="form-full-width" appearance="fill">
+                        <mat-label>Do</mat-label>
+                        <input
+                          matInput
+                          maxlength="2"
+                          placeholder="″"
+                          value=""
+                        />
+                      </mat-form-field>
                       <mat-form-field class="form-full-width" appearance="fill">
                         <mat-label>Cena</mat-label>
                         <input
@@ -89,6 +108,11 @@
                         />
                       </mat-form-field>
                     </form>
+                    <div>
+                      <button class="btn btn-danger btn-business-managment" (click)="removeTiresSwapAluSize(element)">
+                        Usuń
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

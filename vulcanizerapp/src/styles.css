@@ -812,6 +812,10 @@ input {
   font-size: larger;
 }
 
+.font-smaller {
+  font-size: smaller;
+}
+
 .popular-business-container {
   aspect-ratio: 1.28/1;
   border: white solid 1px;
