@@ -9,6 +9,10 @@ export class Services {
     wheelType: WheelType | null = null;
     sizeFrom: number | null = null;
     sizeTo: number | null = null;
+    messagePriceNotValid : boolean = false;
+    messagePriceIsReq : boolean = false;
+    messageSizeNotValid : boolean = false;
+    messageSizeTimeReq : boolean = false;
 }
 
 export enum TypOfServices {

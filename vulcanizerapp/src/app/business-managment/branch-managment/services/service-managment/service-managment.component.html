@@ -13,55 +13,95 @@
           >Wymiana opon</mat-checkbox
         >
         <div class="one-column">
-          <form class="form">
-            <mat-form-field class="form-full-width" appearance="fill">
-              <mat-label>Cena</mat-label>
-              <input matInput maxlength="4" placeholder="Cena w PLN" value="" />
-            </mat-form-field>
-            <mat-form-field class="form-full-width" appearance="fill">
-              <mat-label>Czas wykonania usługi</mat-label>
-              <input matInput maxlength="5" placeholder="Czas HH:MM" value="" />
-            </mat-form-field>
+          <form>
+            <div class="width-100 form-row">
+              <mat-form-field
+                class="width-50-rim padding-right-1em"
+                appearance="fill"
+              >
+                <mat-label>Cena</mat-label>
+                <input
+                  matInput
+                  maxlength="6"
+                  placeholder="Cena w PLN"
+                  value=""
+                />
+              </mat-form-field>
+              <mat-form-field
+                class="width-50-rim padding-right-1em"
+                appearance="fill"
+              >
+                <mat-label>Czas wykonania usługi</mat-label>
+                <input
+                  matInput
+                  type="time"
+                  maxlength="5"
+                  placeholder="Czas HH:MM"
+                  value=""
+                />
+              </mat-form-field>
+            </div>
+            <small>Nieprawidłowy format ceny</small> <br />
+            <small>Wymagana cena!</small> <br />
+            <small>Nieprawidłowy format czasu</small> <br />
+            <small>Wymagany czas wykonania usługi</small> <br />
           </form>
           <small class="text-gray margin-bootom"
             >Jeżeli cena lub czas jest zależny od rodzaju lub wielkości felgi
             dodaj poniższe warianty.</small
           >
           <div class="one-column margin-left-16px">
+            <mat-divider></mat-divider>
             <mat-checkbox [(ngModel)]="tiresSwapAluChecked" color="primary"
               >Felgi aluminiowe</mat-checkbox
             >
             <div class="one-column">
-              <form class="form">
-                <mat-form-field class="form-full-width" appearance="fill">
-                  <mat-label>Cena</mat-label>
-                  <input
-                    matInput
-                    maxlength="4"
-                    placeholder="Cena w PLN"
-                    value=""
-                  />
-                </mat-form-field>
-                <mat-form-field class="form-full-width" appearance="fill">
-                  <mat-label>Czas wykonania usługi</mat-label>
-                  <input
-                    matInput
-                    maxlength="5"
-                    placeholder="Czas HH:MM"
-                    value=""
-                  />
-                </mat-form-field>
+              <form>
+                <div class="width-100 form-row">
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Cena</mat-label>
+                    <input
+                      matInput
+                      maxlength="6"
+                      placeholder="Cena w PLN"
+                      value=""
+                    />
+                  </mat-form-field>
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Czas wykonania usługi</mat-label>
+                    <input
+                      matInput
+                      type="time"
+                      maxlength="5"
+                      placeholder="Czas HH:MM"
+                      value=""
+                    />
+                  </mat-form-field>
+                </div>
+                <small>Nieprawidłowy format ceny</small> <br />
+                <small>Wymagana cena!</small> <br />
+                <small>Nieprawidłowy format czasu</small> <br />
+                <small>Wymagany czas wykonania usługi</small> <br />
               </form>
-              <div class="one-column margin-bootom ">
+              <div class="one-column margin-bootom">
                 <mat-checkbox
-                class="font-smaller"
+                  class="font-smaller"
                   [(ngModel)]="tiresSwapAluSizeChecked"
                   color="primary"
                   >Zależne od rozmiaru</mat-checkbox
                 >
                 <div class="one-column margin-top margin-left-16px">
                   <div>
-                    <button class="btn btn-primary btn-business-managment" (click)="addTiresSwapAluSize()">
+                    <button
+                      class="btn btn-primary btn-business-managment"
+                      (click)="addTiresSwapAluSize()"
+                    >
                       Dodaj
                     </button>
                   </div>
@@ -70,49 +110,96 @@
                     *ngFor="let element of tiresSwapAluSizeList"
                     class="one-column"
                   >
-                    <form class="form margin-top">
-                      <mat-form-field class="form-full-width" appearance="fill">
-                        <mat-label>Od</mat-label>
-                        <input
-                          matInput
-                          maxlength="2"
-                          placeholder="″"
-                          value=""
-                        />
-                      </mat-form-field>
-                      <mat-form-field class="form-full-width" appearance="fill">
-                        <mat-label>Do</mat-label>
-                        <input
-                          matInput
-                          maxlength="2"
-                          placeholder="″"
-                          value=""
-                        />
-                      </mat-form-field>
-                      <mat-form-field class="form-full-width" appearance="fill">
-                        <mat-label>Cena</mat-label>
-                        <input
-                          matInput
-                          maxlength="4"
-                          placeholder="Cena w PLN"
-                          value=""
-                        />
-                      </mat-form-field>
-                      <mat-form-field class="form-full-width" appearance="fill">
-                        <mat-label>Czas wykonania usługi</mat-label>
-                        <input
-                          matInput
-                          maxlength="5"
-                          placeholder="Czas HH:MM"
-                          value=""
-                        />
-                      </mat-form-field>
+                    <form class="margin-top">
+                      <h6>Rozmiar (″)</h6>
+                      <div class="width-100 form-row">
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Od</mat-label>
+                          <input
+                          #inputAluFrom
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="setAluSize(element._id!,inputAluTo, inputAluFrom)"
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Do</mat-label>
+                          <input
+                            #inputAluTo
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="setAluSize(element._id!, inputAluTo, inputAluFrom)"
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Cena</mat-label>
+                          <input
+                            #priceInput
+                            matInput
+                            maxlength="6"
+                            placeholder="Cena w PLN"
+                            value=""
+                            (keyup)="setPriceAlu(element._id!, priceInput)"
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Czas wykonania usługi</mat-label>
+                          <input
+                          #inputALuTime
+                            matInput
+                            type="time"
+                            maxlength="5"
+                            placeholder="Czas HH:MM"
+                            value=""
+                            (keyup)="setAluTime(element._id!, inputALuTime)"
+                            (change)="setAluTime(element._id!, inputALuTime)"
+                          />
+                        </mat-form-field>
+                        <div class="width-10-rim">
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-business-managment"
+                            (click)="removeTiresSwapAluSize(element)"
+                          >
+                            X
+                          </button>
+                        </div>
+                      </div>
+                      <div class="one-column">
+                        <small *ngIf="element.messageSizeNotValid"
+                          >Nieprawidłowy format lub pusty rozmiar felgi</small
+                        >
+                        <small *ngIf="false">Taki rozmiar już istnieje</small>
+                        <small *ngIf="element.messagePriceNotValid"
+                          >Nieprawidłowy format ceny (XX.XX)</small
+                        >
+                        <small *ngIf="element.messagePriceIsReq"
+                          >Wymagana cena!</small
+                        >
+                        <small *ngIf="element.messageSizeTimeReq"
+                          >Wymagany czas wykonania usługi</small
+                        >
+                      </div>
                     </form>
-                    <div>
-                      <button class="btn btn-danger btn-business-managment" (click)="removeTiresSwapAluSize(element)">
-                        Usuń
-                      </button>
-                    </div>
+                    <mat-divider></mat-divider>
                   </div>
                 </div>
               </div>
@@ -122,25 +209,38 @@
               >Felgi stalowe</mat-checkbox
             >
             <div class="one-column">
-              <form class="form">
-                <mat-form-field class="form-full-width" appearance="fill">
-                  <mat-label>Cena</mat-label>
-                  <input
-                    matInput
-                    maxlength="4"
-                    placeholder="Cena w PLN"
-                    value=""
-                  />
-                </mat-form-field>
-                <mat-form-field class="form-full-width" appearance="fill">
-                  <mat-label>Czas wykonania usługi</mat-label>
-                  <input
-                    matInput
-                    maxlength="5"
-                    placeholder="Czas HH:MM"
-                    value=""
-                  />
-                </mat-form-field>
+              <form>
+                <div class="width-100 form-row">
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Cena</mat-label>
+                    <input
+                      matInput
+                      maxlength="6"
+                      placeholder="Cena w PLN"
+                      value=""
+                    />
+                  </mat-form-field>
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Czas wykonania usługi</mat-label>
+                    <input
+                      matInput
+                      type="time"
+                      maxlength="5"
+                      placeholder="Czas HH:MM"
+                      value=""
+                    />
+                  </mat-form-field>
+                </div>
+                <small>Nieprawidłowy format ceny</small> <br />
+                <small>Wymagana cena!</small> <br />
+                <small>Nieprawidłowy format czasu</small> <br />
+                <small>Wymagany czas wykonania usługi</small> <br />
               </form>
             </div>
           </div></div

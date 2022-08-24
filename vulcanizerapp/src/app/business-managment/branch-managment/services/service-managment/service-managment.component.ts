@@ -54,4 +54,76 @@ export class ServiceManagmentComponent implements OnInit {
     );
     this.tiresSwapAluSizeList.splice(index, 1);
   }
+
+  setPriceAlu(_id: number, input: HTMLInputElement) {
+    const index = this.getIndexFromSizeList(this.tiresSwapAluSizeList, _id);
+    if (input.value.length > 0) {
+      this.tiresSwapAluSizeList[index].price = +input.value;
+    } else {
+      this.tiresSwapAluSizeList[index].price = null;
+    }
+
+    if (this.tiresSwapAluSizeList[index].price == null) {
+      this.tiresSwapAluSizeList[index].messagePriceIsReq = true;
+    } else {
+      this.tiresSwapAluSizeList[index].messagePriceIsReq = false;
+    }
+
+    if (isNaN(this.tiresSwapAluSizeList[index].price!)) {
+      this.tiresSwapAluSizeList[index].messagePriceNotValid = true;
+    } else {
+      this.tiresSwapAluSizeList[index].messagePriceNotValid = false;
+    }
+  }
+
+  setAluSize(
+    _id: number,
+    inputFrom: HTMLInputElement,
+    inputTo: HTMLInputElement
+  ) {
+    const index = this.getIndexFromSizeList(this.tiresSwapAluSizeList, _id);
+    if (inputFrom.value.length > 0) {
+      this.tiresSwapAluSizeList[index].sizeTo = +inputFrom.value;
+    } else {
+      this.tiresSwapAluSizeList[index].sizeTo = null;
+    }
+    if (inputTo.value.length > 0) {
+      this.tiresSwapAluSizeList[index].sizeFrom = +inputTo.value;
+    } else {
+      this.tiresSwapAluSizeList[index].sizeFrom = null;
+    }
+
+    const sizeTo = this.tiresSwapAluSizeList[index].sizeTo;
+    const sizeFrom = this.tiresSwapAluSizeList[index].sizeFrom;
+
+    if (
+      sizeTo == null ||
+      isNaN(sizeTo) ||
+      sizeFrom == null ||
+      isNaN(sizeFrom)
+    ) {
+      this.tiresSwapAluSizeList[index].messageSizeNotValid = true;
+    } else {
+      if (sizeTo < sizeFrom) {
+        this.tiresSwapAluSizeList[index].messageSizeNotValid = true;
+      } else {
+        this.tiresSwapAluSizeList[index].messageSizeNotValid = false;
+      }
+    }
+  }
+
+  setAluTime(_id: number, input: HTMLInputElement) {
+    const index = this.getIndexFromSizeList(this.tiresSwapAluSizeList, _id);
+    if (input.value.length == 5) {
+      this.tiresSwapAluSizeList[index].time = {
+        hours: +input.value.slice(0, 2),
+        minutes: +input.value.slice(3, 5),
+      };
+      this.tiresSwapAluSizeList[index].messageSizeTimeReq = false;
+    }else {
+      this.tiresSwapAluSizeList[index].messageSizeTimeReq = true;
+    }
+    
+    
+  }
 }
