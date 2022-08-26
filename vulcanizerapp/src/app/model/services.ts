@@ -13,6 +13,7 @@ export class Services {
     messagePriceIsReq : boolean = false;
     messageSizeNotValid : boolean = false;
     messageSizeTimeReq : boolean = false;
+    messageSizeIsExist : boolean = false;
 }
 
 export enum TypOfServices {

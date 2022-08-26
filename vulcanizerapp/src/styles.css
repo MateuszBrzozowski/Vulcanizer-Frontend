@@ -176,6 +176,7 @@ hypertext:focus {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .width-100 {
@@ -302,22 +303,19 @@ hypertext:focus {
 
 .save-icon {
   font-family: 'Material Icons';
-  width: 55px;
-  height: 55px;
   background-color: var(--color-button-selected);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2); */
   color: white;
-  border-radius: 100%;
+  border-radius: 0.25rem;
   text-align: center;
-  line-height: 55px;
-  font-size: 55px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
+  line-height: 40px;
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
 }
 
 .save-icon span {
-  font-size: 40px;
+  font-size: 28px;
 }
 
 .save-icon:hover {
@@ -843,10 +841,6 @@ input {
   max-width: 200px;
 } */
 
-#services {
-  position: relative;
-}
-
 .flex-align-start {
   align-items: flex-start;
 }
@@ -862,6 +856,12 @@ input {
   position: absolute;
   transform: translateY(-50%) translateX(-132%);
   top: 50%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+
 }
 
 .recommend {

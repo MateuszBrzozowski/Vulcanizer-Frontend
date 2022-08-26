@@ -33,7 +33,6 @@ export class ServiceManagmentComponent implements OnInit {
     services.typOfServices = TypOfServices.TIRES_SWAP;
     services.wheelType = WheelType.ALUMINIUM;
     services._id = this.tiresSwapAluSizeList.length;
-    console.log(services);
     this.tiresSwapAluSizeList.push(services);
   }
 
@@ -103,11 +102,50 @@ export class ServiceManagmentComponent implements OnInit {
       isNaN(sizeFrom)
     ) {
       this.tiresSwapAluSizeList[index].messageSizeNotValid = true;
+      return;
     } else {
       if (sizeTo < sizeFrom) {
         this.tiresSwapAluSizeList[index].messageSizeNotValid = true;
+        return;
       } else {
         this.tiresSwapAluSizeList[index].messageSizeNotValid = false;
+      }
+
+      for (let i = 0; i < this.tiresSwapAluSizeList.length - 1; i++) {
+        const elementI = this.tiresSwapAluSizeList[i];
+        for (let j = i + 1; j < this.tiresSwapAluSizeList.length; j++) {
+          const elementJ = this.tiresSwapAluSizeList[j];
+          if (
+            elementI.sizeFrom != null &&
+            elementI.sizeTo != null &&
+            elementJ.sizeFrom != null &&
+            elementJ.sizeTo != null
+          ) {
+            if (elementJ.sizeFrom > elementI.sizeFrom) {
+              if (elementJ.sizeFrom <= elementI.sizeTo) {
+                elementI.messageSizeIsExist = true;
+                elementJ.messageSizeIsExist = true;
+                return;
+              } else {
+                elementI.messageSizeIsExist = false;
+                elementJ.messageSizeIsExist = false;
+              }
+            } else if (elementJ.sizeFrom < elementI.sizeFrom) {
+              if (elementJ.sizeTo >= elementI.sizeFrom) {
+                elementI.messageSizeIsExist = true;
+                elementJ.messageSizeIsExist = true;
+                return;
+              } else {
+                elementI.messageSizeIsExist = false;
+                elementJ.messageSizeIsExist = false;
+              }
+            } else if (elementJ.sizeFrom == elementI.sizeFrom) {
+              elementI.messageSizeIsExist = true;
+              elementJ.messageSizeIsExist = true;
+              return;
+            }
+          }
+        }
       }
     }
   }
@@ -120,10 +158,8 @@ export class ServiceManagmentComponent implements OnInit {
         minutes: +input.value.slice(3, 5),
       };
       this.tiresSwapAluSizeList[index].messageSizeTimeReq = false;
-    }else {
+    } else {
       this.tiresSwapAluSizeList[index].messageSizeTimeReq = true;
     }
-    
-    
   }
 }
