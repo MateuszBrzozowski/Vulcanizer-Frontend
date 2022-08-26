@@ -21,10 +21,12 @@
               >
                 <mat-label>Cena</mat-label>
                 <input
+                  #inputSwapPrice
                   matInput
                   maxlength="6"
                   placeholder="Cena w PLN"
                   value=""
+                  (keyup)="setPriceTiresSwap(inputSwapPrice)"
                 />
               </mat-form-field>
               <mat-form-field
@@ -33,19 +35,25 @@
               >
                 <mat-label>Czas wykonania usługi</mat-label>
                 <input
+                  #inputSwapTime
                   matInput
                   type="time"
                   maxlength="5"
                   placeholder="Czas HH:MM"
                   value=""
+                  (keyup)="setTimeTiresSwap(inputSwapTime)"
+                  (change)="setTimeTiresSwap(inputSwapTime)"
                 />
               </mat-form-field>
             </div>
-            <small>Nieprawidłowy format ceny</small> <br />
-            <small>Wymagana cena!</small> <br />
-            <small>Nieprawidłowy format czasu</small> <br />
-            <small>Wymagany czas wykonania usługi</small> <br />
           </form>
+          <small *ngIf="messageTiresSwapPriceNotValid"
+            >Nieprawidłowy format ceny</small
+          >
+          <small *ngIf="messageTiresSwapPriceIsReq">Wymagana cena!</small>
+          <small *ngIf="messageTiresSwapTimeReq"
+            >Wymagany czas wykonania usługi</small
+          >
           <small class="text-gray margin-bootom"
             >Jeżeli cena lub czas jest zależny od rodzaju lub wielkości felgi
             dodaj poniższe warianty.</small
@@ -64,10 +72,12 @@
                   >
                     <mat-label>Cena</mat-label>
                     <input
+                      #inputTiresSwapAluPrice
                       matInput
                       maxlength="6"
                       placeholder="Cena w PLN"
                       value=""
+                      (keyup)="setPriceTiresSwapAlu(inputTiresSwapAluPrice)"
                     />
                   </mat-form-field>
                   <mat-form-field
@@ -76,19 +86,26 @@
                   >
                     <mat-label>Czas wykonania usługi</mat-label>
                     <input
+                      #inputTiresSwapAluTime
                       matInput
                       type="time"
                       maxlength="5"
                       placeholder="Czas HH:MM"
                       value=""
+                      (keyup)="setTimeTiresSwapAlu(inputTiresSwapAluTime)"
                     />
                   </mat-form-field>
                 </div>
-                <small>Nieprawidłowy format ceny</small> <br />
-                <small>Wymagana cena!</small> <br />
-                <small>Nieprawidłowy format czasu</small> <br />
-                <small>Wymagany czas wykonania usługi</small> <br />
               </form>
+              <small *ngIf="messageTiresSwapAluPriceNotValid"
+                >Nieprawidłowy format ceny</small
+              >
+              <small *ngIf="messageTiresSwapAluPriceIsReq"
+                >Wymagana cena!</small
+              >
+              <small *ngIf="messageTiresSwapAluTimeReq"
+                >Wymagany czas wykonania usługi</small
+              >
               <div class="one-column margin-bootom">
                 <mat-checkbox
                   class="font-smaller"
@@ -157,8 +174,8 @@
                             matInput
                             maxlength="6"
                             placeholder="Cena w PLN"
-                            value=""
-                            (keyup)="setPriceAlu(element._id!, priceInput)"
+                            value="{{ element.price }}"
+                            (keyup)="setPriceAluSize(element._id!, priceInput)"
                           />
                         </mat-form-field>
                         <mat-form-field
@@ -172,9 +189,11 @@
                             type="time"
                             maxlength="5"
                             placeholder="Czas HH:MM"
-                            value=""
-                            (keyup)="setAluTime(element._id!, inputALuTime)"
-                            (change)="setAluTime(element._id!, inputALuTime)"
+                            value="{{ element.time }}"
+                            (keyup)="setAluSizeTime(element._id!, inputALuTime)"
+                            (change)="
+                              setAluSizeTime(element._id!, inputALuTime)
+                            "
                           />
                         </mat-form-field>
                         <div class="width-10-rim">
@@ -223,10 +242,12 @@
                   >
                     <mat-label>Cena</mat-label>
                     <input
+                    #inputTiresSwapSteelPrice
                       matInput
                       maxlength="6"
                       placeholder="Cena w PLN"
                       value=""
+                      (keyup)="setPriceTiresSwapSteel(inputTiresSwapSteelPrice)"
                     />
                   </mat-form-field>
                   <mat-form-field
@@ -235,22 +256,31 @@
                   >
                     <mat-label>Czas wykonania usługi</mat-label>
                     <input
+                    #inputTiresSwapSteelTime
                       matInput
                       type="time"
                       maxlength="5"
                       placeholder="Czas HH:MM"
                       value=""
+                      (keyup)="setTimeTiresSwapSteel(inputTiresSwapSteelTime)"
+                      (change)="setTimeTiresSwapSteel(inputTiresSwapSteelTime)"
                     />
                   </mat-form-field>
                 </div>
-                <small>Nieprawidłowy format ceny</small> <br />
-                <small>Wymagana cena!</small> <br />
-                <small>Nieprawidłowy format czasu</small> <br />
-                <small>Wymagany czas wykonania usługi</small> <br />
               </form>
+              <small *ngIf="messageTiresSwapSteelPriceNotValid"
+                >Nieprawidłowy format ceny</small
+              >
+              <small *ngIf="messageTiresSwapSteelPriceIsReq"
+                >Wymagana cena!</small
+              >
+              <small *ngIf="messageTiresSwapSteelTimeReq"
+                >Wymagany czas wykonania usługi</small
+              >
             </div>
-          </div></div
-      ></mat-tab>
+          </div>
+        </div></mat-tab
+      >
       <mat-tab label="Przełożenie kół">
         <mat-checkbox
           class="margin-top font-larger"

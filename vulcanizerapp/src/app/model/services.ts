@@ -4,7 +4,7 @@ export class Services {
     id: string | null = null;
     _id: number | null = null;
     price: number | null = null;
-    time: Time | null = null;
+    time: string | null = null;
     typOfServices: TypOfServices | null = null;
     wheelType: WheelType | null = null;
     sizeFrom: number | null = null;
