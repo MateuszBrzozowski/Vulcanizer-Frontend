@@ -7,13 +7,14 @@ import { Services, TypOfServices, WheelType } from 'src/app/model/services';
   styleUrls: ['./service-managment.component.css'],
 })
 export class ServiceManagmentComponent implements OnInit {
-  tiresSwapChecked: boolean = true;
-  wheelSwapChecked: boolean = true;
-  tiresSwapAluChecked: boolean = true;
-  tiresSwapAluSizeChecked: boolean = true;
-  tiresSwapSteelChecked: boolean = true;
-  wheelBalanceChecked: boolean = true;
-  straighteningRimsChecked: boolean = true;
+  tiresSwapChecked: boolean = false;
+  wheelSwapChecked: boolean = false;
+  tiresSwapAluChecked: boolean = false;
+  tiresSwapAluSizeChecked: boolean = false;
+  tiresSwapSteelChecked: boolean = false;
+  tiresSwapSteelSizeChecked: boolean = false;
+  wheelBalanceChecked: boolean = false;
+  straighteningRimsChecked: boolean = false;
 
   messageTiresSwapPriceIsReq: boolean = false;
   messageTiresSwapPriceNotValid: boolean = false;
@@ -31,8 +32,9 @@ export class ServiceManagmentComponent implements OnInit {
   tiresSwapAlu: Services = new Services();
   tiresSwapSteel: Services = new Services();
   tiresSwapAluSizeList: Services[] = new Array<Services>();
+  tiresSwapSteelSizeList: Services[] = new Array<Services>();
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.tiresSwapInit();
@@ -57,10 +59,18 @@ export class ServiceManagmentComponent implements OnInit {
     services.wheelType = WheelType.ALUMINIUM;
     services._id = this.tiresSwapAluSizeList.length;
     services.price = this.tiresSwapAlu.price;
-    console.log(this.tiresSwapAlu.time);
-
     services.time = this.tiresSwapAlu.time;
     this.tiresSwapAluSizeList.push(services);
+  }
+
+  addTiresSwapSteelSize() {
+    const services: Services = new Services();
+    services.typOfServices = TypOfServices.TIRES_SWAP;
+    services.wheelType = WheelType.STEEL;
+    services._id = this.tiresSwapSteelSizeList.length;
+    services.price = this.tiresSwapSteel.price;
+    services.time = this.tiresSwapSteel.time;
+    this.tiresSwapSteelSizeList.push(services);
   }
 
   getIndexFromSizeList(list: Services[], searchId: number | null): number {
@@ -74,11 +84,16 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   removeTiresSwapAluSize(service: Services) {
-    const index = this.getIndexFromSizeList(
-      this.tiresSwapAluSizeList,
-      service._id
-    );
-    this.tiresSwapAluSizeList.splice(index, 1);
+    this.removeTiresSwapSize(service, this.tiresSwapAluSizeList);
+  }
+
+  removeTiresSwapSteelSize(service: Services) {
+    this.removeTiresSwapSize(service, this.tiresSwapSteelSizeList);
+  }
+
+  removeTiresSwapSize(service: Services, list: Services[]) {
+    const index = this.getIndexFromSizeList(list, service._id);
+    list.splice(index, 1);
   }
 
   setPriceTiresSwap(input: HTMLInputElement) {
@@ -153,7 +168,6 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   setTimeTiresSwapAlu(input: HTMLInputElement) {
-
     console.log(this.tiresSwapAlu);
     if (input.value.length == 5) {
       this.tiresSwapAlu.time =
@@ -167,7 +181,7 @@ export class ServiceManagmentComponent implements OnInit {
 
   setTimeTiresSwapSteel(input: HTMLInputElement) {
     console.log(this.tiresSwapSteel);
-    
+
     if (input.value.length == 5) {
       this.tiresSwapSteel.time =
         input.value.slice(0, 2) + ':' + input.value.slice(3, 5);
@@ -179,25 +193,41 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   setPriceAluSize(_id: number, input: HTMLInputElement) {
-    const index = this.getIndexFromSizeList(this.tiresSwapAluSizeList, _id);
+    this.setPriceSize(_id, input, this.tiresSwapAluSizeList);
+  }
+
+  setPriceSteelSize(_id: number, input: HTMLInputElement) {
+    this.setPriceSize(_id, input, this.tiresSwapSteelSizeList);
+  }
+
+  setPriceSize(_id: number, input: HTMLInputElement, list: Services[]) {
+    const index = this.getIndexFromSizeList(list, _id);
     if (input.value.length > 0) {
-      this.tiresSwapAluSizeList[index].price = +input.value;
+      list[index].price = +input.value;
     } else {
-      this.tiresSwapAluSizeList[index].price = null;
+      list[index].price = null;
     }
 
-    if (this.tiresSwapAluSizeList[index].price == null) {
-      this.tiresSwapAluSizeList[index].messagePriceIsReq = true;
+    if (list[index].price == null) {
+      list[index].messagePriceIsReq = true;
     } else {
-      this.tiresSwapAluSizeList[index].messagePriceIsReq = false;
+      list[index].messagePriceIsReq = false;
     }
 
-    if (isNaN(this.tiresSwapAluSizeList[index].price!)) {
-      this.tiresSwapAluSizeList[index].price = null;
-      this.tiresSwapAluSizeList[index].messagePriceNotValid = true;
+    if (isNaN(list[index].price!)) {
+      list[index].price = null;
+      list[index].messagePriceNotValid = true;
     } else {
-      this.tiresSwapAluSizeList[index].messagePriceNotValid = false;
+      list[index].messagePriceNotValid = false;
     }
+  }
+
+  setSteelSize(
+    _id: number,
+    inputFrom: HTMLInputElement,
+    inputTo: HTMLInputElement
+  ) {
+    this.setSize(_id, inputFrom, inputTo, this.tiresSwapSteelSizeList);
   }
 
   setAluSize(
@@ -205,20 +235,29 @@ export class ServiceManagmentComponent implements OnInit {
     inputFrom: HTMLInputElement,
     inputTo: HTMLInputElement
   ) {
-    const index = this.getIndexFromSizeList(this.tiresSwapAluSizeList, _id);
+    this.setSize(_id, inputFrom, inputTo, this.tiresSwapAluSizeList);
+  }
+
+  setSize(
+    _id: number,
+    inputFrom: HTMLInputElement,
+    inputTo: HTMLInputElement,
+    list: Services[]
+  ) {
+    const index = this.getIndexFromSizeList(list, _id);
     if (inputFrom.value.length > 0) {
-      this.tiresSwapAluSizeList[index].sizeTo = +inputFrom.value;
+      list[index].sizeTo = +inputFrom.value;
     } else {
-      this.tiresSwapAluSizeList[index].sizeTo = null;
+      list[index].sizeTo = null;
     }
     if (inputTo.value.length > 0) {
-      this.tiresSwapAluSizeList[index].sizeFrom = +inputTo.value;
+      list[index].sizeFrom = +inputTo.value;
     } else {
-      this.tiresSwapAluSizeList[index].sizeFrom = null;
+      list[index].sizeFrom = null;
     }
 
-    const sizeTo = this.tiresSwapAluSizeList[index].sizeTo;
-    const sizeFrom = this.tiresSwapAluSizeList[index].sizeFrom;
+    const sizeTo = list[index].sizeTo;
+    const sizeFrom = list[index].sizeFrom;
 
     if (
       sizeTo == null ||
@@ -226,20 +265,20 @@ export class ServiceManagmentComponent implements OnInit {
       sizeFrom == null ||
       isNaN(sizeFrom)
     ) {
-      this.tiresSwapAluSizeList[index].messageSizeNotValid = true;
+      list[index].messageSizeNotValid = true;
       return;
     } else {
       if (sizeTo < sizeFrom) {
-        this.tiresSwapAluSizeList[index].messageSizeNotValid = true;
+        list[index].messageSizeNotValid = true;
         return;
       } else {
-        this.tiresSwapAluSizeList[index].messageSizeNotValid = false;
+        list[index].messageSizeNotValid = false;
       }
 
-      for (let i = 0; i < this.tiresSwapAluSizeList.length - 1; i++) {
-        const elementI = this.tiresSwapAluSizeList[i];
-        for (let j = i + 1; j < this.tiresSwapAluSizeList.length; j++) {
-          const elementJ = this.tiresSwapAluSizeList[j];
+      for (let i = 0; i < list.length - 1; i++) {
+        const elementI = list[i];
+        for (let j = i + 1; j < list.length; j++) {
+          const elementJ = list[j];
           if (
             elementI.sizeFrom != null &&
             elementI.sizeTo != null &&
@@ -276,13 +315,21 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   setAluSizeTime(_id: number, input: HTMLInputElement) {
-    const index = this.getIndexFromSizeList(this.tiresSwapAluSizeList, _id);
+    this.setSizeTime(_id, input, this.tiresSwapAluSizeList);
+  }
+
+  setSteelSizeTime(_id: number, input: HTMLInputElement) {
+    this.setSizeTime(_id, input, this.tiresSwapSteelSizeList);
+  }
+
+  setSizeTime(_id: number, input: HTMLInputElement, list: Services[]) {
+    const index = this.getIndexFromSizeList(list, _id);
     if (input.value.length == 5) {
-      this.tiresSwapAluSizeList[index].time =
+      list[index].time =
         input.value.slice(0, 2) + ':' + input.value.slice(3, 5);
-      this.tiresSwapAluSizeList[index].messageSizeTimeReq = false;
+      list[index].messageSizeTimeReq = false;
     } else {
-      this.tiresSwapAluSizeList[index].messageSizeTimeReq = true;
+      list[index].messageSizeTimeReq = true;
     }
   }
 }

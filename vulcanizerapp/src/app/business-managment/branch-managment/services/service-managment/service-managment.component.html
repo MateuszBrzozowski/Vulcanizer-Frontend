@@ -5,14 +5,14 @@
   </div>
   <div class="one-column">
     <mat-tab-group>
-      <mat-tab label="Wymiana opon"
-        ><mat-checkbox
-          class="margin-top font-larger"
+      <mat-tab label="Wymiana opon">
+        <mat-checkbox
+          class="margin-top font-larger margin-bootom-8px"
           [(ngModel)]="tiresSwapChecked"
           color="primary"
           >Wymiana opon</mat-checkbox
         >
-        <div class="one-column">
+        <div class="one-column" [hidden]="!tiresSwapChecked">
           <form>
             <div class="width-100 form-row">
               <mat-form-field
@@ -60,10 +60,13 @@
           >
           <div class="one-column margin-left-16px">
             <mat-divider></mat-divider>
-            <mat-checkbox [(ngModel)]="tiresSwapAluChecked" color="primary"
+            <mat-checkbox
+              class="margin-bootom-8px"
+              [(ngModel)]="tiresSwapAluChecked"
+              color="primary"
               >Felgi aluminiowe</mat-checkbox
             >
-            <div class="one-column">
+            <div class="one-column" [hidden]="!tiresSwapAluChecked">
               <form>
                 <div class="width-100 form-row">
                   <mat-form-field
@@ -113,7 +116,10 @@
                   color="primary"
                   >Zależne od rozmiaru</mat-checkbox
                 >
-                <div class="one-column margin-top margin-left-16px">
+                <div
+                  class="one-column margin-top margin-left-16px"
+                  [hidden]="!tiresSwapAluSizeChecked"
+                >
                   <div>
                     <button
                       class="btn btn-primary btn-business-managment"
@@ -230,10 +236,13 @@
               </div>
             </div>
             <mat-divider></mat-divider>
-            <mat-checkbox [(ngModel)]="tiresSwapSteelChecked" color="primary"
+            <mat-checkbox
+              class="margin-bootom-8px"
+              [(ngModel)]="tiresSwapSteelChecked"
+              color="primary"
               >Felgi stalowe</mat-checkbox
             >
-            <div class="one-column">
+            <div class="one-column" [hidden]="!tiresSwapSteelChecked">
               <form>
                 <div class="width-100 form-row">
                   <mat-form-field
@@ -242,7 +251,7 @@
                   >
                     <mat-label>Cena</mat-label>
                     <input
-                    #inputTiresSwapSteelPrice
+                      #inputTiresSwapSteelPrice
                       matInput
                       maxlength="6"
                       placeholder="Cena w PLN"
@@ -256,7 +265,7 @@
                   >
                     <mat-label>Czas wykonania usługi</mat-label>
                     <input
-                    #inputTiresSwapSteelTime
+                      #inputTiresSwapSteelTime
                       matInput
                       type="time"
                       maxlength="5"
@@ -277,10 +286,138 @@
               <small *ngIf="messageTiresSwapSteelTimeReq"
                 >Wymagany czas wykonania usługi</small
               >
+              <div class="one-column margin-bootom">
+                <mat-checkbox
+                  class="font-smaller"
+                  [(ngModel)]="tiresSwapSteelSizeChecked"
+                  color="primary"
+                  >Zależne od rozmiaru</mat-checkbox
+                >
+                <div
+                  class="one-column margin-top margin-left-16px"
+                  [hidden]="!tiresSwapSteelSizeChecked"
+                >
+                  <div>
+                    <button
+                      class="btn btn-primary btn-business-managment"
+                      (click)="addTiresSwapSteelSize()"
+                    >
+                      Dodaj
+                    </button>
+                  </div>
+
+                  
+                  <div
+                    *ngFor="let element of tiresSwapSteelSizeList"
+                    class="one-column"
+                  >
+                    <form class="margin-top">
+                      <h6>Rozmiar (″)</h6>
+                      <div class="width-100 form-row">
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Od</mat-label>
+                          <input
+                            #inputSteelFrom
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setSteelSize(element._id!, inputSteelTo, inputSteelFrom)
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Do</mat-label>
+                          <input
+                            #inputSteelTo
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setSteelSize(element._id!, inputSteelTo, inputSteelFrom)
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Cena</mat-label>
+                          <input
+                            #priceInput
+                            matInput
+                            maxlength="6"
+                            placeholder="Cena w PLN"
+                            value="{{ element.price }}"
+                            (keyup)="setPriceSteelSize(element._id!, priceInput)"
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Czas wykonania usługi</mat-label>
+                          <input
+                            #inputALuTime
+                            matInput
+                            type="time"
+                            maxlength="5"
+                            placeholder="Czas HH:MM"
+                            value="{{ element.time }}"
+                            (keyup)="setSteelSizeTime(element._id!, inputALuTime)"
+                            (change)="
+                              setSteelSizeTime(element._id!, inputALuTime)
+                            "
+                          />
+                        </mat-form-field>
+                        <div class="width-10-rim">
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-business-managment"
+                            (click)="removeTiresSwapSteelSize(element)"
+                          >
+                            X
+                          </button>
+                        </div>
+                      </div>
+                      <div class="one-column">
+                        <small *ngIf="element.messageSizeNotValid"
+                          >Nieprawidłowy format lub pusty rozmiar felgi</small
+                        >
+                        <small *ngIf="element.messageSizeIsExist"
+                          >Taki rozmiar już istnieje</small
+                        >
+                        <small *ngIf="element.messagePriceNotValid"
+                          >Nieprawidłowy format ceny (XX.XX)</small
+                        >
+                        <small *ngIf="element.messagePriceIsReq"
+                          >Wymagana cena!</small
+                        >
+                        <small *ngIf="element.messageSizeTimeReq"
+                          >Wymagany czas wykonania usługi</small
+                        >
+                      </div>
+                    </form>
+                    <mat-divider></mat-divider>
+                  </div>
+
+
+                </div>
+              </div>
             </div>
           </div>
-        </div></mat-tab
-      >
+        </div>
+      </mat-tab>
       <mat-tab label="Przełożenie kół">
         <mat-checkbox
           class="margin-top font-larger"

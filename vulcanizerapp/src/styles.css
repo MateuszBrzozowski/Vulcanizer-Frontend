@@ -250,6 +250,10 @@ hypertext:focus {
   position: relative;
 }
 
+.margin-bootom-8px {
+  margin-bottom: 8px;
+}
+
 .form-label {
   opacity: 0;
   position: absolute;
