@@ -389,7 +389,10 @@
                             placeholder="Cena w PLN"
                             value="{{ element.price }}"
                             (keyup)="
-                              setPriceSteelSize(element._id!, inputPriceTiresSwapSteelSize)
+                              setPriceSteelSize(
+                                element._id!,
+                                inputPriceTiresSwapSteelSize
+                              )
                             "
                           />
                         </mat-form-field>
@@ -406,10 +409,16 @@
                             placeholder="Czas HH:MM"
                             value="{{ element.time }}"
                             (keyup)="
-                              setSteelSizeTime(element._id!, inputTimeTiresSwapSteelSize)
+                              setSteelSizeTime(
+                                element._id!,
+                                inputTimeTiresSwapSteelSize
+                              )
                             "
                             (change)="
-                              setSteelSizeTime(element._id!, inputTimeTiresSwapSteelSize)
+                              setSteelSizeTime(
+                                element._id!,
+                                inputTimeTiresSwapSteelSize
+                              )
                             "
                           />
                         </mat-form-field>
@@ -451,7 +460,7 @@
       </mat-tab>
       <mat-tab label="Przełożenie kół">
         <mat-checkbox
-          class="margin-top font-larger"
+          class="margin-top font-larger margin-bootom-8px"
           [(ngModel)]="wheelSwapChecked"
           color="primary"
           >Przełożenie kół</mat-checkbox
@@ -904,7 +913,7 @@
       </mat-tab>
       <mat-tab label="Wyważenie kół">
         <mat-checkbox
-          class="margin-top font-larger"
+          class="margin-top font-larger margin-bootom-8px"
           [(ngModel)]="wheelBalanceChecked"
           color="primary"
           >Wyważanie kół</mat-checkbox
@@ -977,7 +986,9 @@
                       maxlength="6"
                       placeholder="Cena w PLN"
                       value=""
-                      (keyup)="setPriceWheelBalanceAlu(inputWheelBalanceAluPrice)"
+                      (keyup)="
+                        setPriceWheelBalanceAlu(inputWheelBalanceAluPrice)
+                      "
                     />
                   </mat-form-field>
                   <mat-form-field
@@ -993,7 +1004,9 @@
                       placeholder="Czas HH:MM"
                       value=""
                       (keyup)="setTimeWheelBalanceAlu(inputWheelBalanceAluTime)"
-                      (change)="setTimeWheelBalanceAlu(inputWheelBalanceAluTime)"
+                      (change)="
+                        setTimeWheelBalanceAlu(inputWheelBalanceAluTime)
+                      "
                     />
                   </mat-form-field>
                 </div>
@@ -1175,7 +1188,9 @@
                       maxlength="6"
                       placeholder="Cena w PLN"
                       value=""
-                      (keyup)="setPriceWheelBalanceSteel(inputWheelBalanceSteelPrice)"
+                      (keyup)="
+                        setPriceWheelBalanceSteel(inputWheelBalanceSteelPrice)
+                      "
                     />
                   </mat-form-field>
                   <mat-form-field
@@ -1190,8 +1205,12 @@
                       maxlength="5"
                       placeholder="Czas HH:MM"
                       value=""
-                      (keyup)="setTimeWheelBalanceSteel(inputWheelBalanceSteelTime)"
-                      (change)="setTimeWheelBalanceSteel(inputWheelBalanceSteelTime)"
+                      (keyup)="
+                        setTimeWheelBalanceSteel(inputWheelBalanceSteelTime)
+                      "
+                      (change)="
+                        setTimeWheelBalanceSteel(inputWheelBalanceSteelTime)
+                      "
                     />
                   </mat-form-field>
                 </div>
@@ -1357,11 +1376,456 @@
       </mat-tab>
       <mat-tab label="Prostowanie felg">
         <mat-checkbox
-          class="margin-top font-larger"
-          [(ngModel)]="straighteningRimsChecked"
+          class="margin-top font-larger margin-bootom-8px"
+          [(ngModel)]="straightRimsChecked"
           color="primary"
-          >Prostowanie felg aluminiowych</mat-checkbox
+          >Prostowanie felg</mat-checkbox
         >
+        <div class="one-column" [hidden]="!straightRimsChecked">
+          <form>
+            <div class="width-100 form-row">
+              <mat-form-field
+                class="width-50-rim padding-right-1em"
+                appearance="fill"
+              >
+                <mat-label>Cena</mat-label>
+                <input
+                  #inputStraightRimPrice
+                  matInput
+                  maxlength="6"
+                  placeholder="Cena w PLN"
+                  value=""
+                  (keyup)="setPriceStraightRim(inputStraightRimPrice)"
+                />
+              </mat-form-field>
+              <mat-form-field
+                class="width-50-rim padding-right-1em"
+                appearance="fill"
+              >
+                <mat-label>Czas wykonania usługi</mat-label>
+                <input
+                  #inputStraightRimTime
+                  matInput
+                  type="time"
+                  maxlength="5"
+                  placeholder="Czas HH:MM"
+                  value=""
+                  (keyup)="setTimeStraightRim(inputStraightRimTime)"
+                  (change)="setTimeStraightRim(inputStraightRimTime)"
+                />
+              </mat-form-field>
+            </div>
+          </form>
+          <small *ngIf="messageStraightRimPriceNotValid"
+            >Nieprawidłowy format ceny</small
+          >
+          <small *ngIf="messageStraightRimPriceIsReq">Wymagana cena!</small>
+          <small *ngIf="messageStraightRimTimeReq"
+            >Wymagany czas wykonania usługi</small
+          >
+          <small class="text-gray margin-bootom"
+            >Jeżeli cena lub czas jest zależny od rodzaju lub wielkości felgi
+            dodaj poniższe warianty.</small
+          >
+          <div class="one-column margin-left-16px">
+            <mat-divider></mat-divider>
+            <mat-checkbox
+              class="margin-bootom-8px"
+              [(ngModel)]="straightRimAluChecked"
+              color="primary"
+              >Felgi aluminiowe</mat-checkbox
+            >
+            <div class="one-column" [hidden]="!straightRimAluChecked">
+              <form>
+                <div class="width-100 form-row">
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Cena</mat-label>
+                    <input
+                      #inputStraightRimAluPrice
+                      matInput
+                      maxlength="6"
+                      placeholder="Cena w PLN"
+                      value=""
+                      (keyup)="setPriceStraightRimAlu(inputStraightRimAluPrice)"
+                    />
+                  </mat-form-field>
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Czas wykonania usługi</mat-label>
+                    <input
+                      #inputStraightRimAluTime
+                      matInput
+                      type="time"
+                      maxlength="5"
+                      placeholder="Czas HH:MM"
+                      value=""
+                      (keyup)="setTimeStraightRimAlu(inputStraightRimAluTime)"
+                      (change)="setTimeStraightRimAlu(inputStraightRimAluTime)"
+                    />
+                  </mat-form-field>
+                </div>
+              </form>
+              <small *ngIf="messageStraightRimAluPriceNotValid"
+                >Nieprawidłowy format ceny</small
+              >
+              <small *ngIf="messageStraightRimAluPriceIsReq"
+                >Wymagana cena!</small
+              >
+              <small *ngIf="messageStraightRimAluTimeReq"
+                >Wymagany czas wykonania usługi</small
+              >
+              <div class="one-column margin-bootom">
+                <mat-checkbox
+                  class="font-smaller"
+                  [(ngModel)]="straightRimAluSizeChecked"
+                  color="primary"
+                  >Zależne od rozmiaru</mat-checkbox
+                >
+                <div
+                  class="one-column margin-top margin-left-16px"
+                  [hidden]="!straightRimAluSizeChecked"
+                >
+                  <div>
+                    <button
+                      class="btn btn-primary btn-business-managment"
+                      (click)="addStraightRimAluSize()"
+                    >
+                      Dodaj
+                    </button>
+                  </div>
+
+                  <div
+                    *ngFor="let element of straightRimAluSizeList"
+                    class="one-column"
+                  >
+                    <form class="margin-top">
+                      <h6>Rozmiar (″)</h6>
+                      <div class="width-100 form-row">
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Od</mat-label>
+                          <input
+                            #inputStraightRimAluFrom
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setAluSizeStraightRim(
+                                element._id!,
+                                inputStraightRimAluTo,
+                                inputStraightRimAluFrom
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Do</mat-label>
+                          <input
+                            #inputStraightRimAluTo
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setAluSizeStraightRim(
+                                element._id!,
+                                inputStraightRimAluTo,
+                                inputStraightRimAluFrom
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Cena</mat-label>
+                          <input
+                            #inputPriceStraightRim
+                            matInput
+                            maxlength="6"
+                            placeholder="Cena w PLN"
+                            value="{{ element.price }}"
+                            (keyup)="
+                              setPriceAluSizeStraightRim(
+                                element._id!,
+                                inputPriceStraightRim
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Czas wykonania usługi</mat-label>
+                          <input
+                            #inputTimeAluStraightRim
+                            matInput
+                            type="time"
+                            maxlength="5"
+                            placeholder="Czas HH:MM"
+                            value="{{ element.time }}"
+                            (keyup)="
+                              setAluSizeTimeStraightRim(
+                                element._id!,
+                                inputTimeAluStraightRim
+                              )
+                            "
+                            (change)="
+                              setAluSizeTimeStraightRim(
+                                element._id!,
+                                inputTimeAluStraightRim
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <div class="width-10-rim">
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-business-managment"
+                            (click)="removeStraightRimAluSize(element)"
+                          >
+                            X
+                          </button>
+                        </div>
+                      </div>
+                      <div class="one-column">
+                        <small *ngIf="element.messageSizeNotValid"
+                          >Nieprawidłowy format lub pusty rozmiar felgi</small
+                        >
+                        <small *ngIf="element.messageSizeIsExist"
+                          >Taki rozmiar już istnieje</small
+                        >
+                        <small *ngIf="element.messagePriceNotValid"
+                          >Nieprawidłowy format ceny (XX.XX)</small
+                        >
+                        <small *ngIf="element.messagePriceIsReq"
+                          >Wymagana cena!</small
+                        >
+                        <small *ngIf="element.messageSizeTimeReq"
+                          >Wymagany czas wykonania usługi</small
+                        >
+                      </div>
+                    </form>
+                    <mat-divider></mat-divider>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-checkbox
+              class="margin-bootom-8px"
+              [(ngModel)]="straightRimSteelChecked"
+              color="primary"
+              >Felgi stalowe</mat-checkbox
+            >
+            <div class="one-column" [hidden]="!straightRimSteelChecked">
+              <form>
+                <div class="width-100 form-row">
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Cena</mat-label>
+                    <input
+                      #inputStraightRimSteelPrice
+                      matInput
+                      maxlength="6"
+                      placeholder="Cena w PLN"
+                      value=""
+                      (keyup)="setPriceStraightRimSteel(inputStraightRimSteelPrice)"
+                    />
+                  </mat-form-field>
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Czas wykonania usługi</mat-label>
+                    <input
+                      #inputStraightRimSteelTime
+                      matInput
+                      type="time"
+                      maxlength="5"
+                      placeholder="Czas HH:MM"
+                      value=""
+                      (keyup)="setTimeStraightRimSteel(inputStraightRimSteelTime)"
+                      (change)="setTimeStraightRimSteel(inputStraightRimSteelTime)"
+                    />
+                  </mat-form-field>
+                </div>
+              </form>
+              <small *ngIf="messageStraightRimSteelPriceNotValid"
+                >Nieprawidłowy format ceny</small
+              >
+              <small *ngIf="messageStraightRimSteelPriceIsReq"
+                >Wymagana cena!</small
+              >
+              <small *ngIf="messageStraightRimSteelTimeReq"
+                >Wymagany czas wykonania usługi</small
+              >
+              <div class="one-column margin-bootom">
+                <mat-checkbox
+                  class="font-smaller"
+                  [(ngModel)]="straightRimSteelSizeChecked"
+                  color="primary"
+                  >Zależne od rozmiaru</mat-checkbox
+                >
+                <div
+                  class="one-column margin-top margin-left-16px"
+                  [hidden]="!straightRimSteelSizeChecked"
+                >
+                  <div>
+                    <button
+                      class="btn btn-primary btn-business-managment"
+                      (click)="addStraightRimSteelSize()"
+                    >
+                      Dodaj
+                    </button>
+                  </div>
+
+                  <div
+                    *ngFor="let element of straightRimSteelSizeList"
+                    class="one-column"
+                  >
+                    <form class="margin-top">
+                      <h6>Rozmiar (″)</h6>
+                      <div class="width-100 form-row">
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Od</mat-label>
+                          <input
+                            #inputStraightRimSteelFrom
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setSteelSizeStraightRim(
+                                element._id!,
+                                inputStraightRimSteelTo,
+                                inputStraightRimSteelFrom
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Do</mat-label>
+                          <input
+                            #inputStraightRimSteelTo
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setSteelSizeStraightRim(
+                                element._id!,
+                                inputStraightRimSteelTo,
+                                inputStraightRimSteelFrom
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Cena</mat-label>
+                          <input
+                            #inputPriceStraightRimSteel
+                            matInput
+                            maxlength="6"
+                            placeholder="Cena w PLN"
+                            value="{{ element.price }}"
+                            (keyup)="
+                              setPriceSteelSizeStraightRim(
+                                element._id!,
+                                inputPriceStraightRimSteel
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Czas wykonania usługi</mat-label>
+                          <input
+                            #inputStraightRimTimeSteel
+                            matInput
+                            type="time"
+                            maxlength="5"
+                            placeholder="Czas HH:MM"
+                            value="{{ element.time }}"
+                            (keyup)="
+                              setSteelSizeTimeStraightRim(
+                                element._id!,
+                                inputStraightRimTimeSteel
+                              )
+                            "
+                            (change)="
+                              setSteelSizeTimeStraightRim(
+                                element._id!,
+                                inputStraightRimTimeSteel
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <div class="width-10-rim">
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-business-managment"
+                            (click)="removeStraightRimSteelSize(element)"
+                          >
+                            X
+                          </button>
+                        </div>
+                      </div>
+                      <div class="one-column">
+                        <small *ngIf="element.messageSizeNotValid"
+                          >Nieprawidłowy format lub pusty rozmiar felgi</small
+                        >
+                        <small *ngIf="element.messageSizeIsExist"
+                          >Taki rozmiar już istnieje</small
+                        >
+                        <small *ngIf="element.messagePriceNotValid"
+                          >Nieprawidłowy format ceny (XX.XX)</small
+                        >
+                        <small *ngIf="element.messagePriceIsReq"
+                          >Wymagana cena!</small
+                        >
+                        <small *ngIf="element.messageSizeTimeReq"
+                          >Wymagany czas wykonania usługi</small
+                        >
+                      </div>
+                    </form>
+                    <mat-divider></mat-divider>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </mat-tab>
       <mat-tab label="Usługi niestandardowe">
         <h5 class="margin-top font-larger">Usługi niestandardowe</h5>

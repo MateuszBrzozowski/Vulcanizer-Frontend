@@ -10,20 +10,27 @@ export class ServiceManagmentComponent implements OnInit {
   tiresSwapChecked: boolean = false;
   wheelSwapChecked: boolean = false;
   wheelBalanceChecked: boolean = false;
+  straightRimsChecked: boolean = false;
+
   tiresSwapAluChecked: boolean = false;
   wheelSwapAluChecked: boolean = false;
   wheelBalanceAluChecked: boolean = false;
+  straightRimAluChecked: boolean = false;
+
   tiresSwapAluSizeChecked: boolean = false;
   wheelSwapAluSizeChecked: boolean = false;
   wheelBalanceAluSizeChecked: boolean = false;
+  straightRimAluSizeChecked: boolean = false;
+
   tiresSwapSteelChecked: boolean = false;
   wheelSwapSteelChecked: boolean = false;
   wheelBalanceSteelChecked: boolean = false;
+  straightRimSteelChecked: boolean = false;
+
   tiresSwapSteelSizeChecked: boolean = false;
   wheelSwapSteelSizeChecked: boolean = false;
   wheelBalanceSteelSizeChecked: boolean = false;
-
-  straighteningRimsChecked: boolean = false;
+  straightRimSteelSizeChecked: boolean = false;
 
   messageTiresSwapPriceIsReq: boolean = false;
   messageTiresSwapPriceNotValid: boolean = false;
@@ -61,23 +68,44 @@ export class ServiceManagmentComponent implements OnInit {
   messageWheelBalanceSteelPriceNotValid: boolean = false;
   messageWheelBalanceSteelTimeReq: boolean = false;
 
+  messageStraightRimPriceIsReq: boolean = false;
+  messageStraightRimPriceNotValid: boolean = false;
+  messageStraightRimTimeReq: boolean = false;
+
+  messageStraightRimAluPriceIsReq: boolean = false;
+  messageStraightRimAluPriceNotValid: boolean = false;
+  messageStraightRimAluTimeReq: boolean = false;
+
+  messageStraightRimSteelPriceIsReq: boolean = false;
+  messageStraightRimSteelPriceNotValid: boolean = false;
+  messageStraightRimSteelTimeReq: boolean = false;
+
   services: Services[] = new Array<Services>();
 
   tiresSwap: Services = new Services();
   wheelSwap: Services = new Services();
   wheelBalance: Services = new Services();
+  straightRim: Services = new Services();
+
   tiresSwapAlu: Services = new Services();
   wheelSwapAlu: Services = new Services();
   wheelBalanceAlu: Services = new Services();
+  straightRimAlu: Services = new Services();
+
   tiresSwapSteel: Services = new Services();
   wheelSwapSteel: Services = new Services();
   wheelBalanceSteel: Services = new Services();
+  straightRimSteel: Services = new Services();
+
   tiresSwapAluSizeList: Services[] = new Array<Services>();
   wheelSwapAluSizeList: Services[] = new Array<Services>();
   wheelBalanceAluSizeList: Services[] = new Array<Services>();
+  straightRimAluSizeList: Services[] = new Array<Services>();
+
   tiresSwapSteelSizeList: Services[] = new Array<Services>();
   wheelSwapSteelSizeList: Services[] = new Array<Services>();
   wheelBalanceSteelSizeList: Services[] = new Array<Services>();
+  straightRimSteelSizeList: Services[] = new Array<Services>();
 
   constructor() {}
 
@@ -85,6 +113,7 @@ export class ServiceManagmentComponent implements OnInit {
     this.tiresSwapInit();
     this.wheelSwapInit();
     this.wheelBalanceInit();
+    this.straightRimsInit();
   }
 
   tiresSwapInit() {
@@ -112,6 +141,15 @@ export class ServiceManagmentComponent implements OnInit {
     this.wheelBalanceAlu.wheelType = WheelType.ALUMINIUM;
     this.wheelBalanceSteel.typOfServices = TypOfServices.WHEEL_BALANCE;
     this.wheelBalanceSteel.wheelType = WheelType.STEEL;
+  }
+
+  straightRimsInit() {
+    //pobieranie z BE danych i przypisanie do odpowiednich elementw tutej
+    this.straightRim.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
+    this.straightRimAlu.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
+    this.straightRimAlu.wheelType = WheelType.ALUMINIUM;
+    this.straightRimSteel.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
+    this.straightRimSteel.wheelType = WheelType.STEEL;
   }
 
   addTiresSwapAluSize() {
@@ -163,7 +201,7 @@ export class ServiceManagmentComponent implements OnInit {
     services.time = this.wheelBalanceAlu.time;
     this.wheelBalanceAluSizeList.push(services);
   }
-  
+
   addWheelBalanceSteelSize() {
     const services: Services = new Services();
     services.typOfServices = TypOfServices.WHEEL_BALANCE;
@@ -172,6 +210,26 @@ export class ServiceManagmentComponent implements OnInit {
     services.price = this.wheelBalanceSteel.price;
     services.time = this.wheelBalanceSteel.time;
     this.wheelBalanceSteelSizeList.push(services);
+  }
+
+  addStraightRimAluSize() {
+    const services: Services = new Services();
+    services.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
+    services.wheelType = WheelType.ALUMINIUM;
+    services._id = this.straightRimAluSizeList.length;
+    services.price = this.straightRimAlu.price;
+    services.time = this.straightRimAlu.time;
+    this.straightRimAluSizeList.push(services);
+  }
+
+  addStraightRimSteelSize() {
+    const services: Services = new Services();
+    services.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
+    services.wheelType = WheelType.STEEL;
+    services._id = this.straightRimSteelSizeList.length;
+    services.price = this.straightRimSteel.price;
+    services.time = this.straightRimSteel.time;
+    this.straightRimSteelSizeList.push(services);
   }
 
   getIndexFromSizeList(list: Services[], searchId: number | null): number {
@@ -196,6 +254,10 @@ export class ServiceManagmentComponent implements OnInit {
     this.removeTiresSwapSize(service, this.wheelBalanceAluSizeList);
   }
 
+  removeStraightRimAluSize(service: Services) {
+    this.removeTiresSwapSize(service, this.straightRimAluSizeList);
+  }
+
   removeTiresSwapSteelSize(service: Services) {
     this.removeTiresSwapSize(service, this.tiresSwapSteelSizeList);
   }
@@ -206,6 +268,10 @@ export class ServiceManagmentComponent implements OnInit {
 
   removeWheelBalanceSteelSize(service: Services) {
     this.removeTiresSwapSize(service, this.wheelBalanceSteelSizeList);
+  }
+
+  removeStraightRimSteelSize(service: Services) {
+    this.removeTiresSwapSize(service, this.straightRimSteelSizeList);
   }
 
   removeTiresSwapSize(service: Services, list: Services[]) {
@@ -327,6 +393,21 @@ export class ServiceManagmentComponent implements OnInit {
     }
   }
 
+  setPriceStraightRim(input: HTMLInputElement) {
+    this.setPrice(input, this.straightRim);
+    if (this.straightRim.price == null) {
+      this.messageStraightRimPriceIsReq = true;
+    } else {
+      this.messageStraightRimPriceIsReq = false;
+    }
+    if (isNaN(this.straightRim.price!)) {
+      this.straightRim.price = null;
+      this.messageStraightRimPriceNotValid = true;
+    } else {
+      this.messageStraightRimPriceNotValid = false;
+    }
+  }
+
   setPriceWheelBalanceAlu(input: HTMLInputElement) {
     this.setPrice(input, this.wheelBalanceAlu);
     if (this.wheelBalanceAlu.price == null) {
@@ -354,6 +435,36 @@ export class ServiceManagmentComponent implements OnInit {
       this.messageWheelBalanceSteelPriceNotValid = true;
     } else {
       this.messageWheelBalanceSteelPriceNotValid = false;
+    }
+  }
+
+  setPriceStraightRimAlu(input: HTMLInputElement) {
+    this.setPrice(input, this.straightRimAlu);
+    if (this.straightRimAlu.price == null) {
+      this.messageStraightRimAluPriceIsReq = true;
+    } else {
+      this.messageStraightRimAluPriceIsReq = false;
+    }
+    if (isNaN(this.straightRimAlu.price!)) {
+      this.straightRimAlu.price = null;
+      this.messageStraightRimAluPriceNotValid = true;
+    } else {
+      this.messageStraightRimAluPriceNotValid = false;
+    }
+  }
+
+  setPriceStraightRimSteel(input: HTMLInputElement) {
+    this.setPrice(input, this.straightRimSteel);
+    if (this.straightRimSteel.price == null) {
+      this.messageStraightRimSteelPriceIsReq = true;
+    } else {
+      this.messageStraightRimSteelPriceIsReq = false;
+    }
+    if (isNaN(this.straightRimSteel.price!)) {
+      this.straightRimSteel.price = null;
+      this.messageStraightRimSteelPriceNotValid = true;
+    } else {
+      this.messageStraightRimSteelPriceNotValid = false;
     }
   }
 
@@ -428,6 +539,14 @@ export class ServiceManagmentComponent implements OnInit {
     }
   }
 
+  setTimeStraightRim(input: HTMLInputElement) {
+    if (this.setTime(input, this.straightRim)) {
+      this.messageStraightRimTimeReq = true;
+    } else {
+      this.messageStraightRimTimeReq = false;
+    }
+  }
+
   setTimeWheelBalanceAlu(input: HTMLInputElement) {
     if (this.setTime(input, this.wheelBalanceAlu)) {
       this.messageWheelBalanceAluTimeReq = true;
@@ -444,6 +563,22 @@ export class ServiceManagmentComponent implements OnInit {
     }
   }
 
+  setTimeStraightRimAlu(input: HTMLInputElement) {
+    if (this.setTime(input, this.straightRimAlu)) {
+      this.messageStraightRimAluTimeReq = true;
+    } else {
+      this.messageStraightRimAluTimeReq = false;
+    }
+  }
+
+  setTimeStraightRimSteel(input: HTMLInputElement) {
+    if (this.setTime(input, this.straightRimSteel)) {
+      this.messageStraightRimSteelTimeReq = true;
+    } else {
+      this.messageStraightRimSteelTimeReq = false;
+    }
+  }
+
   setPriceAluSize(_id: number, input: HTMLInputElement) {
     this.setPriceSize(_id, input, this.tiresSwapAluSizeList);
   }
@@ -456,6 +591,10 @@ export class ServiceManagmentComponent implements OnInit {
     this.setPriceSize(_id, input, this.wheelBalanceAluSizeList);
   }
 
+  setPriceAluSizeStraightRim(_id: number, input: HTMLInputElement) {
+    this.setPriceSize(_id, input, this.straightRimAluSizeList);
+  }
+
   setPriceSteelSize(_id: number, input: HTMLInputElement) {
     this.setPriceSize(_id, input, this.tiresSwapSteelSizeList);
   }
@@ -466,6 +605,10 @@ export class ServiceManagmentComponent implements OnInit {
 
   setPriceSteelSizeWheelBalance(_id: number, input: HTMLInputElement) {
     this.setPriceSize(_id, input, this.wheelBalanceSteelSizeList);
+  }
+
+  setPriceSteelSizeStraightRim(_id: number, input: HTMLInputElement) {
+    this.setPriceSize(_id, input, this.straightRimSteelSizeList);
   }
 
   setPriceSize(_id: number, input: HTMLInputElement, list: Services[]) {
@@ -514,6 +657,14 @@ export class ServiceManagmentComponent implements OnInit {
     this.setSize(_id, inputFrom, inputTo, this.wheelBalanceSteelSizeList);
   }
 
+  setSteelSizeStraightRim(
+    _id: number,
+    inputFrom: HTMLInputElement,
+    inputTo: HTMLInputElement
+  ) {
+    this.setSize(_id, inputFrom, inputTo, this.straightRimSteelSizeList);
+  }
+
   setAluSize(
     _id: number,
     inputFrom: HTMLInputElement,
@@ -536,6 +687,14 @@ export class ServiceManagmentComponent implements OnInit {
     inputTo: HTMLInputElement
   ) {
     this.setSize(_id, inputFrom, inputTo, this.wheelBalanceAluSizeList);
+  }
+
+  setAluSizeStraightRim(
+    _id: number,
+    inputFrom: HTMLInputElement,
+    inputTo: HTMLInputElement
+  ) {
+    this.setSize(_id, inputFrom, inputTo, this.straightRimAluSizeList);
   }
 
   setSize(
@@ -621,9 +780,13 @@ export class ServiceManagmentComponent implements OnInit {
   setAluSizeTimeWheelSwap(_id: number, input: HTMLInputElement) {
     this.setSizeTime(_id, input, this.wheelSwapAluSizeList);
   }
-  
+
   setAluSizeTimeWheelBalance(_id: number, input: HTMLInputElement) {
     this.setSizeTime(_id, input, this.wheelBalanceAluSizeList);
+  }
+
+  setAluSizeTimeStraightRim(_id: number, input: HTMLInputElement) {
+    this.setSizeTime(_id, input, this.straightRimAluSizeList);
   }
 
   setSteelSizeTime(_id: number, input: HTMLInputElement) {
@@ -636,6 +799,10 @@ export class ServiceManagmentComponent implements OnInit {
 
   setSteelSizeTimeWheelBalance(_id: number, input: HTMLInputElement) {
     this.setSizeTime(_id, input, this.wheelBalanceSteelSizeList);
+  }
+
+  setSteelSizeTimeStraightRim(_id: number, input: HTMLInputElement) {
+    this.setSizeTime(_id, input, this.straightRimSteelSizeList);
   }
 
   setSizeTime(_id: number, input: HTMLInputElement, list: Services[]) {
