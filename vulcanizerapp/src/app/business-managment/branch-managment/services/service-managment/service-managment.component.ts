@@ -9,15 +9,20 @@ import { Services, TypOfServices, WheelType } from 'src/app/model/services';
 export class ServiceManagmentComponent implements OnInit {
   tiresSwapChecked: boolean = false;
   wheelSwapChecked: boolean = false;
+  wheelBalanceChecked: boolean = false;
   tiresSwapAluChecked: boolean = false;
   wheelSwapAluChecked: boolean = false;
+  wheelBalanceAluChecked: boolean = false;
   tiresSwapAluSizeChecked: boolean = false;
   wheelSwapAluSizeChecked: boolean = false;
+  wheelBalanceAluSizeChecked: boolean = false;
   tiresSwapSteelChecked: boolean = false;
   wheelSwapSteelChecked: boolean = false;
+  wheelBalanceSteelChecked: boolean = false;
   tiresSwapSteelSizeChecked: boolean = false;
   wheelSwapSteelSizeChecked: boolean = false;
-  wheelBalanceChecked: boolean = false;
+  wheelBalanceSteelSizeChecked: boolean = false;
+
   straighteningRimsChecked: boolean = false;
 
   messageTiresSwapPriceIsReq: boolean = false;
@@ -44,24 +49,42 @@ export class ServiceManagmentComponent implements OnInit {
   messageWheelSwapSteelPriceNotValid: boolean = false;
   messageWheelSwapSteelTimeReq: boolean = false;
 
+  messageWheelBalancePriceIsReq: boolean = false;
+  messageWheelBalancePriceNotValid: boolean = false;
+  messageWheelBalanceTimeReq: boolean = false;
+
+  messageWheelBalanceAluPriceIsReq: boolean = false;
+  messageWheelBalanceAluPriceNotValid: boolean = false;
+  messageWheelBalanceAluTimeReq: boolean = false;
+
+  messageWheelBalanceSteelPriceIsReq: boolean = false;
+  messageWheelBalanceSteelPriceNotValid: boolean = false;
+  messageWheelBalanceSteelTimeReq: boolean = false;
+
   services: Services[] = new Array<Services>();
 
   tiresSwap: Services = new Services();
   wheelSwap: Services = new Services();
+  wheelBalance: Services = new Services();
   tiresSwapAlu: Services = new Services();
   wheelSwapAlu: Services = new Services();
+  wheelBalanceAlu: Services = new Services();
   tiresSwapSteel: Services = new Services();
   wheelSwapSteel: Services = new Services();
+  wheelBalanceSteel: Services = new Services();
   tiresSwapAluSizeList: Services[] = new Array<Services>();
   wheelSwapAluSizeList: Services[] = new Array<Services>();
+  wheelBalanceAluSizeList: Services[] = new Array<Services>();
   tiresSwapSteelSizeList: Services[] = new Array<Services>();
   wheelSwapSteelSizeList: Services[] = new Array<Services>();
+  wheelBalanceSteelSizeList: Services[] = new Array<Services>();
 
   constructor() {}
 
   ngOnInit(): void {
     this.tiresSwapInit();
     this.wheelSwapInit();
+    this.wheelBalanceInit();
   }
 
   tiresSwapInit() {
@@ -76,10 +99,19 @@ export class ServiceManagmentComponent implements OnInit {
   wheelSwapInit() {
     //pobieranie z BE danych i przypisanie do odpowiednich elementw tutej
     this.wheelSwap.typOfServices = TypOfServices.WHEEL_SWAP;
-    this.wheelSwapAlu.typOfServices = TypOfServices.TIRES_SWAP;
+    this.wheelSwapAlu.typOfServices = TypOfServices.WHEEL_SWAP;
     this.wheelSwapAlu.wheelType = WheelType.ALUMINIUM;
-    this.wheelSwapSteel.typOfServices = TypOfServices.TIRES_SWAP;
+    this.wheelSwapSteel.typOfServices = TypOfServices.WHEEL_SWAP;
     this.wheelSwapSteel.wheelType = WheelType.STEEL;
+  }
+
+  wheelBalanceInit() {
+    //pobieranie z BE danych i przypisanie do odpowiednich elementw tutej
+    this.wheelBalance.typOfServices = TypOfServices.WHEEL_BALANCE;
+    this.wheelBalanceAlu.typOfServices = TypOfServices.WHEEL_BALANCE;
+    this.wheelBalanceAlu.wheelType = WheelType.ALUMINIUM;
+    this.wheelBalanceSteel.typOfServices = TypOfServices.WHEEL_BALANCE;
+    this.wheelBalanceSteel.wheelType = WheelType.STEEL;
   }
 
   addTiresSwapAluSize() {
@@ -122,6 +154,26 @@ export class ServiceManagmentComponent implements OnInit {
     this.wheelSwapSteelSizeList.push(services);
   }
 
+  addWheelBalanceAluSize() {
+    const services: Services = new Services();
+    services.typOfServices = TypOfServices.WHEEL_BALANCE;
+    services.wheelType = WheelType.ALUMINIUM;
+    services._id = this.wheelBalanceAluSizeList.length;
+    services.price = this.wheelBalanceAlu.price;
+    services.time = this.wheelBalanceAlu.time;
+    this.wheelBalanceAluSizeList.push(services);
+  }
+  
+  addWheelBalanceSteelSize() {
+    const services: Services = new Services();
+    services.typOfServices = TypOfServices.WHEEL_BALANCE;
+    services.wheelType = WheelType.STEEL;
+    services._id = this.wheelBalanceSteelSizeList.length;
+    services.price = this.wheelBalanceSteel.price;
+    services.time = this.wheelBalanceSteel.time;
+    this.wheelBalanceSteelSizeList.push(services);
+  }
+
   getIndexFromSizeList(list: Services[], searchId: number | null): number {
     for (let i = 0; i < list.length; i++) {
       const element = list[i];
@@ -140,12 +192,20 @@ export class ServiceManagmentComponent implements OnInit {
     this.removeTiresSwapSize(service, this.wheelSwapAluSizeList);
   }
 
+  removeWheelBalanceAluSize(service: Services) {
+    this.removeTiresSwapSize(service, this.wheelBalanceAluSizeList);
+  }
+
   removeTiresSwapSteelSize(service: Services) {
     this.removeTiresSwapSize(service, this.tiresSwapSteelSizeList);
   }
 
   removeWheelSwapSteelSize(service: Services) {
-    this.removeTiresSwapSize(service, this.wheelSwapAluSizeList);
+    this.removeTiresSwapSize(service, this.wheelSwapSteelSizeList);
+  }
+
+  removeWheelBalanceSteelSize(service: Services) {
+    this.removeTiresSwapSize(service, this.wheelBalanceSteelSizeList);
   }
 
   removeTiresSwapSize(service: Services, list: Services[]) {
@@ -209,8 +269,6 @@ export class ServiceManagmentComponent implements OnInit {
 
   setPriceWheelSwap(input: HTMLInputElement) {
     this.setPrice(input, this.wheelSwap);
-    console.log(this.wheelSwap);
-    
     if (this.wheelSwap.price == null) {
       this.messageWheelSwapPriceIsReq = true;
     } else {
@@ -251,6 +309,51 @@ export class ServiceManagmentComponent implements OnInit {
       this.messageWheelSwapSteelPriceNotValid = true;
     } else {
       this.messageWheelSwapSteelPriceNotValid = false;
+    }
+  }
+
+  setPriceWheelBalance(input: HTMLInputElement) {
+    this.setPrice(input, this.wheelBalance);
+    if (this.wheelBalance.price == null) {
+      this.messageWheelBalancePriceIsReq = true;
+    } else {
+      this.messageWheelBalancePriceIsReq = false;
+    }
+    if (isNaN(this.wheelBalance.price!)) {
+      this.wheelBalance.price = null;
+      this.messageWheelBalancePriceNotValid = true;
+    } else {
+      this.messageWheelBalancePriceNotValid = false;
+    }
+  }
+
+  setPriceWheelBalanceAlu(input: HTMLInputElement) {
+    this.setPrice(input, this.wheelBalanceAlu);
+    if (this.wheelBalanceAlu.price == null) {
+      this.messageWheelBalanceAluPriceIsReq = true;
+    } else {
+      this.messageWheelBalanceAluPriceIsReq = false;
+    }
+    if (isNaN(this.wheelBalanceAlu.price!)) {
+      this.wheelBalanceAlu.price = null;
+      this.messageWheelBalanceAluPriceNotValid = true;
+    } else {
+      this.messageWheelBalanceAluPriceNotValid = false;
+    }
+  }
+
+  setPriceWheelBalanceSteel(input: HTMLInputElement) {
+    this.setPrice(input, this.wheelBalanceSteel);
+    if (this.wheelBalanceSteel.price == null) {
+      this.messageWheelBalanceSteelPriceIsReq = true;
+    } else {
+      this.messageWheelBalanceSteelPriceIsReq = false;
+    }
+    if (isNaN(this.wheelBalanceSteel.price!)) {
+      this.wheelBalanceSteel.price = null;
+      this.messageWheelBalanceSteelPriceNotValid = true;
+    } else {
+      this.messageWheelBalanceSteelPriceNotValid = false;
     }
   }
 
@@ -317,6 +420,30 @@ export class ServiceManagmentComponent implements OnInit {
     }
   }
 
+  setTimeWheelBalance(input: HTMLInputElement) {
+    if (this.setTime(input, this.wheelBalance)) {
+      this.messageWheelBalanceTimeReq = true;
+    } else {
+      this.messageWheelBalanceTimeReq = false;
+    }
+  }
+
+  setTimeWheelBalanceAlu(input: HTMLInputElement) {
+    if (this.setTime(input, this.wheelBalanceAlu)) {
+      this.messageWheelBalanceAluTimeReq = true;
+    } else {
+      this.messageWheelBalanceAluTimeReq = false;
+    }
+  }
+
+  setTimeWheelBalanceSteel(input: HTMLInputElement) {
+    if (this.setTime(input, this.wheelBalanceSteel)) {
+      this.messageWheelBalanceSteelTimeReq = true;
+    } else {
+      this.messageWheelBalanceSteelTimeReq = false;
+    }
+  }
+
   setPriceAluSize(_id: number, input: HTMLInputElement) {
     this.setPriceSize(_id, input, this.tiresSwapAluSizeList);
   }
@@ -325,12 +452,20 @@ export class ServiceManagmentComponent implements OnInit {
     this.setPriceSize(_id, input, this.wheelSwapAluSizeList);
   }
 
+  setPriceAluSizeWheelBalance(_id: number, input: HTMLInputElement) {
+    this.setPriceSize(_id, input, this.wheelBalanceAluSizeList);
+  }
+
   setPriceSteelSize(_id: number, input: HTMLInputElement) {
     this.setPriceSize(_id, input, this.tiresSwapSteelSizeList);
   }
 
   setPriceSteelSizeWheelSwap(_id: number, input: HTMLInputElement) {
     this.setPriceSize(_id, input, this.wheelSwapSteelSizeList);
+  }
+
+  setPriceSteelSizeWheelBalance(_id: number, input: HTMLInputElement) {
+    this.setPriceSize(_id, input, this.wheelBalanceSteelSizeList);
   }
 
   setPriceSize(_id: number, input: HTMLInputElement, list: Services[]) {
@@ -371,6 +506,14 @@ export class ServiceManagmentComponent implements OnInit {
     this.setSize(_id, inputFrom, inputTo, this.wheelSwapSteelSizeList);
   }
 
+  setSteelSizeWheelBalance(
+    _id: number,
+    inputFrom: HTMLInputElement,
+    inputTo: HTMLInputElement
+  ) {
+    this.setSize(_id, inputFrom, inputTo, this.wheelBalanceSteelSizeList);
+  }
+
   setAluSize(
     _id: number,
     inputFrom: HTMLInputElement,
@@ -385,6 +528,14 @@ export class ServiceManagmentComponent implements OnInit {
     inputTo: HTMLInputElement
   ) {
     this.setSize(_id, inputFrom, inputTo, this.wheelSwapAluSizeList);
+  }
+
+  setAluSizeWheelBalance(
+    _id: number,
+    inputFrom: HTMLInputElement,
+    inputTo: HTMLInputElement
+  ) {
+    this.setSize(_id, inputFrom, inputTo, this.wheelBalanceAluSizeList);
   }
 
   setSize(
@@ -470,6 +621,10 @@ export class ServiceManagmentComponent implements OnInit {
   setAluSizeTimeWheelSwap(_id: number, input: HTMLInputElement) {
     this.setSizeTime(_id, input, this.wheelSwapAluSizeList);
   }
+  
+  setAluSizeTimeWheelBalance(_id: number, input: HTMLInputElement) {
+    this.setSizeTime(_id, input, this.wheelBalanceAluSizeList);
+  }
 
   setSteelSizeTime(_id: number, input: HTMLInputElement) {
     this.setSizeTime(_id, input, this.tiresSwapSteelSizeList);
@@ -477,6 +632,10 @@ export class ServiceManagmentComponent implements OnInit {
 
   setSteelSizeTimeWheelSwap(_id: number, input: HTMLInputElement) {
     this.setSizeTime(_id, input, this.wheelSwapSteelSizeList);
+  }
+
+  setSteelSizeTimeWheelBalance(_id: number, input: HTMLInputElement) {
+    this.setSizeTime(_id, input, this.wheelBalanceSteelSizeList);
   }
 
   setSizeTime(_id: number, input: HTMLInputElement, list: Services[]) {
