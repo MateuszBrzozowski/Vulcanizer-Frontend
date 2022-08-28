@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, ThemePalette } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  ThemePalette,
+} from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -13,7 +18,10 @@ import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { BusinessService } from 'src/app/service/business.service';
 import { NotificationService } from 'src/app/service/notification.service';
-import { PublicHolidays, PublicHolidaysService } from 'src/app/service/public-holidays.service';
+import {
+  PublicHolidays,
+  PublicHolidaysService,
+} from 'src/app/service/public-holidays.service';
 import { UserService } from 'src/app/user.service';
 import { StandAddComponent } from './stand/stand-add/stand-add.component';
 import { StandRemoveComponent } from './stand/stand-remove/stand-remove.component';
@@ -21,20 +29,28 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CustomOpeningHours } from 'src/app/service/customOpeningHours';
 import { RemoveDialogComponent } from 'src/app/dialog/remove-dialog/remove-dialog.component';
 import { InfoDialogComponent } from 'src/app/dialog/info/info-dialog/info-dialog.component';
-import { DialogInfo, DialogInfoType } from 'src/app/dialog/info/info-dialog/dialogInfo';
+import {
+  DialogInfo,
+  DialogInfoType,
+} from 'src/app/dialog/info/info-dialog/dialogInfo';
 
 @Component({
   selector: 'app-branch-managment',
   templateUrl: './branch-managment.component.html',
   styleUrls: ['./branch-managment.component.css'],
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
 export class BranchManagmentComponent implements OnInit {
-  usersCompanyBranches: CompanyBranchResponse[] = new Array<CompanyBranchResponse>;
-  usersCompanyBranch: CompanyBranchResponse = new CompanyBranchResponse;
+  usersCompanyBranches: CompanyBranchResponse[] =
+    new Array<CompanyBranchResponse>();
+  usersCompanyBranch: CompanyBranchResponse = new CompanyBranchResponse();
   public branchId!: number;
   viewInfo: boolean = false;
   viewCallendar: boolean = false;
@@ -43,9 +59,9 @@ export class BranchManagmentComponent implements OnInit {
   viewServices: boolean = true;
   viewOpeningHours: boolean = false;
 
-  // 
+  //
   // List of Stand
-  // 
+  //
   displayColumnsStand = ['Numer', 'Akcja'];
   sourceStand: Stand[] = this.businessService.getSavedStands();
   @ViewChild(MatTable) table!: MatTable<Stand>;
@@ -101,17 +117,19 @@ export class BranchManagmentComponent implements OnInit {
   sunFromSavedData: string = '';
   sunToSavedData: string = '';
 
-  // 
+  //
   // Next Public Holidays
-  // 
+  //
   displayedColumnsPublicHolidays: string[] = ['date', 'name'];
-  currentNextPublicHolidays: PublicHolidays[] = new Array<PublicHolidays>;
-  currentNextPublicHolidaysSource = new MatTableDataSource(this.currentNextPublicHolidays);
+  currentNextPublicHolidays: PublicHolidays[] = new Array<PublicHolidays>();
+  currentNextPublicHolidaysSource = new MatTableDataSource(
+    this.currentNextPublicHolidays
+  );
   arePublicHolidays: boolean = false;
 
-  // 
+  //
   // Custom hours opening
-  // 
+  //
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
@@ -119,7 +137,7 @@ export class BranchManagmentComponent implements OnInit {
   customEnabled = false;
   customIsOpen: string = 'Zamknięte';
   displayedColumns: string[] = ['date', 'time', 'action'];
-  customOpeningHours: CustomOpeningHours[] = new Array<CustomOpeningHours>;
+  customOpeningHours: CustomOpeningHours[] = new Array<CustomOpeningHours>();
   customOpeningHoursource = new MatTableDataSource(this.customOpeningHours);
   customOpeningHoursTableView: boolean = false;
   customSlideVisable: boolean = false;
@@ -130,36 +148,31 @@ export class BranchManagmentComponent implements OnInit {
   dateHronologyMessage: boolean = false;
   timeNotLogicMessage: boolean = false;
 
-
-  constructor(private authenticationService: AuthenticationService,
+  constructor(
+    private authenticationService: AuthenticationService,
     private holidaysService: PublicHolidaysService,
     private userService: UserService,
     private router: Router,
     public dialog: MatDialog,
     private businessService: BusinessService,
-    private notification: NotificationService) { }
+    private notification: NotificationService
+  ) {}
 
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined;
 
   ngOnInit(): void {
     this.isAvailable();
-    this.fillHoursOpening();
-    this.filteredOptions = this.monFromControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-    this.pullHoursOpening();
-    this.pullPublicHolidaysNextTwoMonths();
-    this.pullCustomHoursOpening();
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   fillHoursOpening() {
-    const hoursList = new Array<string>;
+    const hoursList = new Array<string>();
     for (let i = 0; i < 24; i++) {
       let hour: string = i.toString();
       hour += ':';
@@ -180,7 +193,8 @@ export class BranchManagmentComponent implements OnInit {
   isAvailable() {
     if (this.authenticationService.isLoggedIn()) {
       if (this.userService.isCompanyActive()) {
-        this.usersCompanyBranches = this.userService.getOnlyActiveCompanyBranchesFromLocalStorage();
+        this.usersCompanyBranches =
+          this.userService.getOnlyActiveCompanyBranchesFromLocalStorage();
         if (this.usersCompanyBranches.length > 1) {
           this.usersCompanyBranch = this.userService.getSelectedCompanyBranch();
         } else if (this.usersCompanyBranches.length === 1) {
@@ -189,10 +203,21 @@ export class BranchManagmentComponent implements OnInit {
         } else {
           this.router.navigateByUrl('');
         }
+
         this.getAllStands();
+        this.fillHoursOpening();
+        this.filteredOptions = this.monFromControl.valueChanges.pipe(
+          startWith(''),
+          map((value) => this._filter(value || ''))
+        );
+        this.pullHoursOpening();
+        this.pullPublicHolidaysNextTwoMonths();
+        this.pullCustomHoursOpening();
       } else {
         this.router.navigateByUrl('');
       }
+    } else {
+      this.router.navigateByUrl('');
     }
   }
 
@@ -241,9 +266,12 @@ export class BranchManagmentComponent implements OnInit {
         this.refreshTable();
       },
       error: (error) => {
-        this.notification.notify(NotificationType.ERROR, "Coś poszło nie tak. Spróbuj ponownie później");
-      }
-    })
+        this.notification.notify(
+          NotificationType.ERROR,
+          'Coś poszło nie tak. Spróbuj ponownie później'
+        );
+      },
+    });
   }
 
   setViewServices() {
@@ -253,7 +281,7 @@ export class BranchManagmentComponent implements OnInit {
 
   standAdd() {
     const dialogRef = this.dialog.open(StandAddComponent, { data: 1 });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result > 0 && result <= 10) {
         this.businessService
           .standAdd(this.usersCompanyBranch.id, result)
@@ -266,8 +294,11 @@ export class BranchManagmentComponent implements OnInit {
               this.refreshTable();
             },
             error: (error) => {
-              if (error.error.message === "Max count of stands") {
-                this.notification.notify(NotificationType.ERROR, "Łączna maksymalna liczba stanowisk - 10");
+              if (error.error.message === 'Max count of stands') {
+                this.notification.notify(
+                  NotificationType.ERROR,
+                  'Łączna maksymalna liczba stanowisk - 10'
+                );
                 return;
               }
               this.notification.notify(
@@ -281,26 +312,30 @@ export class BranchManagmentComponent implements OnInit {
   }
 
   standRemove(btnRemove: HTMLButtonElement) {
-    const dialogRef = this.dialog.open(StandRemoveComponent, { data: btnRemove.value });
-    dialogRef.afterClosed().subscribe(result => {
+    const dialogRef = this.dialog.open(StandRemoveComponent, {
+      data: btnRemove.value,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
-        this.businessService.standRemove(this.usersCompanyBranch.id, btnRemove.value).subscribe({
-          next: (response) => {
-            if (response.body === null) {
-              return;
-            }
-            this.sourceStand = response.body;
-            this.refreshTable();
-          },
-          error: (error) => {
-            this.notification.notify(
-              NotificationType.ERROR,
-              'Coś poszło nie tak. Spróbuj ponownie później'
-            );
-          }
-        })
+        this.businessService
+          .standRemove(this.usersCompanyBranch.id, btnRemove.value)
+          .subscribe({
+            next: (response) => {
+              if (response.body === null) {
+                return;
+              }
+              this.sourceStand = response.body;
+              this.refreshTable();
+            },
+            error: (error) => {
+              this.notification.notify(
+                NotificationType.ERROR,
+                'Coś poszło nie tak. Spróbuj ponownie później'
+              );
+            },
+          });
       }
-    })
+    });
   }
 
   refreshTable() {
@@ -324,11 +359,11 @@ export class BranchManagmentComponent implements OnInit {
   monOpenClick() {
     if (this.monEnabled) {
       this.monEnabled = false;
-      this.monIsOpen = "Zamknięte";
+      this.monIsOpen = 'Zamknięte';
       this.changeFormControl(true, this.monFromControl, this.monToControl);
     } else {
       this.monEnabled = true;
-      this.monIsOpen = "Otwarte";
+      this.monIsOpen = 'Otwarte';
       this.changeFormControl(false, this.monFromControl, this.monToControl);
     }
   }
@@ -336,11 +371,11 @@ export class BranchManagmentComponent implements OnInit {
   tueOpenClick() {
     if (this.tueEnabled) {
       this.tueEnabled = false;
-      this.tueIsOpen = "Zamknięte";
+      this.tueIsOpen = 'Zamknięte';
       this.changeFormControl(true, this.tueFromControl, this.tueToControl);
     } else {
       this.tueEnabled = true;
-      this.tueIsOpen = "Otwarte";
+      this.tueIsOpen = 'Otwarte';
       this.changeFormControl(false, this.tueFromControl, this.tueToControl);
     }
   }
@@ -348,11 +383,11 @@ export class BranchManagmentComponent implements OnInit {
   wedOpenClick() {
     if (this.wedEnabled) {
       this.wedEnabled = false;
-      this.wedIsOpen = "Zamknięte";
+      this.wedIsOpen = 'Zamknięte';
       this.changeFormControl(true, this.wedFromControl, this.wedToControl);
     } else {
       this.wedEnabled = true;
-      this.wedIsOpen = "Otwarte";
+      this.wedIsOpen = 'Otwarte';
       this.changeFormControl(false, this.wedFromControl, this.wedToControl);
     }
   }
@@ -360,11 +395,11 @@ export class BranchManagmentComponent implements OnInit {
   thuOpenClick() {
     if (this.thuEnabled) {
       this.thuEnabled = false;
-      this.thuIsOpen = "Zamknięte";
+      this.thuIsOpen = 'Zamknięte';
       this.changeFormControl(true, this.thuFromControl, this.thuToControl);
     } else {
       this.thuEnabled = true;
-      this.thuIsOpen = "Otwarte";
+      this.thuIsOpen = 'Otwarte';
       this.changeFormControl(false, this.thuFromControl, this.thuToControl);
     }
   }
@@ -372,11 +407,11 @@ export class BranchManagmentComponent implements OnInit {
   friOpenClick() {
     if (this.friEnabled) {
       this.friEnabled = false;
-      this.friIsOpen = "Zamknięte";
+      this.friIsOpen = 'Zamknięte';
       this.changeFormControl(true, this.friFromControl, this.friToControl);
     } else {
       this.friEnabled = true;
-      this.friIsOpen = "Otwarte";
+      this.friIsOpen = 'Otwarte';
       this.changeFormControl(false, this.friFromControl, this.friToControl);
     }
   }
@@ -384,11 +419,11 @@ export class BranchManagmentComponent implements OnInit {
   satOpenClick() {
     if (this.satEnabled) {
       this.satEnabled = false;
-      this.satIsOpen = "Zamknięte";
+      this.satIsOpen = 'Zamknięte';
       this.changeFormControl(true, this.satFromControl, this.satToControl);
     } else {
       this.satEnabled = true;
-      this.satIsOpen = "Otwarte";
+      this.satIsOpen = 'Otwarte';
       this.changeFormControl(false, this.satFromControl, this.satToControl);
     }
   }
@@ -396,35 +431,38 @@ export class BranchManagmentComponent implements OnInit {
   sunOpenClick() {
     if (this.sunEnabled) {
       this.sunEnabled = false;
-      this.sunIsOpen = "Zamknięte";
+      this.sunIsOpen = 'Zamknięte';
       this.changeFormControl(true, this.sunFromControl, this.sunToControl);
     } else {
       this.sunEnabled = true;
-      this.sunIsOpen = "Otwarte";
+      this.sunIsOpen = 'Otwarte';
       this.changeFormControl(false, this.sunFromControl, this.sunToControl);
     }
   }
 
   saveHoursOpening() {
     if (!this.checkHoursOpeningDataIsChanges()) {
-      this.notification.notify(NotificationType.INFO, "Nie dokonano żadnej zmiany. Dane zapisane");
+      this.notification.notify(
+        NotificationType.INFO,
+        'Nie dokonano żadnej zmiany. Dane zapisane'
+      );
       return;
     }
-    const hoursOpening = new Array<OpeningHours>
+    const hoursOpening = new Array<OpeningHours>();
     const mon = new OpeningHours();
-    mon.day = "MONDAY";
+    mon.day = 'MONDAY';
     const tue = new OpeningHours();
-    tue.day = "TUESDAY";
+    tue.day = 'TUESDAY';
     const wed = new OpeningHours();
-    wed.day = "WEDNESDAY";
+    wed.day = 'WEDNESDAY';
     const thu = new OpeningHours();
-    thu.day = "THURSDAY";
+    thu.day = 'THURSDAY';
     const fri = new OpeningHours();
-    fri.day = "FRIDAY";
+    fri.day = 'FRIDAY';
     const sat = new OpeningHours();
-    sat.day = "SATURDAY";
+    sat.day = 'SATURDAY';
     const sun = new OpeningHours();
-    sun.day = "SUNDAY";
+    sun.day = 'SUNDAY';
     if (this.monEnabled) {
       mon.openTime = this.monFromControl.value!;
       mon.closeTime = this.monToControl.value!;
@@ -481,18 +519,23 @@ export class BranchManagmentComponent implements OnInit {
     hoursOpening.push(fri);
     hoursOpening.push(sat);
     hoursOpening.push(sun);
-    this.businessService.pushHoursOpening(this.usersCompanyBranch.id, hoursOpening).subscribe({
-      next: (response) => {
-        this.notification.notify(NotificationType.SUCCESS,
-          "Zmiany zapisane poprawnie");
-        this.setSavedOpeningHoursData();
-      },
-      error: (error) => {
-        this.notification.notify(NotificationType.ERROR,
-          "Coś poszło nie tak. Sprawdź dane i spróbuj ponownie później");
-      }
-    })
-
+    this.businessService
+      .pushHoursOpening(this.usersCompanyBranch.id, hoursOpening)
+      .subscribe({
+        next: (response) => {
+          this.notification.notify(
+            NotificationType.SUCCESS,
+            'Zmiany zapisane poprawnie'
+          );
+          this.setSavedOpeningHoursData();
+        },
+        error: (error) => {
+          this.notification.notify(
+            NotificationType.ERROR,
+            'Coś poszło nie tak. Sprawdź dane i spróbuj ponownie później'
+          );
+        },
+      });
   }
 
   customOpenClick() {
@@ -516,7 +559,10 @@ export class BranchManagmentComponent implements OnInit {
     }
   }
 
-  saveCustomHoursOpening(dateStartInput: HTMLInputElement, dateEndInput: HTMLInputElement) {
+  saveCustomHoursOpening(
+    dateStartInput: HTMLInputElement,
+    dateEndInput: HTMLInputElement
+  ) {
     this.dateHronologyMessage = false;
     this.timeNotLogicMessage = false;
     const customOpeningHour = new CustomOpeningHours();
@@ -536,14 +582,21 @@ export class BranchManagmentComponent implements OnInit {
       customOpeningHour.timeStart = null;
       customOpeningHour.timeEnd = null;
     } else {
-      if (this.customFromControl.value?.length == 0 || this.customToControl.value?.length == 0) {
+      if (
+        this.customFromControl.value?.length == 0 ||
+        this.customToControl.value?.length == 0
+      ) {
         this.timeIsRequiredMessage = true;
         return;
       } else {
         this.timeIsRequiredMessage = false;
       }
-      if (this.customFromControl.value?.length! >= 4 && this.customToControl.value?.length! <= 5
-        && this.customToControl.value?.length! >= 4 && this.customToControl.value?.length! <= 5) {
+      if (
+        this.customFromControl.value?.length! >= 4 &&
+        this.customToControl.value?.length! <= 5 &&
+        this.customToControl.value?.length! >= 4 &&
+        this.customToControl.value?.length! <= 5
+      ) {
         this.timeIsNotValidMessage = false;
         customOpeningHour.timeStart = this.customFromControl.value;
         customOpeningHour.timeEnd = this.customToControl.value;
@@ -553,37 +606,52 @@ export class BranchManagmentComponent implements OnInit {
       }
     }
 
-    this.businessService.pushNewCustomOpeningHours(this.usersCompanyBranch.id, customOpeningHour).subscribe({
-      next: (response) => {
-        if (response.body == null) {
-          return;
-        }
-        this.customOpeningHours = response.body;
-        this.refreshTableCustomOpeningHours();
-        const message = new DialogInfo(DialogInfoType.SUCCESS,
-          'Zapisano poprawnie nowe niestandardowe godziny pracy.');
-        const dialogRef = this.dialog.open(InfoDialogComponent, { data: message });
-        this.resetInputsCustomOpeningHours();
-      },
-      error: (error) => {
-        if (error.error.message == 'Max in next two months') {
-          const message = new DialogInfo(DialogInfoType.ERROR,
-            'Operacja niemożliwa. Data musi być z zakresu od dnia jutrzejszego do max 2 miesięcy!');
-          this.dialog.open(InfoDialogComponent, { data: message });
-        } else if (error.error.message == 'Date start is after date end') {
-          this.dateHronologyMessage = true;
-        } else if (error.error.message == 'Close time is before than open time. Not logic.') {
-          this.timeNotLogicMessage = true;
-        } else if (error.error.message == 'Date is exists') {
-          const message = new DialogInfo(DialogInfoType.ERROR,
-            'Godziny z taką datą już istnieją. Jeżeli chcesz je zmienić usuń istniejący wpis!');
-          this.dialog.open(InfoDialogComponent, { data: message });
-        } else {
-          this.notification.notify(NotificationType.ERROR,
-            "Coś poszło nie tak, spróbuj ponownie później");
-        }
-      }
-    })
+    this.businessService
+      .pushNewCustomOpeningHours(this.usersCompanyBranch.id, customOpeningHour)
+      .subscribe({
+        next: (response) => {
+          if (response.body == null) {
+            return;
+          }
+          this.customOpeningHours = response.body;
+          this.refreshTableCustomOpeningHours();
+          const message = new DialogInfo(
+            DialogInfoType.SUCCESS,
+            'Zapisano poprawnie nowe niestandardowe godziny pracy.'
+          );
+          const dialogRef = this.dialog.open(InfoDialogComponent, {
+            data: message,
+          });
+          this.resetInputsCustomOpeningHours();
+        },
+        error: (error) => {
+          if (error.error.message == 'Max in next two months') {
+            const message = new DialogInfo(
+              DialogInfoType.ERROR,
+              'Operacja niemożliwa. Data musi być z zakresu od dnia jutrzejszego do max 2 miesięcy!'
+            );
+            this.dialog.open(InfoDialogComponent, { data: message });
+          } else if (error.error.message == 'Date start is after date end') {
+            this.dateHronologyMessage = true;
+          } else if (
+            error.error.message ==
+            'Close time is before than open time. Not logic.'
+          ) {
+            this.timeNotLogicMessage = true;
+          } else if (error.error.message == 'Date is exists') {
+            const message = new DialogInfo(
+              DialogInfoType.ERROR,
+              'Godziny z taką datą już istnieją. Jeżeli chcesz je zmienić usuń istniejący wpis!'
+            );
+            this.dialog.open(InfoDialogComponent, { data: message });
+          } else {
+            this.notification.notify(
+              NotificationType.ERROR,
+              'Coś poszło nie tak, spróbuj ponownie później'
+            );
+          }
+        },
+      });
   }
 
   resetInputsCustomOpeningHours() {
@@ -600,34 +668,51 @@ export class BranchManagmentComponent implements OnInit {
   }
 
   pullHoursOpening() {
-    this.businessService.pullHoursOpening(this.usersCompanyBranch.id).subscribe({
-      next: (response) => {
-        const hoursOpening = response.body;
-        if (hoursOpening === null) {
-          return;
-        }
-        const dayOfWeeks: string[] = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
-        for (let i = 0; i < dayOfWeeks.length; i++) {
-          const dayName = dayOfWeeks[i];
-          for (let j = 0; j < hoursOpening.length; j++) {
-            const element = hoursOpening[j];
-            if (dayName === element.day) {
-              if (element.openTime != null && element.closeTime != null) {
-                this.setTimes(dayName, element.openTime, element.closeTime);
+    this.businessService
+      .pullHoursOpening(this.usersCompanyBranch.id)
+      .subscribe({
+        next: (response) => {
+          const hoursOpening = response.body;
+          if (hoursOpening === null) {
+            return;
+          }
+          const dayOfWeeks: string[] = [
+            'MONDAY',
+            'TUESDAY',
+            'WEDNESDAY',
+            'THURSDAY',
+            'FRIDAY',
+            'SATURDAY',
+            'SUNDAY',
+          ];
+          for (let i = 0; i < dayOfWeeks.length; i++) {
+            const dayName = dayOfWeeks[i];
+            for (let j = 0; j < hoursOpening.length; j++) {
+              const element = hoursOpening[j];
+              if (dayName === element.day) {
+                if (element.openTime != null && element.closeTime != null) {
+                  this.setTimes(dayName, element.openTime, element.closeTime);
+                }
               }
             }
           }
-        }
-        this.setSavedOpeningHoursData();
-      },
-      error: (error) => {
-        this.notification.notify(NotificationType.ERROR,
-          "Coś poszło nie tak, spróbuj ponownie później");
-      }
-    })
+          this.setSavedOpeningHoursData();
+        },
+        error: (error) => {
+          this.notification.notify(
+            NotificationType.ERROR,
+            'Coś poszło nie tak, spróbuj ponownie później'
+          );
+        },
+      });
   }
 
-  setValueAndEnabledFormControls(from: FormControl, open: string, to: FormControl, close: string) {
+  setValueAndEnabledFormControls(
+    from: FormControl,
+    open: string,
+    to: FormControl,
+    close: string
+  ) {
     from.enable();
     from.setValue(open);
     to.enable();
@@ -700,34 +785,69 @@ export class BranchManagmentComponent implements OnInit {
   setTimes(dayName: string, open: string, close: string) {
     open = open.substring(0, 5);
     close = close.substring(0, 5);
-    if (dayName == "MONDAY") {
+    if (dayName == 'MONDAY') {
       this.monEnabled = true;
-      this.monIsOpen = "Otwarte";
-      this.setValueAndEnabledFormControls(this.monFromControl, open, this.monToControl, close);
-    } else if (dayName == "TUESDAY") {
+      this.monIsOpen = 'Otwarte';
+      this.setValueAndEnabledFormControls(
+        this.monFromControl,
+        open,
+        this.monToControl,
+        close
+      );
+    } else if (dayName == 'TUESDAY') {
       this.tueEnabled = true;
-      this.tueIsOpen = "Otwarte";
-      this.setValueAndEnabledFormControls(this.tueFromControl, open, this.tueToControl, close);
-    } else if (dayName == "WEDNESDAY") {
+      this.tueIsOpen = 'Otwarte';
+      this.setValueAndEnabledFormControls(
+        this.tueFromControl,
+        open,
+        this.tueToControl,
+        close
+      );
+    } else if (dayName == 'WEDNESDAY') {
       this.wedEnabled = true;
-      this.wedIsOpen = "Otwarte";
-      this.setValueAndEnabledFormControls(this.wedFromControl, open, this.wedToControl, close);
-    } else if (dayName == "THURSDAY") {
+      this.wedIsOpen = 'Otwarte';
+      this.setValueAndEnabledFormControls(
+        this.wedFromControl,
+        open,
+        this.wedToControl,
+        close
+      );
+    } else if (dayName == 'THURSDAY') {
       this.thuEnabled = true;
-      this.thuIsOpen = "Otwarte";
-      this.setValueAndEnabledFormControls(this.thuFromControl, open, this.thuToControl, close);
-    } else if (dayName == "FRIDAY") {
+      this.thuIsOpen = 'Otwarte';
+      this.setValueAndEnabledFormControls(
+        this.thuFromControl,
+        open,
+        this.thuToControl,
+        close
+      );
+    } else if (dayName == 'FRIDAY') {
       this.friEnabled = true;
-      this.friIsOpen = "Otwarte";
-      this.setValueAndEnabledFormControls(this.friFromControl, open, this.friToControl, close);
-    } else if (dayName == "SATURDAY") {
+      this.friIsOpen = 'Otwarte';
+      this.setValueAndEnabledFormControls(
+        this.friFromControl,
+        open,
+        this.friToControl,
+        close
+      );
+    } else if (dayName == 'SATURDAY') {
       this.satEnabled = true;
-      this.satIsOpen = "Otwarte";
-      this.setValueAndEnabledFormControls(this.satFromControl, open, this.satToControl, close);
-    } else if (dayName == "SUNDAY") {
+      this.satIsOpen = 'Otwarte';
+      this.setValueAndEnabledFormControls(
+        this.satFromControl,
+        open,
+        this.satToControl,
+        close
+      );
+    } else if (dayName == 'SUNDAY') {
       this.sunEnabled = true;
-      this.sunIsOpen = "Otwarte";
-      this.setValueAndEnabledFormControls(this.sunFromControl, open, this.sunToControl, close);
+      this.sunIsOpen = 'Otwarte';
+      this.setValueAndEnabledFormControls(
+        this.sunFromControl,
+        open,
+        this.sunToControl,
+        close
+      );
     }
   }
 
@@ -743,32 +863,37 @@ export class BranchManagmentComponent implements OnInit {
           this.arePublicHolidays = true;
           this.refreshTableNextTwoMonthsPublicHolidays();
         }
-      }
-    })
+      },
+    });
   }
 
   refreshTableNextTwoMonthsPublicHolidays() {
-    this.currentNextPublicHolidaysSource = new MatTableDataSource(this.currentNextPublicHolidays);
+    this.currentNextPublicHolidaysSource = new MatTableDataSource(
+      this.currentNextPublicHolidays
+    );
   }
 
   pullCustomHoursOpening() {
-    this.businessService.pullCustomHoursOpening(this.usersCompanyBranch.id).subscribe({
-      next: (response) => {
-        if (response.body == null) {
-          return;
-        }
-        this.customOpeningHours = response.body;
-        this.refreshTableCustomOpeningHours();
-      },
-      error: (error) => {
-        this.notification.notify(NotificationType.ERROR,
-          error.error.message)
-      }
-    })
+    this.businessService
+      .pullCustomHoursOpening(this.usersCompanyBranch.id)
+      .subscribe({
+        next: (response) => {
+          if (response.body == null) {
+            return;
+          }
+          this.customOpeningHours = response.body;
+          this.refreshTableCustomOpeningHours();
+        },
+        error: (error) => {
+          this.notification.notify(NotificationType.ERROR, error.error.message);
+        },
+      });
   }
 
   refreshTableCustomOpeningHours() {
-    this.customOpeningHoursource = new MatTableDataSource(this.customOpeningHours);
+    this.customOpeningHoursource = new MatTableDataSource(
+      this.customOpeningHours
+    );
     if (this.customOpeningHours.length > 0) {
       this.customOpeningHoursTableView = true;
     } else {
@@ -778,25 +903,26 @@ export class BranchManagmentComponent implements OnInit {
 
   removeCustomOpeningHours(button: HTMLButtonElement) {
     const dialogRef = this.dialog.open(RemoveDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result == true) {
-        this.businessService.removeCustomOpeningHours(
-          this.usersCompanyBranch.id,
-          button.value
-        ).subscribe({
-          next: (response) => {
-            if (response.body == null) {
-              return;
-            }
-            this.customOpeningHours = response.body;
-            this.refreshTableCustomOpeningHours();
-          },
-          error: (error) => {
-            this.notification.notify(NotificationType.ERROR,
-              error.error.message)
-          }
-        });
+        this.businessService
+          .removeCustomOpeningHours(this.usersCompanyBranch.id, button.value)
+          .subscribe({
+            next: (response) => {
+              if (response.body == null) {
+                return;
+              }
+              this.customOpeningHours = response.body;
+              this.refreshTableCustomOpeningHours();
+            },
+            error: (error) => {
+              this.notification.notify(
+                NotificationType.ERROR,
+                error.error.message
+              );
+            },
+          });
       }
-    })
+    });
   }
 }

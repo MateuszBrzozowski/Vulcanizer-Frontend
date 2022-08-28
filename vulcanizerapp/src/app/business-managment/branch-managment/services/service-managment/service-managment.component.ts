@@ -28,13 +28,15 @@ export class ServiceManagmentComponent implements OnInit {
   messageTiresSwapSteelPriceNotValid: boolean = false;
   messageTiresSwapSteelTimeReq: boolean = false;
 
+  services: Services[] = new Array<Services>();
+
   tiresSwap: Services = new Services();
   tiresSwapAlu: Services = new Services();
   tiresSwapSteel: Services = new Services();
   tiresSwapAluSizeList: Services[] = new Array<Services>();
   tiresSwapSteelSizeList: Services[] = new Array<Services>();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.tiresSwapInit();
@@ -96,13 +98,17 @@ export class ServiceManagmentComponent implements OnInit {
     list.splice(index, 1);
   }
 
-  setPriceTiresSwap(input: HTMLInputElement) {
-    this.tiresSwap.price = +input.value;
+  setPrice(input: HTMLInputElement, service: Services) {
+    service.price = +input.value;
     if (input.value.length > 0) {
-      this.tiresSwap.price = +input.value;
+      service.price = +input.value;
     } else {
-      this.tiresSwap.price = null;
+      service.price = null;
     }
+  }
+
+  setPriceTiresSwap(input: HTMLInputElement) {
+    this.setPrice(input, this.tiresSwap);
     if (this.tiresSwap.price == null) {
       this.messageTiresSwapPriceIsReq = true;
     } else {
@@ -117,12 +123,7 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   setPriceTiresSwapAlu(input: HTMLInputElement) {
-    this.tiresSwapAlu.price = +input.value;
-    if (input.value.length > 0) {
-      this.tiresSwapAlu.price = +input.value;
-    } else {
-      this.tiresSwapAlu.price = null;
-    }
+    this.setPrice(input, this.tiresSwapAlu);
     if (this.tiresSwapAlu.price == null) {
       this.messageTiresSwapAluPriceIsReq = true;
     } else {
@@ -137,12 +138,7 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   setPriceTiresSwapSteel(input: HTMLInputElement) {
-    this.tiresSwapSteel.price = +input.value;
-    if (input.value.length > 0) {
-      this.tiresSwapSteel.price = +input.value;
-    } else {
-      this.tiresSwapSteel.price = null;
-    }
+    this.setPrice(input, this.tiresSwapSteel);
     if (this.tiresSwapSteel.price == null) {
       this.messageTiresSwapSteelPriceIsReq = true;
     } else {
@@ -156,39 +152,42 @@ export class ServiceManagmentComponent implements OnInit {
     }
   }
 
-  setTimeTiresSwap(input: HTMLInputElement) {
+  setTime(input: HTMLInputElement, service: Services): boolean {
     if (input.value.length == 5) {
-      this.tiresSwap.time =
-        input.value.slice(0, 2) + ':' + input.value.slice(3, 5);
-      this.messageTiresSwapTimeReq = false;
+      service.time = input.value.slice(0, 2) + ':' + input.value.slice(3, 5);
+      if (service.time === '00:00') {
+        service.time = null;
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      this.tiresSwap.time = null;
+      service.time = null;
+      return true;
+    }
+  }
+
+  setTimeTiresSwap(input: HTMLInputElement) {
+    if (this.setTime(input, this.tiresSwap)) {
       this.messageTiresSwapTimeReq = true;
+    } else {
+      this.messageTiresSwapTimeReq = false;
     }
   }
 
   setTimeTiresSwapAlu(input: HTMLInputElement) {
-    console.log(this.tiresSwapAlu);
-    if (input.value.length == 5) {
-      this.tiresSwapAlu.time =
-        input.value.slice(0, 2) + ':' + input.value.slice(3, 5);
-      this.messageTiresSwapAluTimeReq = false;
-    } else {
-      this.tiresSwapAlu.time = null;
+    if (this.setTime(input, this.tiresSwapAlu)) {
       this.messageTiresSwapAluTimeReq = true;
+    } else {
+      this.messageTiresSwapAluTimeReq = false;
     }
   }
 
   setTimeTiresSwapSteel(input: HTMLInputElement) {
-    console.log(this.tiresSwapSteel);
-
-    if (input.value.length == 5) {
-      this.tiresSwapSteel.time =
-        input.value.slice(0, 2) + ':' + input.value.slice(3, 5);
-      this.messageTiresSwapSteelTimeReq = false;
-    } else {
-      this.tiresSwapSteel.time = null;
+    if (this.setTime(input, this.tiresSwapSteel)) {
       this.messageTiresSwapSteelTimeReq = true;
+    } else {
+      this.messageTiresSwapSteelTimeReq = false;
     }
   }
 
