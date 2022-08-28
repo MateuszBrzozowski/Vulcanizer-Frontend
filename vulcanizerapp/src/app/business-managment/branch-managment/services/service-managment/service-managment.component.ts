@@ -330,7 +330,7 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   setPriceSteelSizeWheelSwap(_id: number, input: HTMLInputElement) {
-    this.setPriceSize(_id, input, this.wheelSwapAluSizeList);
+    this.setPriceSize(_id, input, this.wheelSwapSteelSizeList);
   }
 
   setPriceSize(_id: number, input: HTMLInputElement, list: Services[]) {
@@ -476,7 +476,7 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   setSteelSizeTimeWheelSwap(_id: number, input: HTMLInputElement) {
-    this.setSizeTime(_id, input, this.wheelSwapAluSizeList);
+    this.setSizeTime(_id, input, this.wheelSwapSteelSizeList);
   }
 
   setSizeTime(_id: number, input: HTMLInputElement, list: Services[]) {
