@@ -21,12 +21,12 @@
               >
                 <mat-label>Cena</mat-label>
                 <input
-                  #inputSwapPrice
+                  #inputPriceTiresSwap
                   matInput
                   maxlength="6"
                   placeholder="Cena w PLN"
                   value=""
-                  (keyup)="setPriceTiresSwap(inputSwapPrice)"
+                  (keyup)="setPriceTiresSwap(inputPriceTiresSwap)"
                 />
               </mat-form-field>
               <mat-form-field
@@ -35,14 +35,14 @@
               >
                 <mat-label>Czas wykonania usługi</mat-label>
                 <input
-                  #inputSwapTime
+                  #inputTimeTiresSwap
                   matInput
                   type="time"
                   maxlength="5"
                   placeholder="Czas HH:MM"
                   value=""
-                  (keyup)="setTimeTiresSwap(inputSwapTime)"
-                  (change)="setTimeTiresSwap(inputSwapTime)"
+                  (keyup)="setTimeTiresSwap(inputTimeTiresSwap)"
+                  (change)="setTimeTiresSwap(inputTimeTiresSwap)"
                 />
               </mat-form-field>
             </div>
@@ -75,12 +75,12 @@
                   >
                     <mat-label>Cena</mat-label>
                     <input
-                      #inputTiresSwapAluPrice
+                      #inputPriceTiresSwapAlu
                       matInput
                       maxlength="6"
                       placeholder="Cena w PLN"
                       value=""
-                      (keyup)="setPriceTiresSwapAlu(inputTiresSwapAluPrice)"
+                      (keyup)="setPriceTiresSwapAlu(inputPriceTiresSwapAlu)"
                     />
                   </mat-form-field>
                   <mat-form-field
@@ -89,13 +89,14 @@
                   >
                     <mat-label>Czas wykonania usługi</mat-label>
                     <input
-                      #inputTiresSwapAluTime
+                      #inputTimeTiresSwapAlu
                       matInput
                       type="time"
                       maxlength="5"
                       placeholder="Czas HH:MM"
                       value=""
-                      (keyup)="setTimeTiresSwapAlu(inputTiresSwapAluTime)"
+                      (keyup)="setTimeTiresSwapAlu(inputTimeTiresSwapAlu)"
+                      (change)="setTimeTiresSwapAlu(inputTimeTiresSwapAlu)"
                     />
                   </mat-form-field>
                 </div>
@@ -142,14 +143,18 @@
                         >
                           <mat-label>Od</mat-label>
                           <input
-                            #inputAluFrom
+                            #inputTiresSwapAluSizeFrom
                             matInput
                             type="text"
                             maxlength="2"
                             placeholder="″"
                             value=""
                             (keyup)="
-                              setAluSize(element._id!, inputAluTo, inputAluFrom)
+                              setAluSize(
+                                element._id!,
+                                inputTiresSwapAluSizeTo,
+                                inputTiresSwapAluSizeFrom
+                              )
                             "
                           />
                         </mat-form-field>
@@ -159,14 +164,18 @@
                         >
                           <mat-label>Do</mat-label>
                           <input
-                            #inputAluTo
+                            #inputTiresSwapAluSizeTo
                             matInput
                             type="text"
                             maxlength="2"
                             placeholder="″"
                             value=""
                             (keyup)="
-                              setAluSize(element._id!, inputAluTo, inputAluFrom)
+                              setAluSize(
+                                element._id!,
+                                inputTiresSwapAluSizeTo,
+                                inputTiresSwapAluSizeFrom
+                              )
                             "
                           />
                         </mat-form-field>
@@ -176,12 +185,17 @@
                         >
                           <mat-label>Cena</mat-label>
                           <input
-                            #priceInput
+                            #inputPriceTiresSwapAluSize
                             matInput
                             maxlength="6"
                             placeholder="Cena w PLN"
                             value="{{ element.price }}"
-                            (keyup)="setPriceAluSize(element._id!, priceInput)"
+                            (keyup)="
+                              setPriceAluSize(
+                                element._id!,
+                                inputPriceTiresSwapAluSize
+                              )
+                            "
                           />
                         </mat-form-field>
                         <mat-form-field
@@ -190,15 +204,23 @@
                         >
                           <mat-label>Czas wykonania usługi</mat-label>
                           <input
-                            #inputALuTime
+                            #inputTimeTiresSwapAluSize
                             matInput
                             type="time"
                             maxlength="5"
                             placeholder="Czas HH:MM"
                             value="{{ element.time }}"
-                            (keyup)="setAluSizeTime(element._id!, inputALuTime)"
+                            (keyup)="
+                              setAluSizeTime(
+                                element._id!,
+                                inputTimeTiresSwapAluSize
+                              )
+                            "
                             (change)="
-                              setAluSizeTime(element._id!, inputALuTime)
+                              setAluSizeTime(
+                                element._id!,
+                                inputTimeTiresSwapAluSize
+                              )
                             "
                           />
                         </mat-form-field>
@@ -251,12 +273,12 @@
                   >
                     <mat-label>Cena</mat-label>
                     <input
-                      #inputTiresSwapSteelPrice
+                      #inputPriceTiresSwapSteel
                       matInput
                       maxlength="6"
                       placeholder="Cena w PLN"
                       value=""
-                      (keyup)="setPriceTiresSwapSteel(inputTiresSwapSteelPrice)"
+                      (keyup)="setPriceTiresSwapSteel(inputPriceTiresSwapSteel)"
                     />
                   </mat-form-field>
                   <mat-form-field
@@ -265,14 +287,14 @@
                   >
                     <mat-label>Czas wykonania usługi</mat-label>
                     <input
-                      #inputTiresSwapSteelTime
+                      #inputTimeTiresSwapSteel
                       matInput
                       type="time"
                       maxlength="5"
                       placeholder="Czas HH:MM"
                       value=""
-                      (keyup)="setTimeTiresSwapSteel(inputTiresSwapSteelTime)"
-                      (change)="setTimeTiresSwapSteel(inputTiresSwapSteelTime)"
+                      (keyup)="setTimeTiresSwapSteel(inputTimeTiresSwapSteel)"
+                      (change)="setTimeTiresSwapSteel(inputTimeTiresSwapSteel)"
                     />
                   </mat-form-field>
                 </div>
@@ -306,7 +328,6 @@
                     </button>
                   </div>
 
-                  
                   <div
                     *ngFor="let element of tiresSwapSteelSizeList"
                     class="one-column"
@@ -320,14 +341,18 @@
                         >
                           <mat-label>Od</mat-label>
                           <input
-                            #inputSteelFrom
+                            #inputTiresSwapSteelFrom
                             matInput
                             type="text"
                             maxlength="2"
                             placeholder="″"
                             value=""
                             (keyup)="
-                              setSteelSize(element._id!, inputSteelTo, inputSteelFrom)
+                              setSteelSize(
+                                element._id!,
+                                inputTiresSwapSteelTo,
+                                inputTiresSwapSteelFrom
+                              )
                             "
                           />
                         </mat-form-field>
@@ -337,14 +362,18 @@
                         >
                           <mat-label>Do</mat-label>
                           <input
-                            #inputSteelTo
+                            #inputTiresSwapSteelTo
                             matInput
                             type="text"
                             maxlength="2"
                             placeholder="″"
                             value=""
                             (keyup)="
-                              setSteelSize(element._id!, inputSteelTo, inputSteelFrom)
+                              setSteelSize(
+                                element._id!,
+                                inputTiresSwapSteelTo,
+                                inputTiresSwapSteelFrom
+                              )
                             "
                           />
                         </mat-form-field>
@@ -354,12 +383,14 @@
                         >
                           <mat-label>Cena</mat-label>
                           <input
-                            #priceInput
+                            #inputPriceTiresSwapSteelSize
                             matInput
                             maxlength="6"
                             placeholder="Cena w PLN"
                             value="{{ element.price }}"
-                            (keyup)="setPriceSteelSize(element._id!, priceInput)"
+                            (keyup)="
+                              setPriceSteelSize(element._id!, inputPriceTiresSwapSteelSize)
+                            "
                           />
                         </mat-form-field>
                         <mat-form-field
@@ -368,15 +399,17 @@
                         >
                           <mat-label>Czas wykonania usługi</mat-label>
                           <input
-                            #inputALuTime
+                            #inputTimeTiresSwapSteelSize
                             matInput
                             type="time"
                             maxlength="5"
                             placeholder="Czas HH:MM"
                             value="{{ element.time }}"
-                            (keyup)="setSteelSizeTime(element._id!, inputALuTime)"
+                            (keyup)="
+                              setSteelSizeTime(element._id!, inputTimeTiresSwapSteelSize)
+                            "
                             (change)="
-                              setSteelSizeTime(element._id!, inputALuTime)
+                              setSteelSizeTime(element._id!, inputTimeTiresSwapSteelSize)
                             "
                           />
                         </mat-form-field>
@@ -410,8 +443,6 @@
                     </form>
                     <mat-divider></mat-divider>
                   </div>
-
-
                 </div>
               </div>
             </div>
@@ -425,6 +456,451 @@
           color="primary"
           >Przełożenie kół</mat-checkbox
         >
+        <div class="one-column" [hidden]="!wheelSwapChecked">
+          <form>
+            <div class="width-100 form-row">
+              <mat-form-field
+                class="width-50-rim padding-right-1em"
+                appearance="fill"
+              >
+                <mat-label>Cena</mat-label>
+                <input
+                  #inputWheelSwapPrice
+                  matInput
+                  maxlength="6"
+                  placeholder="Cena w PLN"
+                  value=""
+                  (keyup)="setPriceWheelSwap(inputWheelSwapPrice)"
+                />
+              </mat-form-field>
+              <mat-form-field
+                class="width-50-rim padding-right-1em"
+                appearance="fill"
+              >
+                <mat-label>Czas wykonania usługi</mat-label>
+                <input
+                  #inputWheelSwapTime
+                  matInput
+                  type="time"
+                  maxlength="5"
+                  placeholder="Czas HH:MM"
+                  value=""
+                  (keyup)="setTimeWheelSwap(inputWheelSwapTime)"
+                  (change)="setTimeWheelSwap(inputWheelSwapTime)"
+                />
+              </mat-form-field>
+            </div>
+          </form>
+          <small *ngIf="messageWheelSwapPriceNotValid"
+            >Nieprawidłowy format ceny</small
+          >
+          <small *ngIf="messageWheelSwapPriceIsReq">Wymagana cena!</small>
+          <small *ngIf="messageWheelSwapTimeReq"
+            >Wymagany czas wykonania usługi</small
+          >
+          <small class="text-gray margin-bootom"
+            >Jeżeli cena lub czas jest zależny od rodzaju lub wielkości felgi
+            dodaj poniższe warianty.</small
+          >
+          <div class="one-column margin-left-16px">
+            <mat-divider></mat-divider>
+            <mat-checkbox
+              class="margin-bootom-8px"
+              [(ngModel)]="wheelSwapAluChecked"
+              color="primary"
+              >Felgi aluminiowe</mat-checkbox
+            >
+            <div class="one-column" [hidden]="!wheelSwapAluChecked">
+              <form>
+                <div class="width-100 form-row">
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Cena</mat-label>
+                    <input
+                      #inputWheelSwapAluPrice
+                      matInput
+                      maxlength="6"
+                      placeholder="Cena w PLN"
+                      value=""
+                      (keyup)="setPriceWheelSwapAlu(inputWheelSwapAluPrice)"
+                    />
+                  </mat-form-field>
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Czas wykonania usługi</mat-label>
+                    <input
+                      #inputWheelSwapAluTime
+                      matInput
+                      type="time"
+                      maxlength="5"
+                      placeholder="Czas HH:MM"
+                      value=""
+                      (keyup)="setTimeWheelSwapAlu(inputWheelSwapAluTime)"
+                      (change)="setTimeWheelSwapAlu(inputWheelSwapAluTime)"
+                    />
+                  </mat-form-field>
+                </div>
+              </form>
+              <small *ngIf="messageWheelSwapAluPriceNotValid"
+                >Nieprawidłowy format ceny</small
+              >
+              <small *ngIf="messageWheelSwapAluPriceIsReq"
+                >Wymagana cena!</small
+              >
+              <small *ngIf="messageWheelSwapAluTimeReq"
+                >Wymagany czas wykonania usługi</small
+              >
+              <div class="one-column margin-bootom">
+                <mat-checkbox
+                  class="font-smaller"
+                  [(ngModel)]="wheelSwapAluSizeChecked"
+                  color="primary"
+                  >Zależne od rozmiaru</mat-checkbox
+                >
+                <div
+                  class="one-column margin-top margin-left-16px"
+                  [hidden]="!wheelSwapAluSizeChecked"
+                >
+                  <div>
+                    <button
+                      class="btn btn-primary btn-business-managment"
+                      (click)="addWheelSwapAluSize()"
+                    >
+                      Dodaj
+                    </button>
+                  </div>
+
+                  <div
+                    *ngFor="let element of wheelSwapAluSizeList"
+                    class="one-column"
+                  >
+                    <form class="margin-top">
+                      <h6>Rozmiar (″)</h6>
+                      <div class="width-100 form-row">
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Od</mat-label>
+                          <input
+                            #inputWheelSwapAluFrom
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setAluSizeWheelSwap(
+                                element._id!,
+                                inputWheelSwapAluTo,
+                                inputWheelSwapAluFrom
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Do</mat-label>
+                          <input
+                            #inputWheelSwapAluTo
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setAluSizeWheelSwap(
+                                element._id!,
+                                inputWheelSwapAluTo,
+                                inputWheelSwapAluFrom
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Cena</mat-label>
+                          <input
+                            #inputPriceWheelSwap
+                            matInput
+                            maxlength="6"
+                            placeholder="Cena w PLN"
+                            value="{{ element.price }}"
+                            (keyup)="
+                              setPriceAluSizeWheelSwap(
+                                element._id!,
+                                inputPriceWheelSwap
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Czas wykonania usługi</mat-label>
+                          <input
+                            #inputTimeAluWheelSwap
+                            matInput
+                            type="time"
+                            maxlength="5"
+                            placeholder="Czas HH:MM"
+                            value="{{ element.time }}"
+                            (keyup)="
+                              setAluSizeTimeWheelSwap(
+                                element._id!,
+                                inputTimeAluWheelSwap
+                              )
+                            "
+                            (change)="
+                              setAluSizeTimeWheelSwap(
+                                element._id!,
+                                inputTimeAluWheelSwap
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <div class="width-10-rim">
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-business-managment"
+                            (click)="removeWheelSwapAluSize(element)"
+                          >
+                            X
+                          </button>
+                        </div>
+                      </div>
+                      <div class="one-column">
+                        <small *ngIf="element.messageSizeNotValid"
+                          >Nieprawidłowy format lub pusty rozmiar felgi</small
+                        >
+                        <small *ngIf="element.messageSizeIsExist"
+                          >Taki rozmiar już istnieje</small
+                        >
+                        <small *ngIf="element.messagePriceNotValid"
+                          >Nieprawidłowy format ceny (XX.XX)</small
+                        >
+                        <small *ngIf="element.messagePriceIsReq"
+                          >Wymagana cena!</small
+                        >
+                        <small *ngIf="element.messageSizeTimeReq"
+                          >Wymagany czas wykonania usługi</small
+                        >
+                      </div>
+                    </form>
+                    <mat-divider></mat-divider>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-checkbox
+              class="margin-bootom-8px"
+              [(ngModel)]="wheelSwapSteelChecked"
+              color="primary"
+              >Felgi stalowe</mat-checkbox
+            >
+            <div class="one-column" [hidden]="!wheelSwapSteelChecked">
+              <form>
+                <div class="width-100 form-row">
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Cena</mat-label>
+                    <input
+                      #inputWheelSwapSteelPrice
+                      matInput
+                      maxlength="6"
+                      placeholder="Cena w PLN"
+                      value=""
+                      (keyup)="setPriceWheelSwapSteel(inputWheelSwapSteelPrice)"
+                    />
+                  </mat-form-field>
+                  <mat-form-field
+                    class="width-50-rim padding-right-1em"
+                    appearance="fill"
+                  >
+                    <mat-label>Czas wykonania usługi</mat-label>
+                    <input
+                      #inputWheelSwapSteelTime
+                      matInput
+                      type="time"
+                      maxlength="5"
+                      placeholder="Czas HH:MM"
+                      value=""
+                      (keyup)="setTimeWheelSwapSteel(inputWheelSwapSteelTime)"
+                      (change)="setTimeWheelSwapSteel(inputWheelSwapSteelTime)"
+                    />
+                  </mat-form-field>
+                </div>
+              </form>
+              <small *ngIf="messageWheelSwapSteelPriceNotValid"
+                >Nieprawidłowy format ceny</small
+              >
+              <small *ngIf="messageWheelSwapSteelPriceIsReq"
+                >Wymagana cena!</small
+              >
+              <small *ngIf="messageWheelSwapSteelTimeReq"
+                >Wymagany czas wykonania usługi</small
+              >
+              <div class="one-column margin-bootom">
+                <mat-checkbox
+                  class="font-smaller"
+                  [(ngModel)]="wheelSwapSteelSizeChecked"
+                  color="primary"
+                  >Zależne od rozmiaru</mat-checkbox
+                >
+                <div
+                  class="one-column margin-top margin-left-16px"
+                  [hidden]="!wheelSwapSteelSizeChecked"
+                >
+                  <div>
+                    <button
+                      class="btn btn-primary btn-business-managment"
+                      (click)="addWheelSwapSteelSize()"
+                    >
+                      Dodaj
+                    </button>
+                  </div>
+
+                  <div
+                    *ngFor="let element of wheelSwapSteelSizeList"
+                    class="one-column"
+                  >
+                    <form class="margin-top">
+                      <h6>Rozmiar (″)</h6>
+                      <div class="width-100 form-row">
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Od</mat-label>
+                          <input
+                            #inputWheelSwapSteelFrom
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setSteelSizeWheelSwap(
+                                element._id!,
+                                inputWheelSwapSteelTo,
+                                inputWheelSwapSteelFrom
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-15-rim two-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Do</mat-label>
+                          <input
+                            #inputWheelSwapSteelTo
+                            matInput
+                            type="text"
+                            maxlength="2"
+                            placeholder="″"
+                            value=""
+                            (keyup)="
+                              setSteelSizeWheelSwap(
+                                element._id!,
+                                inputWheelSwapSteelTo,
+                                inputWheelSwapSteelFrom
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Cena</mat-label>
+                          <input
+                            #inputPriceWheelSwapSteel
+                            matInput
+                            maxlength="6"
+                            placeholder="Cena w PLN"
+                            value="{{ element.price }}"
+                            (keyup)="
+                              setPriceSteelSizeWheelSwap(
+                                element._id!,
+                                inputPriceWheelSwapSteel
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <mat-form-field
+                          class="width-30-rim four-digit padding-right-1em"
+                          appearance="fill"
+                        >
+                          <mat-label>Czas wykonania usługi</mat-label>
+                          <input
+                            #inputWheelSwapTimeSteel
+                            matInput
+                            type="time"
+                            maxlength="5"
+                            placeholder="Czas HH:MM"
+                            value="{{ element.time }}"
+                            (keyup)="
+                              setSteelSizeTimeWheelSwap(
+                                element._id!,
+                                inputWheelSwapTimeSteel
+                              )
+                            "
+                            (change)="
+                              setSteelSizeTimeWheelSwap(
+                                element._id!,
+                                inputWheelSwapTimeSteel
+                              )
+                            "
+                          />
+                        </mat-form-field>
+                        <div class="width-10-rim">
+                          <button
+                            type="button"
+                            class="btn btn-danger btn-business-managment"
+                            (click)="removeWheelSwapSteelSize(element)"
+                          >
+                            X
+                          </button>
+                        </div>
+                      </div>
+                      <div class="one-column">
+                        <small *ngIf="element.messageSizeNotValid"
+                          >Nieprawidłowy format lub pusty rozmiar felgi</small
+                        >
+                        <small *ngIf="element.messageSizeIsExist"
+                          >Taki rozmiar już istnieje</small
+                        >
+                        <small *ngIf="element.messagePriceNotValid"
+                          >Nieprawidłowy format ceny (XX.XX)</small
+                        >
+                        <small *ngIf="element.messagePriceIsReq"
+                          >Wymagana cena!</small
+                        >
+                        <small *ngIf="element.messageSizeTimeReq"
+                          >Wymagany czas wykonania usługi</small
+                        >
+                      </div>
+                    </form>
+                    <mat-divider></mat-divider>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </mat-tab>
       <mat-tab label="Wyważenie kół">
         <mat-checkbox
