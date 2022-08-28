@@ -107,13 +107,16 @@ export class ServiceManagmentComponent implements OnInit {
   wheelBalanceSteelSizeList: Services[] = new Array<Services>();
   straightRimSteelSizeList: Services[] = new Array<Services>();
 
-  constructor() {}
+  customServicesList: Services[] = new Array<Services>();
+
+  constructor() { }
 
   ngOnInit(): void {
     this.tiresSwapInit();
     this.wheelSwapInit();
     this.wheelBalanceInit();
     this.straightRimsInit();
+    this.customServicesInit();
   }
 
   tiresSwapInit() {
@@ -150,6 +153,28 @@ export class ServiceManagmentComponent implements OnInit {
     this.straightRimAlu.wheelType = WheelType.ALUMINIUM;
     this.straightRimSteel.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
     this.straightRimSteel.wheelType = WheelType.STEEL;
+  }
+
+  customServicesInit() { }
+
+  addCustomServices() {
+    const services: Services = new Services();
+    services.typOfServices = TypOfServices.CUSTOM;
+    services._id = this.customServicesList.length;
+    this.customServicesList.push(services);
+  }
+
+  setCustomName(_id: number, input: HTMLInputElement) {
+    const index = this.getIndexFromSizeList(this.customServicesList, _id);
+    this.customServicesList[index].name = input.value;
+  }
+
+  setPriceCustom(_id: number, input: HTMLInputElement) {
+    this.setPriceSize(_id, input, this.customServicesList);
+  }
+
+  setTimeCustom(_id: number, input: HTMLInputElement) {
+    this.setSizeTime(_id, input, this.customServicesList);
   }
 
   addTiresSwapAluSize() {
@@ -272,6 +297,10 @@ export class ServiceManagmentComponent implements OnInit {
 
   removeStraightRimSteelSize(service: Services) {
     this.removeTiresSwapSize(service, this.straightRimSteelSizeList);
+  }
+
+  removeCustomServices(service: Services) {
+    this.removeTiresSwapSize(service, this.customServicesList);
   }
 
   removeTiresSwapSize(service: Services, list: Services[]) {

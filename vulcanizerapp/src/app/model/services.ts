@@ -3,6 +3,7 @@ import { Time } from '@angular/common';
 export class Services {
     id: string | null = null;
     _id: number | null = null;
+    name : string | null = null;
     price: number | null = null;
     time: string | null = null;
     typOfServices: TypOfServices | null = null;

@@ -1647,7 +1647,9 @@
                       maxlength="6"
                       placeholder="Cena w PLN"
                       value=""
-                      (keyup)="setPriceStraightRimSteel(inputStraightRimSteelPrice)"
+                      (keyup)="
+                        setPriceStraightRimSteel(inputStraightRimSteelPrice)
+                      "
                     />
                   </mat-form-field>
                   <mat-form-field
@@ -1662,8 +1664,12 @@
                       maxlength="5"
                       placeholder="Czas HH:MM"
                       value=""
-                      (keyup)="setTimeStraightRimSteel(inputStraightRimSteelTime)"
-                      (change)="setTimeStraightRimSteel(inputStraightRimSteelTime)"
+                      (keyup)="
+                        setTimeStraightRimSteel(inputStraightRimSteelTime)
+                      "
+                      (change)="
+                        setTimeStraightRimSteel(inputStraightRimSteelTime)
+                      "
                     />
                   </mat-form-field>
                 </div>
@@ -1829,7 +1835,92 @@
       </mat-tab>
       <mat-tab label="Usługi niestandardowe">
         <h5 class="margin-top font-larger">Usługi niestandardowe</h5>
-        <span>Dodawanie</span>
+
+        <div>
+          <button
+            class="btn btn-primary btn-business-managment"
+            (click)="addCustomServices()"
+          >
+            Dodaj
+          </button>
+        </div>
+
+        <div *ngFor="let element of customServicesList" class="one-column">
+          <form class="margin-top">
+            <mat-form-field class="width-100 max-width-500px" appearance="fill">
+              <mat-label>Nazwa</mat-label>
+              <input
+                #inputCustomName
+                matInput
+                type="text"
+                maxlength="255"
+                placeholder="Nazwa usługi"
+                value=""
+                (keyup)="setCustomName(element._id!, inputCustomName)"
+              />
+              <mat-hint align="end"
+                >{{ inputCustomName.value.length }} / 255</mat-hint
+              >
+            </mat-form-field>
+            <div class="width-100 form-row">
+              <mat-form-field
+                class="width-30-rim four-digit padding-right-1em"
+                appearance="fill"
+              >
+                <mat-label>Cena</mat-label>
+                <input
+                  #inputPriceCustom
+                  matInput
+                  maxlength="6"
+                  placeholder="Cena w PLN"
+                  value="{{ element.price }}"
+                  (keyup)="setPriceCustom(element._id!, inputPriceCustom)"
+                />
+              </mat-form-field>
+              <mat-form-field
+                class="width-30-rim four-digit padding-right-1em"
+                appearance="fill"
+              >
+                <mat-label>Czas wykonania usługi</mat-label>
+                <input
+                  #inputCustomTime
+                  matInput
+                  type="time"
+                  maxlength="5"
+                  placeholder="Czas HH:MM"
+                  value="{{ element.time }}"
+                  (keyup)="setTimeCustom(element._id!, inputCustomTime)"
+                  (change)="setTimeCustom(element._id!, inputCustomTime)"
+                />
+              </mat-form-field>
+              <div class="width-10-rim">
+                <button
+                  type="button"
+                  class="btn btn-danger btn-business-managment"
+                  (click)="removeCustomServices(element)"
+                >
+                  X
+                </button>
+              </div>
+            </div>
+            <div class="one-column">
+              <small *ngIf="element.messageSizeNotValid"
+                >Nieprawidłowy format lub pusty rozmiar felgi</small
+              >
+              <small *ngIf="element.messageSizeIsExist"
+                >Taki rozmiar już istnieje</small
+              >
+              <small *ngIf="element.messagePriceNotValid"
+                >Nieprawidłowy format ceny (XX.XX)</small
+              >
+              <small *ngIf="element.messagePriceIsReq">Wymagana cena!</small>
+              <small *ngIf="element.messageSizeTimeReq"
+                >Wymagany czas wykonania usługi</small
+              >
+            </div>
+          </form>
+          <mat-divider></mat-divider>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </div>
