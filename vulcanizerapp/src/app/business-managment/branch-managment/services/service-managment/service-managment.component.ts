@@ -309,9 +309,9 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   setPrice(input: HTMLInputElement, service: Services) {
-    service.price = +input.value;
+    service.price = input.value;
     if (input.value.length > 0) {
-      service.price = +input.value;
+      service.price = input.value;
     } else {
       service.price = null;
     }
@@ -324,8 +324,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageTiresSwapPriceIsReq = false;
     }
-    if (isNaN(this.tiresSwap.price!)) {
-      this.tiresSwap.price = null;
+    const _price : number = +this.tiresSwap.price!;
+    if (isNaN(_price)) {
       this.messageTiresSwapPriceNotValid = true;
     } else {
       this.messageTiresSwapPriceNotValid = false;
@@ -339,8 +339,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageTiresSwapAluPriceIsReq = false;
     }
-    if (isNaN(this.tiresSwapAlu.price!)) {
-      this.tiresSwapAlu.price = null;
+    const _price : number = +this.tiresSwapAlu.price!;
+    if (isNaN(_price)) {
       this.messageTiresSwapAluPriceNotValid = true;
     } else {
       this.messageTiresSwapAluPriceNotValid = false;
@@ -354,8 +354,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageTiresSwapSteelPriceIsReq = false;
     }
-    if (isNaN(this.tiresSwapSteel.price!)) {
-      this.tiresSwapSteel.price = null;
+    const _price : number = +this.tiresSwapSteel.price!;
+    if (isNaN(_price)) {
       this.messageTiresSwapSteelPriceNotValid = true;
     } else {
       this.messageTiresSwapSteelPriceNotValid = false;
@@ -369,8 +369,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelSwapPriceIsReq = false;
     }
-    if (isNaN(this.wheelSwap.price!)) {
-      this.wheelSwap.price = null;
+    const _price : number = +this.wheelSwap.price!;
+    if (isNaN(_price)) {
       this.messageWheelSwapPriceNotValid = true;
     } else {
       this.messageWheelSwapPriceNotValid = false;
@@ -384,8 +384,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelSwapAluPriceIsReq = false;
     }
-    if (isNaN(this.wheelSwapAlu.price!)) {
-      this.wheelSwapAlu.price = null;
+    const _price : number = +this.wheelSwapAlu.price!;
+    if (isNaN(_price)) {
       this.messageWheelSwapAluPriceNotValid = true;
     } else {
       this.messageWheelSwapAluPriceNotValid = false;
@@ -399,8 +399,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelSwapSteelPriceIsReq = false;
     }
-    if (isNaN(this.wheelSwapSteel.price!)) {
-      this.wheelSwapSteel.price = null;
+    const _price : number = +this.wheelSwapSteel.price!;
+    if (isNaN(_price)) {
       this.messageWheelSwapSteelPriceNotValid = true;
     } else {
       this.messageWheelSwapSteelPriceNotValid = false;
@@ -414,8 +414,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelBalancePriceIsReq = false;
     }
-    if (isNaN(this.wheelBalance.price!)) {
-      this.wheelBalance.price = null;
+    const _price : number = +this.wheelBalance.price!;
+    if (isNaN(_price)) {
       this.messageWheelBalancePriceNotValid = true;
     } else {
       this.messageWheelBalancePriceNotValid = false;
@@ -429,8 +429,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageStraightRimPriceIsReq = false;
     }
-    if (isNaN(this.straightRim.price!)) {
-      this.straightRim.price = null;
+    const _price : number = +this.straightRim.price!;
+    if (isNaN(_price)) {
       this.messageStraightRimPriceNotValid = true;
     } else {
       this.messageStraightRimPriceNotValid = false;
@@ -444,8 +444,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelBalanceAluPriceIsReq = false;
     }
-    if (isNaN(this.wheelBalanceAlu.price!)) {
-      this.wheelBalanceAlu.price = null;
+    const _price : number = +this.wheelBalanceAlu.price!;
+    if (isNaN(_price)) {
       this.messageWheelBalanceAluPriceNotValid = true;
     } else {
       this.messageWheelBalanceAluPriceNotValid = false;
@@ -459,8 +459,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelBalanceSteelPriceIsReq = false;
     }
-    if (isNaN(this.wheelBalanceSteel.price!)) {
-      this.wheelBalanceSteel.price = null;
+    const _price : number = +this.wheelBalanceSteel.price!;
+    if (isNaN(_price)) {
       this.messageWheelBalanceSteelPriceNotValid = true;
     } else {
       this.messageWheelBalanceSteelPriceNotValid = false;
@@ -474,8 +474,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageStraightRimAluPriceIsReq = false;
     }
-    if (isNaN(this.straightRimAlu.price!)) {
-      this.straightRimAlu.price = null;
+    const _price : number = +this.straightRimAlu.price!;
+    if (isNaN(_price)) {
       this.messageStraightRimAluPriceNotValid = true;
     } else {
       this.messageStraightRimAluPriceNotValid = false;
@@ -489,8 +489,8 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageStraightRimSteelPriceIsReq = false;
     }
-    if (isNaN(this.straightRimSteel.price!)) {
-      this.straightRimSteel.price = null;
+    const _price : number = +this.straightRimSteel.price!;
+    if (isNaN(_price)) {
       this.messageStraightRimSteelPriceNotValid = true;
     } else {
       this.messageStraightRimSteelPriceNotValid = false;
@@ -643,7 +643,7 @@ export class ServiceManagmentComponent implements OnInit {
   setPriceSize(_id: number, input: HTMLInputElement, list: Services[]) {
     const index = this.getIndexFromSizeList(list, _id);
     if (input.value.length > 0) {
-      list[index].price = +input.value;
+      list[index].price = input.value;
     } else {
       list[index].price = null;
     }
@@ -654,8 +654,9 @@ export class ServiceManagmentComponent implements OnInit {
       list[index].messagePriceIsReq = false;
     }
 
-    if (isNaN(list[index].price!)) {
-      list[index].price = null;
+    const _price : number = +list[index].price!;
+
+    if (isNaN(_price)) {
       list[index].messagePriceNotValid = true;
     } else {
       list[index].messagePriceNotValid = false;

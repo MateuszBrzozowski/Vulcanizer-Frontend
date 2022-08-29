@@ -4,7 +4,7 @@ export class Services {
     id: string | null = null;
     _id: number | null = null;
     name : string | null = null;
-    price: number | null = null;
+    price: string | null = null;
     time: string | null = null;
     typOfServices: TypOfServices | null = null;
     wheelType: WheelType | null = null;
@@ -18,14 +18,14 @@ export class Services {
 }
 
 export enum TypOfServices {
-    TIRES_SWAP,
-    WHEEL_SWAP,
-    WHEEL_BALANCE,
-    STRAIGHTENING_RIMS,
-    CUSTOM,
+    TIRES_SWAP = "TIRES_SWAP",
+    WHEEL_SWAP = "WHEEL_SWAP",
+    WHEEL_BALANCE = "WHEEL_BALANCE",
+    STRAIGHTENING_RIMS = "STRAIGHTENING_RIMS",
+    CUSTOM = "CUSTOM",
 }
 
 export enum WheelType {
-    ALUMINIUM,
-    STEEL,
+    ALUMINIUM = "ALUMINIUM",
+    STEEL = "STEEL",
 }
