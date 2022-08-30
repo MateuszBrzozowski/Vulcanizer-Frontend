@@ -8,8 +8,8 @@ export class Services {
     time: string | null = null;
     typOfServices: TypOfServices | null = null;
     wheelType: WheelType | null = null;
-    sizeFrom: number | null = null;
-    sizeTo: number | null = null;
+    sizeFrom: string | null = null;
+    sizeTo: string | null = null;
     messagePriceNotValid : boolean = false;
     messagePriceIsReq : boolean = false;
     messageSizeNotValid : boolean = false;

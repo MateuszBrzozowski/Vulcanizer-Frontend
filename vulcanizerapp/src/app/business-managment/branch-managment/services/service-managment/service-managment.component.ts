@@ -1,5 +1,7 @@
 import { Component, OnInit, Type } from '@angular/core';
+import { NotificationType } from 'src/app/enum/notification-type.enum';
 import { Services, TypOfServices, WheelType } from 'src/app/model/services';
+import { NotificationService } from 'src/app/service/notification.service';
 
 @Component({
   selector: 'app-service-managment',
@@ -7,6 +9,8 @@ import { Services, TypOfServices, WheelType } from 'src/app/model/services';
   styleUrls: ['./service-managment.component.css'],
 })
 export class ServiceManagmentComponent implements OnInit {
+  private notifiMessageMaxElements = "Osiągnieto maksymalną liczbę wariantów.";
+  private maxNumberOfElements = 10;
   tiresSwapChecked: boolean = false;
   wheelSwapChecked: boolean = false;
   wheelBalanceChecked: boolean = false;
@@ -109,7 +113,7 @@ export class ServiceManagmentComponent implements OnInit {
 
   customServicesList: Services[] = new Array<Services>();
 
-  constructor() { }
+  constructor(private notification: NotificationService) {}
 
   ngOnInit(): void {
     this.tiresSwapInit();
@@ -155,13 +159,20 @@ export class ServiceManagmentComponent implements OnInit {
     this.straightRimSteel.wheelType = WheelType.STEEL;
   }
 
-  customServicesInit() { }
+  customServicesInit() {}
 
   addCustomServices() {
-    const services: Services = new Services();
-    services.typOfServices = TypOfServices.CUSTOM;
-    services._id = this.customServicesList.length;
-    this.customServicesList.push(services);
+    if (this.customServicesList.length < this.maxNumberOfElements) {
+      const services: Services = new Services();
+      services.typOfServices = TypOfServices.CUSTOM;
+      services._id = this.customServicesList.length;
+      this.customServicesList.push(services);
+    } else {
+      this.notification.notify(
+        NotificationType.WARNING,
+        this.notifiMessageMaxElements
+      );
+    }
   }
 
   setCustomName(_id: number, input: HTMLInputElement) {
@@ -178,83 +189,139 @@ export class ServiceManagmentComponent implements OnInit {
   }
 
   addTiresSwapAluSize() {
-    const services: Services = new Services();
-    services.typOfServices = TypOfServices.TIRES_SWAP;
-    services.wheelType = WheelType.ALUMINIUM;
-    services._id = this.tiresSwapAluSizeList.length;
-    services.price = this.tiresSwapAlu.price;
-    services.time = this.tiresSwapAlu.time;
-    this.tiresSwapAluSizeList.push(services);
+    if (this.tiresSwapAluSizeList.length < this.maxNumberOfElements) {
+      const services: Services = new Services();
+      services.typOfServices = TypOfServices.TIRES_SWAP;
+      services.wheelType = WheelType.ALUMINIUM;
+      services._id = this.tiresSwapAluSizeList.length;
+      services.price = this.tiresSwapAlu.price;
+      services.time = this.tiresSwapAlu.time;
+      this.tiresSwapAluSizeList.push(services);
+    } else {
+      this.notification.notify(
+        NotificationType.WARNING,
+        this.notifiMessageMaxElements
+      );
+    }
   }
 
   addTiresSwapSteelSize() {
-    const services: Services = new Services();
-    services.typOfServices = TypOfServices.TIRES_SWAP;
-    services.wheelType = WheelType.STEEL;
-    services._id = this.tiresSwapSteelSizeList.length;
-    services.price = this.tiresSwapSteel.price;
-    services.time = this.tiresSwapSteel.time;
-    this.tiresSwapSteelSizeList.push(services);
+    if (this.tiresSwapSteelSizeList.length < this.maxNumberOfElements) {
+      const services: Services = new Services();
+      services.typOfServices = TypOfServices.TIRES_SWAP;
+      services.wheelType = WheelType.STEEL;
+      services._id = this.tiresSwapSteelSizeList.length;
+      services.price = this.tiresSwapSteel.price;
+      services.time = this.tiresSwapSteel.time;
+      this.tiresSwapSteelSizeList.push(services);
+    } else {
+      this.notification.notify(
+        NotificationType.WARNING,
+        this.notifiMessageMaxElements
+      );
+    }
   }
 
   addWheelSwapAluSize() {
-    const services: Services = new Services();
-    services.typOfServices = TypOfServices.WHEEL_SWAP;
-    services.wheelType = WheelType.ALUMINIUM;
-    services._id = this.wheelSwapAluSizeList.length;
-    services.price = this.wheelSwapAlu.price;
-    services.time = this.wheelSwapAlu.time;
-    this.wheelSwapAluSizeList.push(services);
+    if (this.wheelSwapAluSizeList.length < this.maxNumberOfElements) {
+      const services: Services = new Services();
+      services.typOfServices = TypOfServices.WHEEL_SWAP;
+      services.wheelType = WheelType.ALUMINIUM;
+      services._id = this.wheelSwapAluSizeList.length;
+      services.price = this.wheelSwapAlu.price;
+      services.time = this.wheelSwapAlu.time;
+      this.wheelSwapAluSizeList.push(services);
+    } else {
+      this.notification.notify(
+        NotificationType.WARNING,
+        this.notifiMessageMaxElements
+      );
+    }
   }
 
   addWheelSwapSteelSize() {
-    const services: Services = new Services();
-    services.typOfServices = TypOfServices.WHEEL_SWAP;
-    services.wheelType = WheelType.STEEL;
-    services._id = this.wheelSwapSteelSizeList.length;
-    services.price = this.wheelSwapSteel.price;
-    services.time = this.wheelSwapSteel.time;
-    this.wheelSwapSteelSizeList.push(services);
+    if (this.wheelSwapSteelSizeList.length < this.maxNumberOfElements) {
+      const services: Services = new Services();
+      services.typOfServices = TypOfServices.WHEEL_SWAP;
+      services.wheelType = WheelType.STEEL;
+      services._id = this.wheelSwapSteelSizeList.length;
+      services.price = this.wheelSwapSteel.price;
+      services.time = this.wheelSwapSteel.time;
+      this.wheelSwapSteelSizeList.push(services);
+    } else {
+      this.notification.notify(
+        NotificationType.WARNING,
+        this.notifiMessageMaxElements
+      );
+    }
   }
 
   addWheelBalanceAluSize() {
-    const services: Services = new Services();
-    services.typOfServices = TypOfServices.WHEEL_BALANCE;
-    services.wheelType = WheelType.ALUMINIUM;
-    services._id = this.wheelBalanceAluSizeList.length;
-    services.price = this.wheelBalanceAlu.price;
-    services.time = this.wheelBalanceAlu.time;
-    this.wheelBalanceAluSizeList.push(services);
+    if (this.wheelBalanceAluSizeList.length < this.maxNumberOfElements) {
+      const services: Services = new Services();
+      services.typOfServices = TypOfServices.WHEEL_BALANCE;
+      services.wheelType = WheelType.ALUMINIUM;
+      services._id = this.wheelBalanceAluSizeList.length;
+      services.price = this.wheelBalanceAlu.price;
+      services.time = this.wheelBalanceAlu.time;
+      this.wheelBalanceAluSizeList.push(services);
+    } else {
+      this.notification.notify(
+        NotificationType.WARNING,
+        this.notifiMessageMaxElements
+      );
+    }
   }
 
   addWheelBalanceSteelSize() {
-    const services: Services = new Services();
-    services.typOfServices = TypOfServices.WHEEL_BALANCE;
-    services.wheelType = WheelType.STEEL;
-    services._id = this.wheelBalanceSteelSizeList.length;
-    services.price = this.wheelBalanceSteel.price;
-    services.time = this.wheelBalanceSteel.time;
-    this.wheelBalanceSteelSizeList.push(services);
+    if (this.wheelBalanceSteelSizeList.length < this.maxNumberOfElements) {
+      const services: Services = new Services();
+      services.typOfServices = TypOfServices.WHEEL_BALANCE;
+      services.wheelType = WheelType.STEEL;
+      services._id = this.wheelBalanceSteelSizeList.length;
+      services.price = this.wheelBalanceSteel.price;
+      services.time = this.wheelBalanceSteel.time;
+      this.wheelBalanceSteelSizeList.push(services);
+    } else {
+      this.notification.notify(
+        NotificationType.WARNING,
+        this.notifiMessageMaxElements
+      );
+    }
   }
 
   addStraightRimAluSize() {
-    const services: Services = new Services();
-    services.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
-    services.wheelType = WheelType.ALUMINIUM;
-    services._id = this.straightRimAluSizeList.length;
-    services.price = this.straightRimAlu.price;
-    services.time = this.straightRimAlu.time;
-    this.straightRimAluSizeList.push(services);
+    if (this.straightRimAluSizeList.length < this.maxNumberOfElements) {
+      const services: Services = new Services();
+      services.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
+      services.wheelType = WheelType.ALUMINIUM;
+      services._id = this.straightRimAluSizeList.length;
+      services.price = this.straightRimAlu.price;
+      services.time = this.straightRimAlu.time;
+      this.straightRimAluSizeList.push(services);
+    } else {
+      this.notification.notify(
+        NotificationType.WARNING,
+        this.notifiMessageMaxElements
+      );
+    }
   }
 
   addStraightRimSteelSize() {
-    const services: Services = new Services();
-    services.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
-    services.wheelType = WheelType.STEEL;
-    services._id = this.straightRimSteelSizeList.length;
-    services.price = this.straightRimSteel.price;
-    services.time = this.straightRimSteel.time;
-    this.straightRimSteelSizeList.push(services);
+    if (this.straightRimSteelSizeList.length < this.maxNumberOfElements) {
+      const services: Services = new Services();
+      services.typOfServices = TypOfServices.STRAIGHTENING_RIMS;
+      services.wheelType = WheelType.STEEL;
+      services._id = this.straightRimSteelSizeList.length;
+      services.price = this.straightRimSteel.price;
+      services.time = this.straightRimSteel.time;
+      this.straightRimSteelSizeList.push(services);
+    } else {
+      this.notification.notify(
+        NotificationType.WARNING,
+        this.notifiMessageMaxElements
+      );
+    }
   }
 
   getIndexFromSizeList(list: Services[], searchId: number | null): number {
@@ -324,12 +391,13 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageTiresSwapPriceIsReq = false;
     }
-    const _price : number = +this.tiresSwap.price!;
+    const _price: number = +this.tiresSwap.price!;
     if (isNaN(_price)) {
       this.messageTiresSwapPriceNotValid = true;
     } else {
       this.messageTiresSwapPriceNotValid = false;
     }
+    console.log(this.tiresSwap);
   }
 
   setPriceTiresSwapAlu(input: HTMLInputElement) {
@@ -339,7 +407,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageTiresSwapAluPriceIsReq = false;
     }
-    const _price : number = +this.tiresSwapAlu.price!;
+    const _price: number = +this.tiresSwapAlu.price!;
     if (isNaN(_price)) {
       this.messageTiresSwapAluPriceNotValid = true;
     } else {
@@ -354,7 +422,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageTiresSwapSteelPriceIsReq = false;
     }
-    const _price : number = +this.tiresSwapSteel.price!;
+    const _price: number = +this.tiresSwapSteel.price!;
     if (isNaN(_price)) {
       this.messageTiresSwapSteelPriceNotValid = true;
     } else {
@@ -369,7 +437,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelSwapPriceIsReq = false;
     }
-    const _price : number = +this.wheelSwap.price!;
+    const _price: number = +this.wheelSwap.price!;
     if (isNaN(_price)) {
       this.messageWheelSwapPriceNotValid = true;
     } else {
@@ -384,7 +452,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelSwapAluPriceIsReq = false;
     }
-    const _price : number = +this.wheelSwapAlu.price!;
+    const _price: number = +this.wheelSwapAlu.price!;
     if (isNaN(_price)) {
       this.messageWheelSwapAluPriceNotValid = true;
     } else {
@@ -399,7 +467,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelSwapSteelPriceIsReq = false;
     }
-    const _price : number = +this.wheelSwapSteel.price!;
+    const _price: number = +this.wheelSwapSteel.price!;
     if (isNaN(_price)) {
       this.messageWheelSwapSteelPriceNotValid = true;
     } else {
@@ -414,7 +482,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelBalancePriceIsReq = false;
     }
-    const _price : number = +this.wheelBalance.price!;
+    const _price: number = +this.wheelBalance.price!;
     if (isNaN(_price)) {
       this.messageWheelBalancePriceNotValid = true;
     } else {
@@ -429,7 +497,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageStraightRimPriceIsReq = false;
     }
-    const _price : number = +this.straightRim.price!;
+    const _price: number = +this.straightRim.price!;
     if (isNaN(_price)) {
       this.messageStraightRimPriceNotValid = true;
     } else {
@@ -444,7 +512,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelBalanceAluPriceIsReq = false;
     }
-    const _price : number = +this.wheelBalanceAlu.price!;
+    const _price: number = +this.wheelBalanceAlu.price!;
     if (isNaN(_price)) {
       this.messageWheelBalanceAluPriceNotValid = true;
     } else {
@@ -459,7 +527,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageWheelBalanceSteelPriceIsReq = false;
     }
-    const _price : number = +this.wheelBalanceSteel.price!;
+    const _price: number = +this.wheelBalanceSteel.price!;
     if (isNaN(_price)) {
       this.messageWheelBalanceSteelPriceNotValid = true;
     } else {
@@ -474,7 +542,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageStraightRimAluPriceIsReq = false;
     }
-    const _price : number = +this.straightRimAlu.price!;
+    const _price: number = +this.straightRimAlu.price!;
     if (isNaN(_price)) {
       this.messageStraightRimAluPriceNotValid = true;
     } else {
@@ -489,7 +557,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       this.messageStraightRimSteelPriceIsReq = false;
     }
-    const _price : number = +this.straightRimSteel.price!;
+    const _price: number = +this.straightRimSteel.price!;
     if (isNaN(_price)) {
       this.messageStraightRimSteelPriceNotValid = true;
     } else {
@@ -653,9 +721,7 @@ export class ServiceManagmentComponent implements OnInit {
     } else {
       list[index].messagePriceIsReq = false;
     }
-
-    const _price : number = +list[index].price!;
-
+    const _price: number = +list[index].price!;
     if (isNaN(_price)) {
       list[index].messagePriceNotValid = true;
     } else {
@@ -735,12 +801,12 @@ export class ServiceManagmentComponent implements OnInit {
   ) {
     const index = this.getIndexFromSizeList(list, _id);
     if (inputFrom.value.length > 0) {
-      list[index].sizeTo = +inputFrom.value;
+      list[index].sizeTo = inputFrom.value;
     } else {
       list[index].sizeTo = null;
     }
     if (inputTo.value.length > 0) {
-      list[index].sizeFrom = +inputTo.value;
+      list[index].sizeFrom = inputTo.value;
     } else {
       list[index].sizeFrom = null;
     }
@@ -748,11 +814,14 @@ export class ServiceManagmentComponent implements OnInit {
     const sizeTo = list[index].sizeTo;
     const sizeFrom = list[index].sizeFrom;
 
+    const _sizeTo = +list[index].sizeTo!;
+    const _sizeFrom = +list[index].sizeFrom!;
+
     if (
       sizeTo == null ||
-      isNaN(sizeTo) ||
+      isNaN(_sizeTo) ||
       sizeFrom == null ||
-      isNaN(sizeFrom)
+      isNaN(_sizeFrom)
     ) {
       list[index].messageSizeNotValid = true;
       return;
